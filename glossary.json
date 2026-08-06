@@ -1,0 +1,4600 @@
+[
+  {
+    "term": "2の補数表現",
+    "def": "正の数のビットを反転し1を加える方式。負の数を加算回路だけで扱える利点がある。5=00000101 → 反転11111010 → +1で11111011。よって-5=11111011。範囲は-128〜+127（8ビットの場合）。",
+    "aliases": [
+      "2の補数表現"
+    ],
+    "track": "security",
+    "source": "Q516"
+  },
+  {
+    "term": "2次元累積和",
+    "def": "2次元配列（グリッド）版の累積和。任意の矩形の和をO(1)で求められる。包除原理で4つの累積和の足し引きをする。",
+    "aliases": [
+      "2次元累積和"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "2相ロックプロトコル",
+    "def": "トランザクションのロック取得フェーズ（成長相）とロック解放フェーズ（縮退相）を分離する規約。成長相でのみロック取得、縮退相でのみロック解放を行う。直列化可能性を保証するが、デッドロックは防げない。",
+    "aliases": [
+      "2相ロックプロトコル"
+    ],
+    "track": "security",
+    "source": "Q527"
+  },
+  {
+    "term": "3ウェイハンドシェイク",
+    "def": "TCP接続確立の手順。SYN→SYN+ACK→ACKの3段階。この過程で初期シーケンス番号を交換。",
+    "aliases": [
+      "3ウェイハンドシェイク"
+    ],
+    "track": "security",
+    "source": "Q468"
+  },
+  {
+    "term": "3層クライアントサーバシステム",
+    "def": "プレゼンテーション層（画面表示）、アプリケーション層（業務ロジック）、データ層（DB）の3層に機能を分離する構成。2層（クライアント-サーバ直接接続）より保守性・拡張性が高い。Webシステムのブラウザ-APサーバ-DBサーバが典型例。",
+    "aliases": [
+      "3層クライアントサーバシステム"
+    ],
+    "track": "security",
+    "source": "Q595"
+  },
+  {
+    "term": "443番ポートだけ開けてもトンネリングで抜ける",
+    "def": "HTTPS前提で443を許可すると、SSH over HTTPSやVPN、DNS over HTTPSなど別プロトコルを443に載せて外へ抜ける通信が成立する。ポート番号だけの制御では不十分で、L7（アプリ層）を見るプロキシ/次世代FWでの検査が要る。",
+    "aliases": [
+      "443番ポートだけ開けてもトンネリングで抜ける"
+    ],
+    "track": "security",
+    "source": "Q687"
+  },
+  {
+    "term": "802.1X認証",
+    "def": "ポートベースのネットワークアクセス制御。サプリカント（端末）、オーセンティケータ（スイッチ/AP）、認証サーバ（RADIUS）の3要素。EAPで認証。",
+    "aliases": [
+      "802.1X認証"
+    ],
+    "track": "security",
+    "source": "Q358"
+  },
+  {
+    "term": "ABAC（属性ベースアクセス制御）",
+    "def": "ユーザ属性、リソース属性、環境条件を組み合わせてアクセス可否を判定。RBACより柔軟だが複雑。XACMLが標準仕様。",
+    "aliases": [
+      "ABAC（属性ベースアクセス制御）",
+      "属性ベースアクセス制御",
+      "ABAC"
+    ],
+    "track": "security",
+    "source": "Q281"
+  },
+  {
+    "term": "ACMEプロトコル",
+    "def": "Automatic Certificate Management Environment。Let's Encrypt等が使う証明書の自動発行・更新プロトコル。HTTP-01やDNS-01チャレンジでドメイン所有を検証。",
+    "aliases": [
+      "ACMEプロトコル"
+    ],
+    "track": "security",
+    "source": "Q251"
+  },
+  {
+    "term": "AEAD",
+    "def": "Authenticated Encryption with Associated Data。暗号化と認証（改ざん検知）を一体化し、関連データ（AAD）も認証に含められる。GCM、CCM、ChaCha20-Poly1305が代表。",
+    "aliases": [
+      "AEAD"
+    ],
+    "track": "security",
+    "source": "Q222"
+  },
+  {
+    "term": "ARPの動作手順",
+    "def": "①送信元がARP要求（宛先MACアドレスをブロードキャスト）を送信。②対象IPを持つホストがARP応答（自身のMACアドレスをユニキャスト）を返す。③送信元がARPテーブル（キャッシュ）に対応を記録。以降はキャッシュを参照。ARPキャッシュには有効期限があり定期的に更新。",
+    "aliases": [
+      "ARPの動作手順"
+    ],
+    "track": "security",
+    "source": "Q557"
+  },
+  {
+    "term": "ARPスプーフィング",
+    "def": "偽ARPでLAN内MITM。動的ARP検査、固定対応、検知。",
+    "aliases": [
+      "ARPスプーフィング"
+    ],
+    "track": "security",
+    "source": "Q115"
+  },
+  {
+    "term": "AVL木",
+    "def": "AVL木は自己平衡二分探索木。各ノードの左右部分木の高さの差が1以下になるよう回転操作で平衡を維持。通常の二分探索木は偏ると最悪O(n)だが、AVL木は常にO(log n)の探索・挿入・削除を保証。",
+    "aliases": [
+      "AVL木"
+    ],
+    "track": "security",
+    "source": "Q566"
+  },
+  {
+    "term": "BCP（事業継続計画）とDR（災害復旧）",
+    "def": "BCPは事業全体の継続戦略（要員、拠点、サプライチェーン含む）。DRはIT システムの復旧に焦点。DRはBCPの一部。",
+    "aliases": [
+      "BCP（事業継続計画）とDR（災害復旧）",
+      "事業継続計画",
+      "災害復旧",
+      "BCPとDR"
+    ],
+    "track": "security",
+    "source": "Q412"
+  },
+  {
+    "term": "BFS（Breadth-First Search / 幅優先探索）",
+    "def": "「近い頂点から順に探索」。キュー(deque)で実装。**重みなしグラフの最短経路**はBFSで求まる（始点からの距離が近い順に確定する）。",
+    "aliases": [
+      "BFS（Breadth-First Search / 幅優先探索）",
+      "Breadth-First Search / 幅優先探索",
+      "幅優先探索",
+      "BFS"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "BFS（幅優先探索）とDFS（深さ優先探索）",
+    "def": "BFS: キューを使用。始点から近い順に探索。最短経路の発見に適する。DFS: スタック（または再帰）を使用。一方向に深く探索してから戻る。経路の存在確認やトポロジカルソートに適する。計算量はどちらもO(V+E)。",
+    "aliases": [
+      "BFS（幅優先探索）とDFS（深さ優先探索）",
+      "幅優先探索",
+      "深さ優先探索",
+      "BFSとDFS"
+    ],
+    "track": "security",
+    "source": "Q575"
+  },
+  {
+    "term": "BGPハイジャック",
+    "def": "経路広告の悪用で通信を別経路へ誘導。ROA/RPKI等の対策が議論される。",
+    "aliases": [
+      "BGPハイジャック"
+    ],
+    "track": "security",
+    "source": "Q120"
+  },
+  {
+    "term": "BOLA（Broken Object Level Authorization）",
+    "def": "APIセキュリティの脆弱性。オブジェクトIDを操作して他ユーザのデータにアクセスする。各APIエンドポイントでオブジェクトレベルの認可チェックが必要。OWASP API Top 10のA1。",
+    "aliases": [
+      "BOLA（Broken Object Level Authorization）",
+      "Broken Object Level Authorization",
+      "BOLA"
+    ],
+    "track": "security",
+    "source": "Q301"
+  },
+  {
+    "term": "B木とB+木",
+    "def": "B木: すべてのノードにキーとデータを格納。B+木: データはリーフノードにのみ格納し、リーフ同士をリンクで連結。B+木は範囲検索が高速（リーフの順次走査）、内部ノードにデータがないため分岐度が高くなり木の高さが低い。RDBMSのインデックスはB+木が主流。",
+    "aliases": [
+      "B木とB+木"
+    ],
+    "track": "security",
+    "source": "Q533"
+  },
+  {
+    "term": "CAP定理",
+    "def": "分散システムでConsistency（整合性）、Availability（可用性）、Partition tolerance（分断耐性）の3つを同時に完全には満たせないという定理。ネットワーク分断時にCPかAPのいずれかを選択する設計が必要。NoSQLは多くがAPを選択し結果整合性を採用。",
+    "aliases": [
+      "CAP定理"
+    ],
+    "track": "security",
+    "source": "Q538"
+  },
+  {
+    "term": "CBC",
+    "def": "Cipher Block Chaining。前ブロック暗号文とXORして連鎖するモード。並列暗号化が難しい。IVが重要。",
+    "aliases": [
+      "CBC"
+    ],
+    "track": "security",
+    "source": "seed"
+  },
+  {
+    "term": "CCMモード",
+    "def": "Counter with CBC-MAC。CTRで暗号化しCBC-MACで認証する。GCMよりリソース制約環境（IoT等）で使われる。",
+    "aliases": [
+      "CCMモード"
+    ],
+    "track": "security",
+    "source": "Q223"
+  },
+  {
+    "term": "CDNのDDoS緩和機能",
+    "def": "エッジサーバでトラフィックを分散・吸収し、オリジンサーバへの負荷を軽減。L3/L4のボリューム攻撃とL7のアプリケーション攻撃の両方に対応。",
+    "aliases": [
+      "CDNのDDoS緩和機能"
+    ],
+    "track": "security",
+    "source": "Q356"
+  },
+  {
+    "term": "CI/CDのシークレット管理で注意すべきこ",
+    "def": "シークレットをコードやログに出力しない。Vault等の外部管理、環境変数への注入、ジョブごとの最小権限、監査ログの記録。",
+    "aliases": [
+      "CI/CDのシークレット管理で注意すべきこ"
+    ],
+    "track": "security",
+    "source": "Q371"
+  },
+  {
+    "term": "CIS Controls（旧SANS Top 20）",
+    "def": "優先順位付けされたセキュリティ対策のベストプラクティス集。IG1（基本）～IG3（高度）の実装グループに分類。具体的かつ実践的。",
+    "aliases": [
+      "CIS Controls（旧SANS Top 20）",
+      "旧SANS Top 20",
+      "CIS Controls"
+    ],
+    "track": "security",
+    "source": "Q436"
+  },
+  {
+    "term": "CMDB（構成管理データベース）とCI（構成アイテム）",
+    "def": "CI: 管理対象のIT資産（サーバ、ソフトウェア、ネットワーク機器、ドキュメント等）。CMDB: 全CIとその関係（依存関係、接続関係）を格納するデータベース。インシデント管理や変更管理で影響範囲の特定に利用。正確な維持が課題。",
+    "aliases": [
+      "CMDB（構成管理データベース）とCI（構成アイテム）",
+      "構成管理データベース",
+      "構成アイテム",
+      "CMDBとCI"
+    ],
+    "track": "security",
+    "source": "Q631"
+  },
+  {
+    "term": "CMDB（構成管理データベース）のセキュリティ上",
+    "def": "ITリソースの構成情報を一元管理し、脆弱性影響範囲の特定、変更管理、インシデント調査の迅速化に活用。資産が把握できないものは守れない。",
+    "aliases": [
+      "CMDB（構成管理データベース）のセキュリティ上",
+      "構成管理データベース",
+      "CMDBのセキュリティ上"
+    ],
+    "track": "security",
+    "source": "Q380"
+  },
+  {
+    "term": "CRYPTREC",
+    "def": "日本の暗号技術検討会。電子政府推奨暗号リストを策定・更新する。推奨暗号リスト・推奨候補暗号リスト・運用監視暗号リストの3区分。",
+    "aliases": [
+      "CRYPTREC"
+    ],
+    "track": "security",
+    "source": "Q237"
+  },
+  {
+    "term": "CSIRT",
+    "def": "インシデントの受付・調整・対応支援。組織内外の連携窓口。",
+    "aliases": [
+      "CSIRT"
+    ],
+    "track": "security",
+    "source": "Q171"
+  },
+  {
+    "term": "CSPM（Cloud Security Posture Management）",
+    "def": "クラウド環境の設定ミスやコンプライアンス違反を継続的に検出・修正するツール。IAM過剰権限、公開ストレージ等を自動チェック。",
+    "aliases": [
+      "CSPM（Cloud Security Posture Management）",
+      "Cloud Security Posture Management",
+      "CSPM"
+    ],
+    "track": "security",
+    "source": "Q382"
+  },
+  {
+    "term": "CSPRNG",
+    "def": "暗号論的擬似乱数生成器。鍵やIVには通常の乱数ではなくこちらを使う。",
+    "aliases": [
+      "CSPRNG"
+    ],
+    "track": "security",
+    "source": "seed"
+  },
+  {
+    "term": "CSRF",
+    "def": "ログイン済みユーザに意図しないリクエストを送らせる。CSRFトークン、SameSite Cookie、重要な操作は再認証。",
+    "aliases": [
+      "CSRF"
+    ],
+    "track": "security",
+    "source": "Q073"
+  },
+  {
+    "term": "CTR",
+    "def": "Counterモード。カウンタを暗号化した鍵ストリームとXOR。並列化しやすい。nonce再利用に弱い。",
+    "aliases": [
+      "CTR"
+    ],
+    "track": "security",
+    "source": "seed"
+  },
+  {
+    "term": "CWPP（Cloud Workload Protection Platform）",
+    "def": "クラウド上のワークロード（VM、コンテナ、サーバレス等）を保護するプラットフォーム。脆弱性管理、ランタイム保護、ネットワークセグメンテーション等を提供。",
+    "aliases": [
+      "CWPP（Cloud Workload Protection Platform）",
+      "Cloud Workload Protection Platform",
+      "CWPP"
+    ],
+    "track": "security",
+    "source": "Q383"
+  },
+  {
+    "term": "Certificate Transparency（CT）",
+    "def": "CAが発行した証明書を公開ログに記録し、不正発行を検知可能にする仕組み。SCT（Signed Certificate Timestamp）で証明書がログに登録済みであることを示す。",
+    "aliases": [
+      "Certificate Transparency（CT）",
+      "CT",
+      "Certificate Transparency"
+    ],
+    "track": "security",
+    "source": "Q249"
+  },
+  {
+    "term": "Chain of Custody（証拠の連鎖）",
+    "def": "証拠の取得から保管・分析・提出まで、誰がいつ何をしたかを記録し、改ざんされていないことを証明する仕組み。法的手続きで不可欠。",
+    "aliases": [
+      "Chain of Custody（証拠の連鎖）",
+      "証拠の連鎖",
+      "Chain of Custody"
+    ],
+    "track": "security",
+    "source": "Q374"
+  },
+  {
+    "term": "Counter",
+    "def": "Pythonの`collections.Counter`。リストの各要素の出現回数を数える。`Counter([1,2,2,3])` → `{1:1, 2:2, 3:1}`。「同じ値のペア数」= nC2 = `c*(c-1)//2`。",
+    "aliases": [
+      "Counter"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "Credential Stuffing攻撃",
+    "def": "他サービスから漏洩したID/パスワードの大量リストを自動入力する攻撃。パスワードリスト攻撃の大規模版。MFA、CAPTCHA、漏洩パスワード検知で対策。",
+    "aliases": [
+      "Credential Stuffing攻撃"
+    ],
+    "track": "security",
+    "source": "Q338"
+  },
+  {
+    "term": "CycloneDXとSPDX",
+    "def": "両方ともSBOMの標準フォーマット。CycloneDXはOWASP主導、セキュリティ用途に最適化。SPDXはLinux Foundation主導、ライセンスコンプライアンスが出自。ISO標準化済み。",
+    "aliases": [
+      "CycloneDXとSPDX"
+    ],
+    "track": "security",
+    "source": "Q396"
+  },
+  {
+    "term": "DAC / MAC / RBAC",
+    "def": "DACは所有者裁量。MACはラベル等で強制。RBACはロールベース。試験では定義の対応が問われる。",
+    "aliases": [
+      "DAC / MAC / RBAC"
+    ],
+    "track": "security",
+    "source": "Q061"
+  },
+  {
+    "term": "DANE/TLSA",
+    "def": "DNSSECで保護されたDNSレコード（TLSAレコード）に証明書情報を格納し、CA非依存でTLS証明書を検証する仕組み。",
+    "aliases": [
+      "DANE/TLSA"
+    ],
+    "track": "security",
+    "source": "Q253"
+  },
+  {
+    "term": "DCSync攻撃",
+    "def": "ドメインコントローラのレプリケーション権限を悪用し、ADからパスワードハッシュを取得する攻撃。不要なレプリケーション権限の削除と監視で対策。",
+    "aliases": [
+      "DCSync攻撃"
+    ],
+    "track": "security",
+    "source": "Q315"
+  },
+  {
+    "term": "DFS（Depth-First Search / 深さ優先探索）",
+    "def": "「行けるところまで深く進み、行き止まったら戻る」探索。スタック（or再帰）で実装。連結判定、パス探索、木の部下数計算などに使う。",
+    "aliases": [
+      "DFS（Depth-First Search / 深さ優先探索）",
+      "Depth-First Search / 深さ優先探索",
+      "深さ優先探索",
+      "DFS"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "DHCPのDORA手順",
+    "def": "①Discover: クライアントがブロードキャストでDHCPサーバを探索。②Offer: サーバがIPアドレス等の設定を提案。③Request: クライアントが受諾をブロードキャスト。④Acknowledge: サーバが設定を確定し応答。リース期間終了前に更新要求を送る。",
+    "aliases": [
+      "DHCPのDORA手順"
+    ],
+    "track": "security",
+    "source": "Q553"
+  },
+  {
+    "term": "DHCPスターベーション",
+    "def": "アドレスプールを枯渇させ正規端末を繋がない攻撃。ポートセキュリティ等。",
+    "aliases": [
+      "DHCPスターベーション"
+    ],
+    "track": "security",
+    "source": "Q114"
+  },
+  {
+    "term": "DKIM",
+    "def": "DomainKeys Identified Mail。メールに電子署名を付与し、送信元ドメインの正当性と改ざんの有無を検証する。DNSに公開鍵を公開。",
+    "aliases": [
+      "DKIM"
+    ],
+    "track": "security",
+    "source": "Q309"
+  },
+  {
+    "term": "DMARC",
+    "def": "Domain-based Message Authentication, Reporting and Conformance。SPFとDKIMの結果に基づきメールの処理ポリシー（none/quarantine/reject）を指定する。レポート機能あり。",
+    "aliases": [
+      "DMARC"
+    ],
+    "track": "security",
+    "source": "Q310"
+  },
+  {
+    "term": "DMA（Direct Memory Access）",
+    "def": "CPUを介さずI/Oデバイスと主記憶間で直接データ転送する方式。DMAコントローラがバスを制御し、大量データ転送時のCPU負荷を軽減する。転送完了時に割込みでCPUに通知。PIO（Programmed I/O）はCPUが1バイトずつ転送するためオーバーヘッドが大きい。",
+    "aliases": [
+      "DMA（Direct Memory Access）",
+      "Direct Memory Access",
+      "DMA"
+    ],
+    "track": "security",
+    "source": "Q520"
+  },
+  {
+    "term": "DMZ",
+    "def": "非武装区間。外部公開サーバを内部LANから隔離して置く領域。",
+    "aliases": [
+      "DMZ"
+    ],
+    "track": "security",
+    "source": "Q102"
+  },
+  {
+    "term": "DNS over HTTPS（DoH）",
+    "def": "DNSクエリをHTTPS上で暗号化して送信するプロトコル。盗聴・改ざん防止だが、企業のDNSフィルタリングを迂回する課題がある。",
+    "aliases": [
+      "DNS over HTTPS（DoH）",
+      "DoH",
+      "DNS over HTTPS"
+    ],
+    "track": "security",
+    "source": "Q346"
+  },
+  {
+    "term": "DNS over TLS（DoT）",
+    "def": "DNSクエリをTLS上で暗号化する。ポート853を使用。DoHと異なりDNSトラフィックとして識別可能なため、企業での管理はしやすい。",
+    "aliases": [
+      "DNS over TLS（DoT）",
+      "DoT",
+      "DNS over TLS"
+    ],
+    "track": "security",
+    "source": "Q347"
+  },
+  {
+    "term": "DNS rebinding攻撃",
+    "def": "攻撃者のDNSを短TTLで操作し、最初は攻撃者サーバ、次にローカルIPを返すことでSame-Origin Policyを回避し内部リソースへアクセスする。Hostヘッダ検証で対策。",
+    "aliases": [
+      "DNS rebinding攻撃"
+    ],
+    "track": "security",
+    "source": "Q307"
+  },
+  {
+    "term": "DNSSEC",
+    "def": "DNS応答に署名し、改ざん・なりすましを検知できるようにする拡張。",
+    "aliases": [
+      "DNSSEC"
+    ],
+    "track": "security",
+    "source": "Q113"
+  },
+  {
+    "term": "DNSの再帰問合せと反復問合せ",
+    "def": "再帰問合せ: クライアントがフルリゾルバに問合せ、フルリゾルバが最終回答を返す責任を持つ。反復問合せ: フルリゾルバがルートDNS→TLD DNS→権威DNSと順に問い合わせ、各サーバは「次の問合せ先」を返すだけ。",
+    "aliases": [
+      "DNSの再帰問合せと反復問合せ"
+    ],
+    "track": "security",
+    "source": "Q551"
+  },
+  {
+    "term": "DNSキャッシュポイズニング",
+    "def": "DNSキャッシュサーバに偽の名前解決情報を注入し、ユーザを不正サイトへ誘導する。送信元ポートランダム化、DNSSEC、キャッシュサーバのアクセス制限で対策。",
+    "aliases": [
+      "DNSキャッシュポイズニング"
+    ],
+    "track": "security",
+    "source": "Q305"
+  },
+  {
+    "term": "DNSトンネリング",
+    "def": "DNSクエリ/レスポンスにデータを埋め込んで通信する手法。FWを迂回してC2通信やデータ窃取に悪用。DNSトラフィックの異常検知やDNSクエリ長の監視で検出。",
+    "aliases": [
+      "DNSトンネリング"
+    ],
+    "track": "security",
+    "source": "Q306"
+  },
+  {
+    "term": "DPIA（Data Protection Impact Assessment）",
+    "def": "高リスクの個人データ処理を行う前に実施するプライバシー影響評価。GDPR第35条で義務付け。リスクの特定と軽減策の文書化が必要。",
+    "aliases": [
+      "DPIA（Data Protection Impact Assessment）",
+      "Data Protection Impact Assessment",
+      "DPIA"
+    ],
+    "track": "security",
+    "source": "Q431"
+  },
+  {
+    "term": "DPI（Deep Packet Inspection）",
+    "def": "パケットのペイロード部分まで検査する技術。アプリケーション識別、マルウェア検知に使用。暗号化通信にはTLS復号が必要になるためプライバシーとの調整が必要。",
+    "aliases": [
+      "DPI（Deep Packet Inspection）",
+      "Deep Packet Inspection",
+      "DPI"
+    ],
+    "track": "security",
+    "source": "Q365"
+  },
+  {
+    "term": "DevSecOps",
+    "def": "DevOpsのライフサイクル全体にセキュリティを統合する考え方。計画・開発・ビルド・テスト・リリース・運用の各段階でセキュリティを自動化・組み込む。",
+    "aliases": [
+      "DevSecOps"
+    ],
+    "track": "security",
+    "source": "Q393"
+  },
+  {
+    "term": "Device Codeフロー",
+    "def": "入力が制限されたデバイス（スマートTV等）で使用。デバイスがコードを表示し、ユーザが別端末で認証・認可する。",
+    "aliases": [
+      "Device Codeフロー"
+    ],
+    "track": "security",
+    "source": "Q268"
+  },
+  {
+    "term": "Dinic法（ディニック法）",
+    "def": "最大フローを効率的に求めるアルゴリズム。BFSでレベルグラフを構築→DFSでブロッキングフローを流す、を繰り返す。O(V²E)。",
+    "aliases": [
+      "Dinic法（ディニック法）",
+      "ディニック法",
+      "Dinic法"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "DoHとDoT",
+    "def": "DoHはHTTPS（443番ポート）でWebトラフィックに紛れる。DoTは専用ポート（853）で識別しやすい。企業管理ではDoTの方が制御しやすい。",
+    "aliases": [
+      "DoHとDoT"
+    ],
+    "track": "security",
+    "source": "Q348"
+  },
+  {
+    "term": "DoS / DDoS",
+    "def": "サービス不能化。Dは多数拠点から。レート制限、CDN、冗長、上流フィルタ。",
+    "aliases": [
+      "DoS / DDoS"
+    ],
+    "track": "security",
+    "source": "Q091"
+  },
+  {
+    "term": "Dragonblood攻撃",
+    "def": "WPA3のSAE（Dragonfly）ハンドシェイクに対するサイドチャネル攻撃。パスワードの推測が可能になる。実装のパッチ適用で対策。",
+    "aliases": [
+      "Dragonblood攻撃"
+    ],
+    "track": "security",
+    "source": "Q345"
+  },
+  {
+    "term": "ECDH",
+    "def": "楕円曲線上のDiffie-Hellman鍵交換。DHと同じ目的だが、より短い鍵長で同等の安全性。TLS 1.3ではECDHE（一時鍵）が必須。",
+    "aliases": [
+      "ECDH"
+    ],
+    "track": "security",
+    "source": "Q226"
+  },
+  {
+    "term": "EDR（Endpoint Detection and Response）",
+    "def": "エンドポイントの挙動を継続的に記録・分析し、脅威を検知・調査・対応するツール。従来アンチウイルスでは対応困難な高度な攻撃を検知。",
+    "aliases": [
+      "EDR（Endpoint Detection and Response）",
+      "Endpoint Detection and Response",
+      "EDR"
+    ],
+    "track": "security",
+    "source": "Q376"
+  },
+  {
+    "term": "ER図のカーディナリティ（多重度）",
+    "def": "エンティティ間の対応関係の数。1対1、1対多、多対多がある。多対多は中間テーブル（連関エンティティ）に分解して実装する。ER図では線の端に記号（鳥の足記法等）で表現。",
+    "aliases": [
+      "ER図のカーディナリティ（多重度）",
+      "多重度",
+      "ER図のカーディナリティ"
+    ],
+    "track": "security",
+    "source": "Q535"
+  },
+  {
+    "term": "ESNI/ECH",
+    "def": "Encrypted Client Hello。TLSハンドシェイクのSNI（接続先ホスト名）を暗号化し、盗聴者にアクセス先を隠す技術。DNS over HTTPSと組み合わせて使う。",
+    "aliases": [
+      "ESNI/ECH"
+    ],
+    "track": "security",
+    "source": "Q264"
+  },
+  {
+    "term": "EV / OV / DV 証明書",
+    "def": "DVはドメイン所有確認のみ。OVは組織実在確認。EVはより厳格な組織確認（表示はブラウザ次第で変化）。",
+    "aliases": [
+      "EV / OV / DV 証明書"
+    ],
+    "track": "security",
+    "source": "Q032"
+  },
+  {
+    "term": "Evil Twin攻撃",
+    "def": "正規APと同じSSIDの偽APを設置し、接続したユーザの通信を盗聴・改ざんする攻撃。802.1X認証、VPN利用、無線IDS（WIDS）で対策。",
+    "aliases": [
+      "Evil Twin攻撃"
+    ],
+    "track": "security",
+    "source": "Q343"
+  },
+  {
+    "term": "GCD（Greatest Common Divisor / 最大公約数）",
+    "def": "2つの整数を両方割り切れる最大の数。Pythonでは`math.gcd(a,b)`。ユークリッドの互除法で高速に求まる。",
+    "aliases": [
+      "GCD（Greatest Common Divisor / 最大公約数）",
+      "Greatest Common Divisor / 最大公約数",
+      "最大公約数",
+      "GCD"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "GCM",
+    "def": "Galois/Counter Mode。暗号化＋認証を同時に行うAEAD。nonce再利用は致命的。",
+    "aliases": [
+      "GCM"
+    ],
+    "track": "security",
+    "source": "seed"
+  },
+  {
+    "term": "GCMモード",
+    "def": "Galois/Counter Mode。CTRモードによる暗号化とGHASHによる認証タグ生成を同時に行うAEADモード。TLS 1.2/1.3で広く採用。",
+    "aliases": [
+      "GCMモード"
+    ],
+    "track": "security",
+    "source": "Q221"
+  },
+  {
+    "term": "GDPR上のDPO（Data Protection Officer）",
+    "def": "データ保護責任者。一定の条件を満たす組織で設置義務。独立性が求められ、データ保護の助言・監視・監督機関との連絡窓口を担う。",
+    "aliases": [
+      "GDPR上のDPO（Data Protection Officer）",
+      "Data Protection Officer",
+      "GDPR上のDPO"
+    ],
+    "track": "security",
+    "source": "Q430"
+  },
+  {
+    "term": "Golden Ticket攻撃",
+    "def": "AD環境でKerberos TGTを偽造する攻撃。KRBTGTアカウントのハッシュを窃取すると任意ユーザのTGTを生成可能。KRBTGTパスワードの定期変更で対策。",
+    "aliases": [
+      "Golden Ticket攻撃"
+    ],
+    "track": "security",
+    "source": "Q312"
+  },
+  {
+    "term": "Grundy数（グランディすう）",
+    "def": "各ゲーム局面に割り当てる数値。「この局面から遷移できる全局面のGrundy数を集めて、そこに含まれない最小の非負整数(=mex)」がその局面のGrundy数。Grundy数=0なら負け局面（手番の人が不利）。",
+    "aliases": [
+      "Grundy数（グランディすう）",
+      "グランディすう",
+      "Grundy数"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "HMAC",
+    "def": "鍵付きハッシュ。改ざん検知＋送信者の知識（共通鍵を持つ者）の確認。API署名やメッセージ認証に使う。",
+    "aliases": [
+      "HMAC"
+    ],
+    "track": "security",
+    "source": "Q011"
+  },
+  {
+    "term": "HSM（Hardware Security Module）",
+    "def": "暗号鍵の生成・保管・演算を耐タンパ性のあるハードウェア内で行う装置。鍵がHSM外に出ない設計。",
+    "aliases": [
+      "HSM（Hardware Security Module）",
+      "Hardware Security Module",
+      "HSM"
+    ],
+    "track": "security",
+    "source": "Q232"
+  },
+  {
+    "term": "HSTS",
+    "def": "HTTP Strict Transport Security。ブラウザにHTTPSのみで接続するよう指示し、SSLストリッピング等を防ぐ。",
+    "aliases": [
+      "HSTS"
+    ],
+    "track": "security",
+    "source": "Q038"
+  },
+  {
+    "term": "HTTP Request Smuggling",
+    "def": "フロントエンド（リバプロ）とバックエンドのHTTPリクエスト解釈の差異を悪用し、他ユーザのリクエストに干渉する攻撃。HTTP/2の利用、解析の統一で対策。",
+    "aliases": [
+      "HTTP Request Smuggling"
+    ],
+    "track": "security",
+    "source": "Q331"
+  },
+  {
+    "term": "HTTPの主要メソッド",
+    "def": "GET: リソース取得（冪等）。POST: リソース作成・データ送信（非冪等）。PUT: リソース全体の更新・作成（冪等）。PATCH: リソースの部分更新。DELETE: リソース削除（冪等）。HEAD: GETと同じだがボディなし（ヘッダのみ）。OPTIONS: 対応メソッドの確認。",
+    "aliases": [
+      "HTTPの主要メソッド"
+    ],
+    "track": "security",
+    "source": "Q554"
+  },
+  {
+    "term": "HTTPステータスコードの分類と代表例",
+    "def": "1xx: 情報（100 Continue）。2xx: 成功（200 OK、201 Created、204 No Content）。3xx: リダイレクト（301 Moved Permanently、302 Found、304 Not Modified）。4xx: クライアントエラー（400 Bad Request、401 Unauthorized、403 Forbidden、404 Not Found）。5xx: サーバエラー（500 Internal Server Error、502 Bad Gateway、503 Service Unavailable）。",
+    "aliases": [
+      "HTTPステータスコードの分類と代表例"
+    ],
+    "track": "security",
+    "source": "Q555"
+  },
+  {
+    "term": "Harvest Now, Decrypt Later攻撃",
+    "def": "現在の暗号通信を保存し、将来量子コンピュータで復号する脅威。長期機密性が必要なデータはPQC移行を急ぐ理由。",
+    "aliases": [
+      "Harvest Now, Decrypt Later攻撃"
+    ],
+    "track": "security",
+    "source": "Q231"
+  },
+  {
+    "term": "IDSとIPS",
+    "def": "IDSは検知・通知。IPSは検知に加え遮断など防御アクション。誤検知とのトレードオフ。",
+    "aliases": [
+      "IDSとIPS"
+    ],
+    "track": "security",
+    "source": "Q103"
+  },
+  {
+    "term": "IDaaS",
+    "def": "Identity as a Service。クラウドで認証・SSO・MFA等を提供するサービス（Azure AD、Okta等）。オンプレのADと連携することも多い。",
+    "aliases": [
+      "IDaaS"
+    ],
+    "track": "security",
+    "source": "Q288"
+  },
+  {
+    "term": "IPsecのAHとESP",
+    "def": "AHは完全性・認証。ESPは暗号化も可能でよく使われる。詳細は過去問で確認。",
+    "aliases": [
+      "IPsecのAHとESP"
+    ],
+    "track": "security",
+    "source": "Q108"
+  },
+  {
+    "term": "IPsecのトランスポートモードとトンネルモード",
+    "def": "トランスポート: ペイロードのみ保護、エンドツーエンド（ホスト間）。トンネル: 元IPパケット全体を暗号化し新IPヘッダで包む、ゲートウェイ間VPNで使う。AHは完全性・認証、ESPは暗号化＋認証。IKEで鍵交換とSA確立。",
+    "aliases": [
+      "IPsecのトランスポートモードとトンネルモード"
+    ],
+    "track": "security",
+    "source": "Q683"
+  },
+  {
+    "term": "ISMAP",
+    "def": "Information system Security Management and Assessment Program。政府のクラウド調達における安全性評価制度。クラウドサービスがISMAP登録されていることが政府利用の前提。",
+    "aliases": [
+      "ISMAP"
+    ],
+    "track": "security",
+    "source": "Q437"
+  },
+  {
+    "term": "ISMAP-LIU",
+    "def": "ISMAPの簡易評価。SaaS等のリスクが低いサービス向けに評価負荷を軽減した制度。",
+    "aliases": [
+      "ISMAP-LIU"
+    ],
+    "track": "security",
+    "source": "Q438"
+  },
+  {
+    "term": "ISMS",
+    "def": "情報セキュリティマネジメントシステム。計画・運用・見直しの継続的改善（PDCA）。ISO/IEC 27001等。",
+    "aliases": [
+      "ISMS"
+    ],
+    "track": "security",
+    "source": "Q161"
+  },
+  {
+    "term": "ISO/IEC 25010の品質特性8つ",
+    "def": "①機能適合性 ②性能効率性 ③互換性 ④使用性（ユーザビリティ） ⑤信頼性 ⑥セキュリティ ⑦保守性 ⑧移植性。各特性は副特性に分解される。セキュリティの副特性には機密性・完全性・否認防止・責任追跡性・真正性がある。",
+    "aliases": [
+      "ISO/IEC 25010の品質特性8つ"
+    ],
+    "track": "security",
+    "source": "Q610"
+  },
+  {
+    "term": "ITIL",
+    "def": "ITサービスマネジメントのベストプラクティス集。サービスライフサイクル（戦略・設計・移行・運用・改善）で構成。ITIL 4ではバリューチェーンに再構成。",
+    "aliases": [
+      "ITIL"
+    ],
+    "track": "security",
+    "source": "Q489"
+  },
+  {
+    "term": "ITIL v4の基本概念（サービスバリューシステム）",
+    "def": "ITIL v4はサービスバリューシステム（SVS）を中心に構成。要素: ガバナンス、サービスバリューチェーン（計画→改善→エンゲージ→設計と移行→取得/構築→提供とサポート）、プラクティス（34の管理プラクティス）、継続的改善、指針原則。v3のライフサイクルからバリューチェーンに再構成された。",
+    "aliases": [
+      "ITIL v4の基本概念（サービスバリューシステム）",
+      "サービスバリューシステム",
+      "ITIL v4の基本概念"
+    ],
+    "track": "security",
+    "source": "Q626"
+  },
+  {
+    "term": "IT全般統制とIT業務処理統制",
+    "def": "IT全般統制（ITGC）: IT環境全体の管理体制（アクセス管理、変更管理、運用管理、セキュリティ等）。業務処理統制を支える基盤。IT業務処理統制（ITAC）: 個別の業務アプリケーションに組み込まれた統制（入力チェック、計算の正確性、出力の完全性等）。内部統制報告制度（J-SOX）で評価対象。",
+    "aliases": [
+      "IT全般統制とIT業務処理統制"
+    ],
+    "track": "security",
+    "source": "Q648"
+  },
+  {
+    "term": "IV",
+    "def": "初期化ベクトル。同じ鍵・同じ平文でも暗号文を変えるための乱数的な値。予測可能・再利用は危険。",
+    "aliases": [
+      "IV"
+    ],
+    "track": "security",
+    "source": "seed"
+  },
+  {
+    "term": "Infrastructure as Code（IaC）のセキュリティスキャン",
+    "def": "Terraform、CloudFormation等のIaCテンプレートを静的解析し、セキュリティ上の問題（公開設定、暗号化なし等）をデプロイ前に検出する。tfsec、Checkov等。",
+    "aliases": [
+      "Infrastructure as Code（IaC）のセキュリティスキャン",
+      "IaC",
+      "Infrastructure as Codeのセキュリティスキャン"
+    ],
+    "track": "security",
+    "source": "Q385"
+  },
+  {
+    "term": "JWKとJWKS",
+    "def": "JWK（JSON Web Key）は公開鍵のJSON表現。JWKS（JWK Set）はJWKの集合で、署名検証用の公開鍵をエンドポイントから提供する。",
+    "aliases": [
+      "JWKとJWKS"
+    ],
+    "track": "security",
+    "source": "Q272"
+  },
+  {
+    "term": "JWTのalg:none攻撃",
+    "def": "ヘッダのアルゴリズムをnoneに書き換え、署名検証をバイパスする攻撃。サーバ側で許可アルゴリズムを明示的に制限する。",
+    "aliases": [
+      "JWTのalg:none攻撃"
+    ],
+    "track": "security",
+    "source": "Q271"
+  },
+  {
+    "term": "JWTの検証で確認すべきこ",
+    "def": "署名の正当性、有効期限（exp）、発行者（iss）、対象者（aud）、改ざんの有無。algをnoneに変更する攻撃にも注意。",
+    "aliases": [
+      "JWTの検証で確認すべきこ"
+    ],
+    "track": "security",
+    "source": "Q270"
+  },
+  {
+    "term": "KDF（鍵導出関数）",
+    "def": "元の鍵素材から目的に応じた暗号鍵を導出する関数。HKDF、PBKDF2等。ストレッチングとは異なり、高エントロピー素材からの導出にも使う。",
+    "aliases": [
+      "KDF（鍵導出関数）",
+      "鍵導出関数",
+      "KDF"
+    ],
+    "track": "security",
+    "source": "Q238"
+  },
+  {
+    "term": "KMP法とBM法",
+    "def": "KMP法: パターンの接頭辞と接尾辞の一致情報（失敗関数）を前処理で作成し、不一致時に無駄な比較をスキップ。前方からマッチング。BM法: パターンの末尾から比較し、不一致文字に基づくスキップテーブルで大幅に飛ばす。実用的にはBM法が高速なことが多い。",
+    "aliases": [
+      "KMP法とBM法"
+    ],
+    "track": "security",
+    "source": "Q577"
+  },
+  {
+    "term": "KRACK攻撃",
+    "def": "WPA2の4ウェイハンドシェイクの鍵再インストールを悪用する攻撃。nonce再利用によりトラフィック復号が可能。WPA3への移行やパッチ適用で対策。",
+    "aliases": [
+      "KRACK攻撃"
+    ],
+    "track": "security",
+    "source": "Q344"
+  },
+  {
+    "term": "Kerberoasting攻撃",
+    "def": "AD環境でサービスアカウントのサービスチケット（TGS）を取得し、オフラインでパスワードをクラックする攻撃。サービスアカウントの強力なパスワードとgMSA利用で対策。",
+    "aliases": [
+      "Kerberoasting攻撃"
+    ],
+    "track": "security",
+    "source": "Q313"
+  },
+  {
+    "term": "LCM（Least Common Multiple / 最小公倍数）",
+    "def": "2つの整数の両方の倍数のうち最小の正の数。`a*b//gcd(a,b)` で求まる。",
+    "aliases": [
+      "LCM（Least Common Multiple / 最小公倍数）",
+      "Least Common Multiple / 最小公倍数",
+      "最小公倍数",
+      "LCM"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "Living off the Land（環境寄生型攻撃）",
+    "def": "PowerShell、WMI、certutil等のOS標準ツールを悪用する攻撃手法。正規ツールのためアンチウイルスで検知困難。コマンドライン引数のログ記録とベースライン比較で検出。",
+    "aliases": [
+      "Living off the Land（環境寄生型攻撃）",
+      "環境寄生型攻撃",
+      "Living off the Land"
+    ],
+    "track": "security",
+    "source": "Q323"
+  },
+  {
+    "term": "MITRE ATT&CKフレームワーク",
+    "def": "実際の攻撃事例に基づく戦術（Tactics）・技術（Techniques）・手順（Procedures）のナレッジベース。脅威分析、検知ルール策定、レッドチーム計画に活用。",
+    "aliases": [
+      "MITRE ATT&CKフレームワーク"
+    ],
+    "track": "security",
+    "source": "Q337"
+  },
+  {
+    "term": "MST（Minimum Spanning Tree / 最小全域木）",
+    "def": "全頂点を連結にする辺の集合のうち、辺の重みの合計が最小のもの。",
+    "aliases": [
+      "MST（Minimum Spanning Tree / 最小全域木）",
+      "Minimum Spanning Tree / 最小全域木",
+      "最小全域木",
+      "MST"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "Mass Assignment（一括代入）攻撃",
+    "def": "APIリクエストに本来変更できないフィールド（role、isAdmin等）を追加し、サーバが無条件に受け入れてしまう脆弱性。許可フィールドの明示的指定（ホワイトリスト）で対策。",
+    "aliases": [
+      "Mass Assignment（一括代入）攻撃",
+      "一括代入",
+      "Mass Assignment攻撃"
+    ],
+    "track": "security",
+    "source": "Q303"
+  },
+  {
+    "term": "NAC（Network Access Control）",
+    "def": "ネットワーク接続時にデバイスのセキュリティ状態（パッチ、AV更新等）を検査し、不適合端末を隔離・修正させる仕組み。",
+    "aliases": [
+      "NAC（Network Access Control）",
+      "Network Access Control",
+      "NAC"
+    ],
+    "track": "security",
+    "source": "Q360"
+  },
+  {
+    "term": "NAPTとNAT",
+    "def": "NAT: IPアドレスの1対1変換。NAPTはIPアドレス+ポート番号を変換し、1つのグローバルIPで複数のプライベートIPを同時に利用可能にする（IPマスカレード）。家庭用ルータのほとんどはNAPT。",
+    "aliases": [
+      "NAPTとNAT"
+    ],
+    "track": "security",
+    "source": "Q550"
+  },
+  {
+    "term": "NAT",
+    "def": "プライベートIPアドレスをグローバルIPアドレスに変換し、インターネット接続を可能にする。アドレスの節約とセキュリティ。",
+    "aliases": [
+      "NAT"
+    ],
+    "track": "security",
+    "source": "Q472"
+  },
+  {
+    "term": "NIDSとHIDS",
+    "def": "Nはネットワークトラフィック監視。Hはホスト上のログ・ファイル等を監視。",
+    "aliases": [
+      "NIDSとHIDS"
+    ],
+    "track": "security",
+    "source": "Q105"
+  },
+  {
+    "term": "NIST CSF 2.0で追加されたGovern機能",
+    "def": "サイバーセキュリティリスクマネジメントの戦略・方針・役割を組織全体で統治する機能。経営層の関与を明確化。他の5機能の基盤となる。",
+    "aliases": [
+      "NIST CSF 2.0で追加されたGovern機能"
+    ],
+    "track": "security",
+    "source": "Q435"
+  },
+  {
+    "term": "NetFlowとsFlow",
+    "def": "NetFlowはフロー（通信の5タプル）を集約して記録。sFlowはパケットのサンプリング。大規模ネットワークの可視化と異常検知に使用。",
+    "aliases": [
+      "NetFlowとsFlow"
+    ],
+    "track": "security",
+    "source": "Q352"
+  },
+  {
+    "term": "OAuth 2.0のリフレッシュトークン",
+    "def": "アクセストークンの有効期限切れ後に新しいアクセストークンを取得するためのトークン。長寿命なので厳重に保管し、ローテーションを行う。",
+    "aliases": [
+      "OAuth 2.0のリフレッシュトークン"
+    ],
+    "track": "security",
+    "source": "Q285"
+  },
+  {
+    "term": "OCSPステープリング",
+    "def": "サーバがOCSPレスポンスをTLSハンドシェイクに添付する。クライアントが直接OCSPサーバへ問い合わせる必要がなくなり、プライバシーと性能が向上。",
+    "aliases": [
+      "OCSPステープリング"
+    ],
+    "track": "security",
+    "source": "Q254"
+  },
+  {
+    "term": "OLTPとOLAP（およびカラムナDB）の設計思想",
+    "def": "OLTP: 小さな更新を大量に、行指向、正規化、短時間トランザクション。OLAP: 大量データの集計・分析、列指向（カラムナ）で圧縮とスキャン効率が高い、スタースキーマ等の非正規化。用途で最適なストレージ構造が異なる。",
+    "aliases": [
+      "OLTPとOLAP（およびカラムナDB）の設計思想",
+      "およびカラムナDB",
+      "OLTPとOLAPの設計思想"
+    ],
+    "track": "security",
+    "source": "Q674"
+  },
+  {
+    "term": "OSI参照モデルの7層",
+    "def": "物理層、データリンク層、ネットワーク層、トランスポート層、セッション層、プレゼンテーション層、アプリケーション層。",
+    "aliases": [
+      "OSI参照モデルの7層"
+    ],
+    "track": "security",
+    "source": "Q465"
+  },
+  {
+    "term": "OSI参照モデルの各層のPDU（プロトコルデータ単位）名称",
+    "def": "第7〜5層: データ。第4層（トランスポート）: セグメント（TCP）/データグラム（UDP）。第3層（ネットワーク）: パケット。第2層（データリンク）: フレーム。第1層（物理）: ビット。各層でヘッダを付加するカプセル化が行われる。",
+    "aliases": [
+      "OSI参照モデルの各層のPDU（プロトコルデータ単位）名称",
+      "プロトコルデータ単位",
+      "OSI参照モデルの各層のPDU名称"
+    ],
+    "track": "security",
+    "source": "Q541"
+  },
+  {
+    "term": "OSPFとRIPとBGPの違い",
+    "def": "RIP: ディスタンスベクタ型。ホップ数（最大15）でルート選択。小規模向き。収束が遅い。OSPF: リンクステート型。帯域幅ベースのコスト計算。中〜大規模向き。収束が速い。BGP: パスベクタ型。AS間のルーティング。インターネットの基幹。ポリシーベースの経路選択。",
+    "aliases": [
+      "OSPFとRIPとBGPの違い"
+    ],
+    "track": "security",
+    "source": "Q548"
+  },
+  {
+    "term": "OSコマンドインジェクション",
+    "def": "入力がシェルコマンドに渡り任意実行。外部コマンド呼び出し回避、厳密なサニタイズ、引数配列渡し。",
+    "aliases": [
+      "OSコマンドインジェクション"
+    ],
+    "track": "security",
+    "source": "Q076"
+  },
+  {
+    "term": "PAM（特権アクセス管理）",
+    "def": "管理者・特権アカウントのアクセスを制御・記録・監査する仕組み。パスワードの自動ローテーション、セッション記録、ジャストインタイム特権付与を含む。",
+    "aliases": [
+      "PAM（特権アクセス管理）",
+      "特権アクセス管理",
+      "PAM"
+    ],
+    "track": "security",
+    "source": "Q283"
+  },
+  {
+    "term": "PAdES",
+    "def": "PDF Advanced Electronic Signatures。PDF文書への長期署名形式。タイムスタンプと失効情報を内包し、長期間の検証が可能。",
+    "aliases": [
+      "PAdES"
+    ],
+    "track": "security",
+    "source": "Q256"
+  },
+  {
+    "term": "PKCE",
+    "def": "認可コード横取り対策。モバイル/SPA向けにコード検証子を使う拡張。",
+    "aliases": [
+      "PKCE"
+    ],
+    "track": "security",
+    "source": "Q054"
+  },
+  {
+    "term": "PKCS",
+    "def": "公開鍵暗号の実装仕様群（例: PKCS#7, #12）。証明書や鍵の格納形式で名前が出る。",
+    "aliases": [
+      "PKCS"
+    ],
+    "track": "security",
+    "source": "Q045"
+  },
+  {
+    "term": "PKI",
+    "def": "Public Key Infrastructure。公開鍵の正当性を証明書と認証局（CA）の仕組みで担保する基盤。",
+    "aliases": [
+      "PKI"
+    ],
+    "track": "security",
+    "source": "Q026"
+  },
+  {
+    "term": "PMBOKの10の知識エリア",
+    "def": "統合、スコープ、タイム（スケジュール）、コスト、品質、人的資源（資源）、コミュニケーション、リスク、調達、ステークホルダ。統合管理が全体を束ね、変更管理や教訓の取りまとめを行う。",
+    "aliases": [
+      "PMBOKの10の知識エリア"
+    ],
+    "track": "security",
+    "source": "Q611"
+  },
+  {
+    "term": "Pass-the-Hash攻撃",
+    "def": "Windowsの認証でパスワードのNTLMハッシュを窃取し、ハッシュのまま認証に使う攻撃。パスワードの平文を知る必要がない。Credential Guard、特権分離で対策。",
+    "aliases": [
+      "Pass-the-Hash攻撃"
+    ],
+    "track": "security",
+    "source": "Q311"
+  },
+  {
+    "term": "Prototype Pollution攻撃",
+    "def": "JavaScriptのオブジェクトプロトタイプを汚染し、アプリケーション全体の挙動を変更する攻撃。Object.freeze、Map利用、入力の深い検証で対策。",
+    "aliases": [
+      "Prototype Pollution攻撃"
+    ],
+    "track": "security",
+    "source": "Q333"
+  },
+  {
+    "term": "RADIUS",
+    "def": "Remote Authentication Dial-In User Service。ネットワーク機器の認証・認可・アカウンティング（AAA）を集中管理するプロトコル。UDPベース。",
+    "aliases": [
+      "RADIUS"
+    ],
+    "track": "security",
+    "source": "Q276"
+  },
+  {
+    "term": "RAID 0、1、5",
+    "def": "RAID 0: ストライピング（高速、耐障害性なし）。RAID 1: ミラーリング（二重化）。RAID 5: パリティ分散（1台障害まで復旧可能）。",
+    "aliases": [
+      "RAID 0、1、5"
+    ],
+    "track": "security",
+    "source": "Q499"
+  },
+  {
+    "term": "RAID 6とRAID 10",
+    "def": "RAID 6: 二重パリティ分散。2台同時故障まで復旧可能。書込みが遅いがRAID 5より安全。RAID 10: RAID 1（ミラー）+ RAID 0（ストライプ）の組合せ。高速かつ耐障害性が高いが、容量効率は50%。性能重視ならRAID 10、コスト重視ならRAID 6。",
+    "aliases": [
+      "RAID 6とRAID 10"
+    ],
+    "track": "security",
+    "source": "Q513"
+  },
+  {
+    "term": "RA（Router Advertisement）偽装攻撃",
+    "def": "偽のIPv6ルータ広告を送信し、デフォルトゲートウェイを乗っ取る攻撃。RA Guard、DHCPv6の適切な設定で対策。",
+    "aliases": [
+      "RA（Router Advertisement）偽装攻撃",
+      "Router Advertisement",
+      "RA偽装攻撃"
+    ],
+    "track": "security",
+    "source": "Q350"
+  },
+  {
+    "term": "RBAC",
+    "def": "ロールに権限を付与し、ユーザをロールに割り当てる。管理しやすいが過剰権限に注意。",
+    "aliases": [
+      "RBAC"
+    ],
+    "track": "security",
+    "source": "Q058"
+  },
+  {
+    "term": "RFP（提案依頼書）とRFI（情報提供依頼書）",
+    "def": "RFI: ベンダ選定前の情報収集段階で発行。ベンダの技術力、製品情報、概算費用を問う。RFP: RFI後にベンダへ正式な提案を依頼する文書。要件、評価基準、スケジュール、予算、契約条件を記載。RFI→RFP→提案書受領→ベンダ選定の流れ。",
+    "aliases": [
+      "RFP（提案依頼書）とRFI（情報提供依頼書）",
+      "提案依頼書",
+      "情報提供依頼書",
+      "RFPとRFI"
+    ],
+    "track": "security",
+    "source": "Q650"
+  },
+  {
+    "term": "ROI・ROE・ROAの計算と意味",
+    "def": "ROI = 利益/投資額 × 100%（個別投資の収益性）。ROE = 当期純利益/自己資本 × 100%（株主視点の収益性）。ROA = 当期純利益/総資産 × 100%（総資産の活用効率）。ROEが高くてもレバレッジ（借入）で膨らんでいる場合があり、ROAと合わせて見る。",
+    "aliases": [
+      "ROI・ROE・ROAの計算と意味"
+    ],
+    "track": "security",
+    "source": "Q636"
+  },
+  {
+    "term": "RPA",
+    "def": "Robotic Process Automation。定型的なPC操作（データ入力、転記、レポート生成等）をソフトウェアロボットで自動化。ITSMではインシデントの自動起票、パスワードリセットの自動対応、監視アラートの自動エスカレーション等に活用。AIとの組合せでAIoRPAへ発展。",
+    "aliases": [
+      "RPA"
+    ],
+    "track": "security",
+    "source": "Q635"
+  },
+  {
+    "term": "RTO/RPOの設計で考慮すべきこ",
+    "def": "業務影響分析（BIA）に基づき決定。短いRTO/RPOほどコスト増。バックアップ方式・頻度・レプリケーション構成に直結。経営判断事項。",
+    "aliases": [
+      "RTO/RPOの設計で考慮すべきこ"
+    ],
+    "track": "security",
+    "source": "Q413"
+  },
+  {
+    "term": "RTOSのリアルタイム性で問われる「優先度逆転",
+    "def": "低優先度タスクが資源をロック中、高優先度タスクが待たされ、その間に中優先度タスクがCPUを占有して高優先度が更に遅れる現象。対策は優先度継承（資源保持中は待たせている高優先度へ昇格）や優先度上限プロトコル。Mars Pathfinderの事例が有名。",
+    "aliases": [
+      "RTOSのリアルタイム性で問われる「優先度逆転"
+    ],
+    "track": "security",
+    "source": "Q661"
+  },
+  {
+    "term": "RTOとRPO",
+    "def": "RTO＝復旧までの目標時間。RPO＝許容できるデータ損失の目標時点。",
+    "aliases": [
+      "RTOとRPO"
+    ],
+    "track": "security",
+    "source": "Q141"
+  },
+  {
+    "term": "S3バケット列挙",
+    "def": "公開設定のS3バケットを推測・探索してデータを取得する攻撃。バケットポリシーの最小権限化、パブリックアクセスブロック、CloudTrail監視で対策。",
+    "aliases": [
+      "S3バケット列挙"
+    ],
+    "track": "security",
+    "source": "Q317"
+  },
+  {
+    "term": "SASE（Secure Access Service Edge）",
+    "def": "ネットワーク機能（SD-WAN等）とセキュリティ機能（CASB、SWG、ZTNA等）をクラウドで統合したアーキテクチャ。リモートワーク環境に適合。",
+    "aliases": [
+      "SASE（Secure Access Service Edge）",
+      "Secure Access Service Edge",
+      "SASE"
+    ],
+    "track": "security",
+    "source": "Q361"
+  },
+  {
+    "term": "SASTとDAST",
+    "def": "SASTはソース静的解析。DASTは実行中の動的検査。併用が理想。",
+    "aliases": [
+      "SASTとDAST"
+    ],
+    "track": "security",
+    "source": "Q149"
+  },
+  {
+    "term": "SBOM",
+    "def": "Software Bill of Materials。ソフトウェアに含まれるコンポーネント（ライブラリ等）の一覧表。脆弱性管理、ライセンス管理、サプライチェーンリスク管理に活用。",
+    "aliases": [
+      "SBOM"
+    ],
+    "track": "security",
+    "source": "Q395"
+  },
+  {
+    "term": "SCA（Software Composition Analysis）",
+    "def": "アプリケーションが使用するOSS/サードパーティコンポーネントの既知脆弱性とライセンスを検出するツール。Dependabot、Snyk等。SBOMと連携。",
+    "aliases": [
+      "SCA（Software Composition Analysis）",
+      "Software Composition Analysis",
+      "SCA"
+    ],
+    "track": "security",
+    "source": "Q387"
+  },
+  {
+    "term": "SCIM",
+    "def": "System for Cross-domain Identity Management。異なるシステム間でユーザ情報のプロビジョニング・更新・削除を自動化するAPI標準。",
+    "aliases": [
+      "SCIM"
+    ],
+    "track": "security",
+    "source": "Q289"
+  },
+  {
+    "term": "SIEM",
+    "def": "複数ログを集約・相関分析し、検知と対応を支援する基盤。",
+    "aliases": [
+      "SIEM"
+    ],
+    "track": "security",
+    "source": "Q132"
+  },
+  {
+    "term": "SLA（Service Level Agreement）",
+    "def": "サービス提供者と利用者間のサービス品質に関する合意。可用性、応答時間、サポート時間等の目標値と未達時の対応を規定。",
+    "aliases": [
+      "SLA（Service Level Agreement）",
+      "Service Level Agreement",
+      "SLA"
+    ],
+    "track": "security",
+    "source": "Q492"
+  },
+  {
+    "term": "SOARとSIEM",
+    "def": "SIEMはログ収集・相関分析・検知が主。SOARは検知後の対応プロセスの自動化・オーケストレーションが主。連携して使う。",
+    "aliases": [
+      "SOARとSIEM"
+    ],
+    "track": "security",
+    "source": "Q379"
+  },
+  {
+    "term": "SOC",
+    "def": "Security Operation Center。監視・検知・初動を担う組織/機能。",
+    "aliases": [
+      "SOC"
+    ],
+    "track": "security",
+    "source": "Q133"
+  },
+  {
+    "term": "SOC 2レポート",
+    "def": "サービス組織の内部統制を独立監査人が評価するレポート。Trust Services Criteria（セキュリティ、可用性、処理のインテグリティ、機密性、プライバシー）に基づく。",
+    "aliases": [
+      "SOC 2レポート"
+    ],
+    "track": "security",
+    "source": "Q439"
+  },
+  {
+    "term": "SPF",
+    "def": "Sender Policy Framework。ドメインの正規メールサーバIPをDNSのTXTレコードに公開し、受信側が送信元を検証する。なりすましメール対策の一つ。",
+    "aliases": [
+      "SPF"
+    ],
+    "track": "security",
+    "source": "Q308"
+  },
+  {
+    "term": "SPOF",
+    "def": "Single Point of Failure（単一障害点）。そこが故障するとシステム全体が停止する箇所。冗長化（二重化、クラスタリング等）でSPOFを排除する設計が高可用性の基本。ネットワーク、電源、ストレージ等を確認。",
+    "aliases": [
+      "SPOF"
+    ],
+    "track": "security",
+    "source": "Q594"
+  },
+  {
+    "term": "SQLのEXISTSの動作",
+    "def": "EXISTS (副問合せ) は、副問合せが1行以上返せばTRUE、0行ならFALSEを返す。相関副問合せと組み合わせて「条件を満たす行が存在するか」を判定。NOT EXISTSは存在しないことの確認。INとの違いはNULLの扱いとパフォーマンス特性。",
+    "aliases": [
+      "SQLのEXISTSの動作"
+    ],
+    "track": "security",
+    "source": "Q523"
+  },
+  {
+    "term": "SQLのGROUP BYとHAVING",
+    "def": "GROUP BYはグループ化。HAVINGはグループ化後の条件絞り込み（集計関数が使える）。WHEREはグループ化前の行の絞り込み。",
+    "aliases": [
+      "SQLのGROUP BYとHAVING"
+    ],
+    "track": "security",
+    "source": "Q461"
+  },
+  {
+    "term": "SQLインジェクション",
+    "def": "入力をSQLに連結し不正クエリを実行。プリペアドステートメント（バインド）、入力検証、最小権限DBユーザ。",
+    "aliases": [
+      "SQLインジェクション"
+    ],
+    "track": "security",
+    "source": "Q071"
+  },
+  {
+    "term": "SSR F",
+    "def": "サーバに内部向けリクエストを発行させる。URL許可リスト、メタデータAPI遮断、ネットワーク分離。",
+    "aliases": [
+      "SSR F"
+    ],
+    "track": "security",
+    "source": "Q081"
+  },
+  {
+    "term": "STARTTLS",
+    "def": "平文で開始した接続を途中からTLSにアップグレードする方式（メール等）。ポート分離型TLSと対比される。",
+    "aliases": [
+      "STARTTLS"
+    ],
+    "track": "security",
+    "source": "Q041"
+  },
+  {
+    "term": "SWG（Secure Web Gateway）",
+    "def": "クラウドベースのWebプロキシ。URLフィルタリング、マルウェア検査、DLP等を提供。社外からの直接インターネットアクセスを安全に制御。",
+    "aliases": [
+      "SWG（Secure Web Gateway）",
+      "Secure Web Gateway",
+      "SWG"
+    ],
+    "track": "security",
+    "source": "Q362"
+  },
+  {
+    "term": "Server-Side Template Injection（SSTI）",
+    "def": "ユーザ入力がサーバ側テンプレートエンジンで評価され、任意コード実行につながる脆弱性。テンプレートにユーザ入力を直接渡さない。サンドボックス型テンプレートの利用。",
+    "aliases": [
+      "Server-Side Template Injection（SSTI）",
+      "SSTI",
+      "Server-Side Template Injection"
+    ],
+    "track": "security",
+    "source": "Q332"
+  },
+  {
+    "term": "Silver Ticket攻撃",
+    "def": "サービスアカウントのハッシュを使い、特定サービスのTGSを偽造する攻撃。Golden Ticketより範囲は限定的だがKDCを経由しないため検知しにくい。",
+    "aliases": [
+      "Silver Ticket攻撃"
+    ],
+    "track": "security",
+    "source": "Q314"
+  },
+  {
+    "term": "Spectre攻撃",
+    "def": "CPUの投機的実行を悪用し、本来アクセスできないメモリを読み取るサイドチャネル攻撃。マイクロコード更新、プロセス分離、コンパイラ対策で緩和。",
+    "aliases": [
+      "Spectre攻撃"
+    ],
+    "track": "security",
+    "source": "Q319"
+  },
+  {
+    "term": "Step-up認証",
+    "def": "通常操作は標準認証で許可し、高リスク操作（送金等）時に追加の認証要素を要求する方式。ユーザ体験と安全性の両立。",
+    "aliases": [
+      "Step-up認証"
+    ],
+    "track": "security",
+    "source": "Q287"
+  },
+  {
+    "term": "TACACS+",
+    "def": "CiscoのAAAプロトコル。RADIUSと異なりTCPベースで、認証・認可・アカウンティングを分離して処理できる。全パケットを暗号化。",
+    "aliases": [
+      "TACACS+"
+    ],
+    "track": "security",
+    "source": "Q277"
+  },
+  {
+    "term": "TCO（Total Cost of Ownership）",
+    "def": "取得費だけでなく、導入・運用・保守・廃棄までの総所有コスト。クラウド vs オンプレの比較で重要。",
+    "aliases": [
+      "TCO（Total Cost of Ownership）",
+      "Total Cost of Ownership",
+      "TCO"
+    ],
+    "track": "security",
+    "source": "Q497"
+  },
+  {
+    "term": "TCPとUDP",
+    "def": "TCP: コネクション型、信頼性保証（再送制御、順序制御）。UDP: コネクションレス、高速だが信頼性なし。用途に応じて選択。",
+    "aliases": [
+      "TCPとUDP"
+    ],
+    "track": "security",
+    "source": "Q467"
+  },
+  {
+    "term": "TCPのウィンドウ制御",
+    "def": "受信側が受信可能なデータ量（ウィンドウサイズ）を送信側に通知し、ACKを待たずにウィンドウサイズ分のデータを連続送信する方式。スライディングウィンドウとも呼ばれる。ウィンドウサイズ0で送信停止（フロー制御）。",
+    "aliases": [
+      "TCPのウィンドウ制御"
+    ],
+    "track": "security",
+    "source": "Q542"
+  },
+  {
+    "term": "TCPの輻輳制御の仕組み",
+    "def": "スロースタート: 輻輳ウィンドウを1MSSから指数的に増加。閾値到達後は輻輳回避（線形増加）。パケットロス検出時にウィンドウを縮小。再送タイムアウトでスロースタートに戻る。目的はネットワーク全体の輻輳を防ぐこと。",
+    "aliases": [
+      "TCPの輻輳制御の仕組み"
+    ],
+    "track": "security",
+    "source": "Q543"
+  },
+  {
+    "term": "TLS",
+    "def": "通信の暗号化プロトコル。サーバ認証・鍵交換・共通鍵での本文暗号などを組み合わせる。",
+    "aliases": [
+      "TLS"
+    ],
+    "track": "security",
+    "source": "seed"
+  },
+  {
+    "term": "TLS 1.3の0-RTT",
+    "def": "再接続時に最初のメッセージからアプリケーションデータを送れる。ただしリプレイ攻撃に脆弱。冪等でない操作には使わない。",
+    "aliases": [
+      "TLS 1.3の0-RTT"
+    ],
+    "track": "security",
+    "source": "Q248"
+  },
+  {
+    "term": "UMLのクラス図",
+    "def": "システムの静的構造（クラス、属性、操作、関連）を表現する。設計・ドキュメントに使用。",
+    "aliases": [
+      "UMLのクラス図"
+    ],
+    "track": "security",
+    "source": "Q482"
+  },
+  {
+    "term": "UMLのシーケンス図",
+    "def": "オブジェクト間のメッセージのやり取りを時間軸で表現する。処理フローの理解とレビューに使用。",
+    "aliases": [
+      "UMLのシーケンス図"
+    ],
+    "track": "security",
+    "source": "Q483"
+  },
+  {
+    "term": "UMLのユースケース図とアクティビティ図の用途",
+    "def": "ユースケース図: システムの機能要件をアクターとユースケース（楕円）で表現。要件定義で利用者の視点から何ができるかを整理。アクティビティ図: 処理の流れ（フローチャートに近い）を表現。業務フローや並行処理の可視化に使用。",
+    "aliases": [
+      "UMLのユースケース図とアクティビティ図の用途"
+    ],
+    "track": "security",
+    "source": "Q604"
+  },
+  {
+    "term": "UTM",
+    "def": "統合脅威管理。FW・IDS/IPS・アンチウイルス等を一体運用。中小向けに多い。",
+    "aliases": [
+      "UTM"
+    ],
+    "track": "security",
+    "source": "Q123"
+  },
+  {
+    "term": "Union-Find（素集合データ構造）",
+    "def": "「要素をグループにまとめる(unite)」「2つの要素が同じグループか判定する(find)」をほぼO(1)で行うデータ構造。辺の追加と連結判定を繰り返す問題で使う。経路圧縮とランク結合で高速化。",
+    "aliases": [
+      "Union-Find（素集合データ構造）",
+      "素集合データ構造",
+      "Union-Find"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "VLAN",
+    "def": "物理的なネットワーク構成に依存せず論理的にネットワークを分割する。ブロードキャストドメインの分離、セキュリティ向上。",
+    "aliases": [
+      "VLAN"
+    ],
+    "track": "security",
+    "source": "Q470"
+  },
+  {
+    "term": "VLSMとスーパーネッティング",
+    "def": "VLSM（Variable Length Subnet Mask）: サブネットごとに異なるマスク長を使い、アドレスを効率的に配分する。スーパーネッティング（CIDR集約）: 複数の連続するネットワークをまとめて1つのルートに集約し、ルーティングテーブルを縮小する。",
+    "aliases": [
+      "VLSMとスーパーネッティング"
+    ],
+    "track": "security",
+    "source": "Q547"
+  },
+  {
+    "term": "VPN",
+    "def": "公衆網の上に仮想的な専用路を作り、暗号化通信する。リモートアクセスや拠点間接続。",
+    "aliases": [
+      "VPN"
+    ],
+    "track": "security",
+    "source": "Q106"
+  },
+  {
+    "term": "V字モデル",
+    "def": "開発工程（要件定義→基本設計→詳細設計→実装）とテスト工程（受入テスト→システムテスト→結合テスト→単体テスト）を対応づけたモデル。各設計工程のアウトプットが対応するテスト工程のインプット（テスト仕様の基礎）になる。",
+    "aliases": [
+      "V字モデル"
+    ],
+    "track": "security",
+    "source": "Q602"
+  },
+  {
+    "term": "WAF",
+    "def": "Web Application Firewall。SQLインジェクションやXSS等のWeb攻撃をアプリケーション層で検知・遮断。",
+    "aliases": [
+      "WAF"
+    ],
+    "track": "security",
+    "source": "Q104"
+  },
+  {
+    "term": "WAF・IPS・次世代FWの守備範囲",
+    "def": "WAF: L7のWeb特化（SQLi/XSS等をシグネチャ/振る舞いで検知）。IPS: ネットワーク全般の既知攻撃パターンを検知・遮断。次世代FW: アプリ識別・ユーザ識別・IPS/URLフィルタを統合。多層防御で役割分担する。",
+    "aliases": [
+      "WAF・IPS・次世代FWの守備範囲"
+    ],
+    "track": "security",
+    "source": "Q689"
+  },
+  {
+    "term": "WAL（Write-Ahead Logging）",
+    "def": "データベースへの変更を実データファイルに書く前にログに記録する方式。障害発生時にログからやり直し（ロールフォワード）や取消し（ロールバック）が可能。チェックポイント以前のログは回復に不要となり、ログの切り詰めができる。",
+    "aliases": [
+      "WAL（Write-Ahead Logging）",
+      "Write-Ahead Logging",
+      "WAL"
+    ],
+    "track": "security",
+    "source": "Q531"
+  },
+  {
+    "term": "WBSのワークパッケージ",
+    "def": "WBSの最下位レベルの作業単位。スケジュール・コスト見積・進捗管理の基本単位となる。成果物ベースで分解し、管理可能な粒度にする（80時間ルール: 1WPは80時間以内が目安）。WBS辞書で各WPの詳細を記述。",
+    "aliases": [
+      "WBSのワークパッケージ"
+    ],
+    "track": "security",
+    "source": "Q612"
+  },
+  {
+    "term": "WBS（Work Breakdown Structure）",
+    "def": "プロジェクト作業を階層的に分解した構造図。スコープの明確化、見積もり、進捗管理の基盤。成果物ベースで分解する。",
+    "aliases": [
+      "WBS（Work Breakdown Structure）",
+      "Work Breakdown Structure",
+      "WBS"
+    ],
+    "track": "security",
+    "source": "Q485"
+  },
+  {
+    "term": "Webスキミング（Magecart攻撃）",
+    "def": "ECサイト等の決済ページにJavaScriptを注入し、クレジットカード情報を窃取する攻撃。CSP、Subresource Integrity、外部スクリプトの監視で対策。",
+    "aliases": [
+      "Webスキミング（Magecart攻撃）",
+      "Magecart攻撃",
+      "Webスキミング"
+    ],
+    "track": "security",
+    "source": "Q330"
+  },
+  {
+    "term": "XDR（Extended Detection and Response）",
+    "def": "EDRをエンドポイント以外（ネットワーク、メール、クラウド等）にも拡張し、複数ソースを相関分析して脅威を検知・対応する。サイロ化した監視を統合。",
+    "aliases": [
+      "XDR（Extended Detection and Response）",
+      "Extended Detection and Response",
+      "XDR"
+    ],
+    "track": "security",
+    "source": "Q377"
+  },
+  {
+    "term": "XOR",
+    "def": "排他的論理和。ビットごとに同じなら0・違えば1。CTRの鍵ストリーム合成やCBC連鎖で頻出。",
+    "aliases": [
+      "XOR"
+    ],
+    "track": "security",
+    "source": "seed"
+  },
+  {
+    "term": "XOR（排他的論理和）",
+    "def": "ビットごとに「片方だけ1なら1、両方同じなら0」。Pythonでは`^`演算子。ニムでは全山のXORで勝敗が決まる。`a^a=0`, `a^0=a` という性質がある。",
+    "aliases": [
+      "XOR（排他的論理和）",
+      "排他的論理和",
+      "XOR"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "XTS-AES",
+    "def": "ディスク暗号化向けのブロック暗号モード。セクタ番号をtweak値に用いる。BitLockerやFileVaultで使用。",
+    "aliases": [
+      "XTS-AES"
+    ],
+    "track": "security",
+    "source": "Q241"
+  },
+  {
+    "term": "XXE",
+    "def": "XML外部実体参照を悪用しファイル読取やSSR F。外部実体を無効化。",
+    "aliases": [
+      "XXE"
+    ],
+    "track": "security",
+    "source": "Q080"
+  },
+  {
+    "term": "ZTNA（Zero Trust Network Access）",
+    "def": "アプリケーション単位でアクセスを制御するVPN代替。ネットワーク全体へのアクセスではなく、認証・認可済みのアプリのみに接続。",
+    "aliases": [
+      "ZTNA（Zero Trust Network Access）",
+      "Zero Trust Network Access",
+      "ZTNA"
+    ],
+    "track": "security",
+    "source": "Q363"
+  },
+  {
+    "term": "bisect_left(A, X)",
+    "def": "Pythonのbisectモジュールの関数。ソート済み配列Aに値Xを挿入するとき、**Xと同じ値の左側** の位置を返す。つまり「X以上の最小インデックス」。例: `A=[1,3,3,5]`で`bisect_left(A,3)`→1（最初の3の位置）。",
+    "aliases": [
+      "bisect_left(A, X)",
+      "A, X",
+      "bisect_left"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "bisect_right(A, X)",
+    "def": "Xと同じ値の**右側**の位置を返す。つまり「Xより大きい最小インデックス」。例: `A=[1,3,3,5]`で`bisect_right(A,3)`→3（5の位置）。`bisect_right - bisect_left`でXの個数がわかる。",
+    "aliases": [
+      "bisect_right(A, X)",
+      "A, X",
+      "bisect_right"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "deque（デック / 両端キュー）",
+    "def": "先頭と末尾の両方からO(1)で追加・削除できるデータ構造。Pythonでは`from collections import deque`。`append()`/`appendleft()`/`pop()`/`popleft()`。通常のリストは先頭操作がO(N)だがdequeならO(1)。",
+    "aliases": [
+      "deque（デック / 両端キュー）",
+      "デック / 両端キュー",
+      "デック",
+      "両端キュー",
+      "deque"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "dict（辞書 / ハッシュマップ）",
+    "def": "キーと値のペアを管理。検索・追加・削除がO(1)。`d[key] = value` で登録、`key in d` で存在確認。",
+    "aliases": [
+      "dict（辞書 / ハッシュマップ）",
+      "辞書 / ハッシュマップ",
+      "辞書",
+      "ハッシュマップ",
+      "dict"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "mex（Minimum EXcludant）",
+    "def": "集合に含まれない最小の非負整数。例: mex({0,1,3})=2、mex({1,2})=0、mex({})=0。Grundy数の計算で使う。",
+    "aliases": [
+      "mex（Minimum EXcludant）",
+      "Minimum EXcludant",
+      "mex"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "mod演算（剰余演算）",
+    "def": "「答えを10⁹+7で割った余りを求めよ」のような問題で使う。足し算・掛け算は途中でmodを取ってOK（`(a+b)%MOD`, `(a*b)%MOD`）。引き算は負になりうるので`(a-b+MOD)%MOD`。**割り算は直接modが取れない**→逆元を使う。",
+    "aliases": [
+      "mod演算（剰余演算）",
+      "剰余演算",
+      "mod演算"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "nCr（組み合わせ）",
+    "def": "N個からR個選ぶ場合の数。`n!/(r!·(n-r)!)` だが、mod付きでは階乗テーブルと逆元テーブルを前計算してO(1)で求める。",
+    "aliases": [
+      "nCr（組み合わせ）",
+      "組み合わせ",
+      "nCr"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "nonce",
+    "def": "一度限り使う数。CTR/GCMなどで再利用すると鍵ストリームが漏れ、安全性が破綻しやすい。",
+    "aliases": [
+      "nonce"
+    ],
+    "track": "security",
+    "source": "seed"
+  },
+  {
+    "term": "set（集合）",
+    "def": "要素の重複なしコレクション。`in` による存在確認がO(1)。「値Xが既に出たか？」の判定に使う。",
+    "aliases": [
+      "set（集合）",
+      "集合",
+      "set"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "tight（タイト）",
+    "def": "桁DPの状態変数。上の桁で上限と同じ数字を置いてきたらTrue（まだ制約がある）、一度でも小さい数字を置いたらFalse（以降は自由）。",
+    "aliases": [
+      "tight（タイト）",
+      "タイト",
+      "tight"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "いもす法",
+    "def": "累積和の逆パターン。「区間[l,r]に+1する」操作を何回もやるとき、差分配列（D[l]に+1、D[r+1]に-1）だけ記録しておき、最後にまとめて累積和を取って復元する。出勤時間帯から「各時刻に何人いるか」を求める問題が典型。",
+    "aliases": [
+      "いもす法"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "イミュータブルインフラストラクチャ",
+    "def": "一度デプロイしたインフラを変更せず、更新時は新しいインスタンスに置き換える。構成のドリフトを防ぎ、改ざん検知を容易にする。",
+    "aliases": [
+      "イミュータブルインフラストラクチャ"
+    ],
+    "track": "security",
+    "source": "Q384"
+  },
+  {
+    "term": "インサイダー脅威",
+    "def": "正規権限を持つ内部者による不正・過失。ログ、職務分掌、教育、退職時手続き。",
+    "aliases": [
+      "インサイダー脅威"
+    ],
+    "track": "security",
+    "source": "Q099"
+  },
+  {
+    "term": "インシデントとイベント",
+    "def": "イベントは観測事象。インシデントはセキュリティ方針や法に対する侵害・そのおそれ。定義は組織で明確化。",
+    "aliases": [
+      "インシデントとイベント"
+    ],
+    "track": "security",
+    "source": "Q168"
+  },
+  {
+    "term": "インシデントの深刻度分類",
+    "def": "対応優先度と報告先を決める。過大・過小評価を防ぐ基準が必要。",
+    "aliases": [
+      "インシデントの深刻度分類"
+    ],
+    "track": "security",
+    "source": "Q179"
+  },
+  {
+    "term": "インシデント管理と問題管理",
+    "def": "インシデント管理: サービスの迅速な復旧が目的。問題管理: 根本原因の究明と恒久対策が目的。インシデントは応急、問題は根治。",
+    "aliases": [
+      "インシデント管理と問題管理"
+    ],
+    "track": "security",
+    "source": "Q490"
+  },
+  {
+    "term": "ウォークスルーとインスペクション",
+    "def": "ウォークスルー: 作成者が成果物を説明し、参加者が質問・指摘する非公式なレビュー。インスペクション: モデレータ主導で役割（読み手、記録係等）を明確にした公式なレビュー。チェックリストやメトリクスを使い、欠陥の検出率が高い。",
+    "aliases": [
+      "ウォークスルーとインスペクション"
+    ],
+    "track": "security",
+    "source": "Q603"
+  },
+  {
+    "term": "ウォーターホール攻撃",
+    "def": "標的がよく見る正規サイトを改ざんして感染させる。",
+    "aliases": [
+      "ウォーターホール攻撃"
+    ],
+    "track": "security",
+    "source": "Q089"
+  },
+  {
+    "term": "エグレスフィルタリング",
+    "def": "内部から外へ出る通信を制御。マルウェアのC2通信遮断に有効。",
+    "aliases": [
+      "エグレスフィルタリング"
+    ],
+    "track": "security",
+    "source": "Q125"
+  },
+  {
+    "term": "エラトステネスの篩（ふるい）",
+    "def": "2からNまでの素数を一括で求める前計算。「2の倍数を消す→3の倍数を消す→…」と繰り返す。O(N log log N)。Q回の素数判定が各O(1)になる。",
+    "aliases": [
+      "エラトステネスの篩（ふるい）",
+      "ふるい",
+      "エラトステネスの篩"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "エンベロープ暗号化",
+    "def": "データを共通鍵（DEK）で暗号化し、DEKをマスター鍵（KEK）で暗号化する二層方式。クラウドKMSの標準パターン。鍵の管理と暗号化を分離できる。",
+    "aliases": [
+      "エンベロープ暗号化"
+    ],
+    "track": "security",
+    "source": "Q243"
+  },
+  {
+    "term": "オイラーツアー",
+    "def": "木のDFSで各頂点を「入るとき」と「出るとき」に記録する手法。部分木を配列上の連続区間として扱える→BITやセグメント木と組み合わせられる。",
+    "aliases": [
+      "オイラーツアー"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "オフセット管理",
+    "def": "行のシフト操作を実際にデータを動かさず、「何行ずれているか」の数値だけ管理する。アクセス時に `(i + offset) % N` で本来の位置を計算。",
+    "aliases": [
+      "オフセット管理"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "オープンリダイレクト",
+    "def": "外部へ自由に飛ばせるリダイレクト。許可リスト、相対パスのみ。フィッシングに悪用。",
+    "aliases": [
+      "オープンリダイレクト"
+    ],
+    "track": "security",
+    "source": "Q079"
+  },
+  {
+    "term": "キャパシティプランニング",
+    "def": "将来の需要予測に基づき、必要なシステム資源（CPU、メモリ、ディスク、ネットワーク帯域等）を計画・確保すること。過剰投資と性能不足の両方を避ける。トレンド分析、負荷テスト、成長率予測を用いる。",
+    "aliases": [
+      "キャパシティプランニング"
+    ],
+    "track": "security",
+    "source": "Q587"
+  },
+  {
+    "term": "キャパシティ管理と可用性管理",
+    "def": "キャパシティ管理: 現在と将来の需要に対してITリソースが十分かを管理。ビジネス/サービス/コンポーネントの3層で計画。可用性管理: サービスの稼働率を合意されたレベル（SLA）で維持・改善。MTBF/MTTR分析、コンポーネント障害影響分析（CFIA）を使用。",
+    "aliases": [
+      "キャパシティ管理と可用性管理"
+    ],
+    "track": "security",
+    "source": "Q633"
+  },
+  {
+    "term": "キュー（Queue / FIFO）",
+    "def": "「先に入れたものが先に出る」データ構造。BFS（幅優先探索）の「次に探索する頂点」を管理するのに使う。Pythonでは`collections.deque`。",
+    "aliases": [
+      "キュー（Queue / FIFO）",
+      "Queue / FIFO",
+      "Queue",
+      "FIFO",
+      "キュー"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "クエリ",
+    "def": "「質問」のこと。「区間[l,r]の合計は？」のような問い合わせがQ回飛んでくる。毎回配列を足すとO(NQ)だが、累積和を使えばO(N+Q)で済む。",
+    "aliases": [
+      "クエリ"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "クライアント証明書認証",
+    "def": "クライアントも証明書を提示し、相互に認証する方式。B2Bや高セキュリティ環境で使う。",
+    "aliases": [
+      "クライアント証明書認証"
+    ],
+    "track": "security",
+    "source": "Q037"
+  },
+  {
+    "term": "クラウドのIMDS攻撃",
+    "def": "SSRFを利用してインスタンスメタデータサービス（169.254.169.254）にアクセスし、IAMクレデンシャルを窃取する攻撃。IMDSv2（セッショントークン必須）で対策。",
+    "aliases": [
+      "クラウドのIMDS攻撃"
+    ],
+    "track": "security",
+    "source": "Q316"
+  },
+  {
+    "term": "クラウドの責任共有モデル",
+    "def": "クラウド事業者と利用者で守る範囲を分担するモデル。IaaS: OS・ミドル・アプリ・データは利用者責任。SaaS: 事業者がアプリまで担い、利用者はデータとアクセス管理（ID・権限・設定）が中心。「設定ミス（公開バケット等）」は常に利用者側の責任。",
+    "aliases": [
+      "クラウドの責任共有モデル"
+    ],
+    "track": "security",
+    "source": "Q713"
+  },
+  {
+    "term": "クラスカル法（Kruskal）",
+    "def": "MSTを求めるアルゴリズム。全辺を重みの昇順にソートし、Union-Findでサイクルを作らない辺だけ採用する。",
+    "aliases": [
+      "クラスカル法（Kruskal）",
+      "Kruskal",
+      "クラスカル法"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "クリックジャッキング",
+    "def": "透明iframe等で別UIをクリックさせる。X-Frame-Options / CSP frame-ancestors。",
+    "aliases": [
+      "クリックジャッキング"
+    ],
+    "track": "security",
+    "source": "Q074"
+  },
+  {
+    "term": "クリティカルパス",
+    "def": "プロジェクトの最長経路で、余裕（フロート）がゼロの作業の連鎖。この経路上の遅延はプロジェクト全体の遅延に直結。",
+    "aliases": [
+      "クリティカルパス"
+    ],
+    "track": "security",
+    "source": "Q487"
+  },
+  {
+    "term": "クリプトジャッキング",
+    "def": "被害者のコンピュータリソースを無断で暗号資産のマイニングに使用する攻撃。Webページ埋め込み型やマルウェア型がある。CPU使用率の異常監視で検出。",
+    "aliases": [
+      "クリプトジャッキング"
+    ],
+    "track": "security",
+    "source": "Q327"
+  },
+  {
+    "term": "クロスルート証明書",
+    "def": "新しいルートCAの証明書を古いルートCAが署名することで、古いルートしか信頼していないクライアントからも検証可能にする仕組み。",
+    "aliases": [
+      "クロスルート証明書"
+    ],
+    "track": "security",
+    "source": "Q259"
+  },
+  {
+    "term": "グラフ",
+    "def": "頂点（ノード）と辺（エッジ）の集まり。友達関係、道路、ネットワークなどを表現する。有向グラフ（辺に向きあり）と無向グラフ（向きなし）がある。",
+    "aliases": [
+      "グラフ"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "コピーオンライト（CoW）",
+    "def": "複製時に実体をコピーせず同じ物理ページを共有し、書込み時に初めて複製する仕組み。fork()直後の重複メモリを節約し、コンテナイメージのレイヤ共有にも効く。脆弱性例: Dirty CoW（読み取り専用ページへの競合書込みで権限昇格）。",
+    "aliases": [
+      "コピーオンライト（CoW）",
+      "CoW",
+      "コピーオンライト"
+    ],
+    "track": "security",
+    "source": "Q655"
+  },
+  {
+    "term": "コンテナのランタイム保護",
+    "def": "実行中のコンテナの異常な挙動（予期しないプロセス起動、ファイル変更、ネットワーク接続）を検知・遮断する。Falco等。イミュータブルコンテナの考え方。",
+    "aliases": [
+      "コンテナのランタイム保護"
+    ],
+    "track": "security",
+    "source": "Q367"
+  },
+  {
+    "term": "コンテナイメージスキャン",
+    "def": "コンテナイメージ内のOS/ライブラリの既知脆弱性を検出する。CI/CDパイプラインとレジストリの両方でスキャンする。Trivy、Clair等のツール。",
+    "aliases": [
+      "コンテナイメージスキャン"
+    ],
+    "track": "security",
+    "source": "Q366"
+  },
+  {
+    "term": "コンテナブレイクアウト",
+    "def": "コンテナからホストOSへ脱出する攻撃。カーネル脆弱性や特権コンテナの悪用。非特権コンテナの徹底、seccomp、AppArmorで対策。",
+    "aliases": [
+      "コンテナブレイクアウト"
+    ],
+    "track": "security",
+    "source": "Q368"
+  },
+  {
+    "term": "コンテナ型仮想化と従来の仮想マシン",
+    "def": "仮想マシン: ハイパーバイザ上にゲストOSごと動作。起動が遅くリソース消費大。コンテナ: ホストOSのカーネルを共有し、アプリと依存関係のみを隔離。起動が高速で軽量。Docker、Kubernetesが代表。セキュリティ分離はVMのほうが強い。",
+    "aliases": [
+      "コンテナ型仮想化と従来の仮想マシン"
+    ],
+    "track": "security",
+    "source": "Q593"
+  },
+  {
+    "term": "コード署名",
+    "def": "ソフトウェアの配布元と改ざんされていないことを検証する。マルウェア配布対策。",
+    "aliases": [
+      "コード署名"
+    ],
+    "track": "security",
+    "source": "Q043"
+  },
+  {
+    "term": "サイドチャネル攻撃",
+    "def": "計算時間・消費電力・電磁波など実装の副次情報から鍵を推測する攻撃。定数時間実装などが対策。",
+    "aliases": [
+      "サイドチャネル攻撃"
+    ],
+    "track": "security",
+    "source": "Q019"
+  },
+  {
+    "term": "サイバー保険",
+    "def": "サイバーインシデントによる損害を補償する保険。事故対応費用、賠償、逸失利益等をカバー。リスク移転の手段。免責事項と補償範囲の確認が重要。",
+    "aliases": [
+      "サイバー保険"
+    ],
+    "track": "security",
+    "source": "Q419"
+  },
+  {
+    "term": "サイバー保険の加入時に確認すべきこ",
+    "def": "補償対象（ランサム身代金の扱い等）、免責条件、報告義務、セキュリティ要件（MFA必須等）、補償上限、遡及日。",
+    "aliases": [
+      "サイバー保険の加入時に確認すべきこ"
+    ],
+    "track": "security",
+    "source": "Q420"
+  },
+  {
+    "term": "サブネットマスク",
+    "def": "IPアドレスのネットワーク部とホスト部を区別する。/24は上位24ビットがネットワーク部で、254台のホスト。",
+    "aliases": [
+      "サブネットマスク"
+    ],
+    "track": "security",
+    "source": "Q469"
+  },
+  {
+    "term": "サプライチェーン攻撃",
+    "def": "ソフトウェア供給網（依存ライブラリ、更新基盤）を侵害。依存管理、署名検証、SBOM。",
+    "aliases": [
+      "サプライチェーン攻撃"
+    ],
+    "track": "security",
+    "source": "Q096"
+  },
+  {
+    "term": "サーバ証明書のCN/SAN",
+    "def": "証明書がどのホスト名向けかを示す。アクセス先FQDNと一致しないと警告・失敗。",
+    "aliases": [
+      "サーバ証明書のCN/SAN"
+    ],
+    "track": "security",
+    "source": "Q036"
+  },
+  {
+    "term": "システムコールの流れと、そこがなぜ攻撃対象になるか",
+    "def": "ライブラリ→ソフト割込み/専用命令（syscall）でカーネルに遷移→引数検証→処理→復帰。境界でユーザ空間ポインタをそのまま信頼するとTOCTOU（検査と使用の時間差）やポインタ差し替えで任意メモリ操作につながる。copy_from_userでの検証と、seccompによるシステムコール絞り込みが緩和策。",
+    "aliases": [
+      "システムコールの流れと、そこがなぜ攻撃対象になるか"
+    ],
+    "track": "security",
+    "source": "Q652"
+  },
+  {
+    "term": "システム監査の独立性",
+    "def": "監査人は被監査部門から独立した立場で客観的に評価する（身分的独立・精神的独立）。保証型: 情報システムの管理が適切であることに対して合理的な保証を与える。助言型: 改善提案を行い情報システムのリスク管理を支援する。どちらも監査証拠に基づく。",
+    "aliases": [
+      "システム監査の独立性"
+    ],
+    "track": "security",
+    "source": "Q647"
+  },
+  {
+    "term": "シフトレフト",
+    "def": "セキュリティ活動を開発ライフサイクルの早期（左側）に移すこと。設計段階の脅威モデリング、コーディング時のSAST等。修正コストが後工程ほど増大するため。",
+    "aliases": [
+      "シフトレフト"
+    ],
+    "track": "security",
+    "source": "Q394"
+  },
+  {
+    "term": "シミュレーション",
+    "def": "問題文の操作をそのままコードに落として、1ステップずつ実行する方法。アルゴリズム的な工夫なしに愚直に再現する。実装力が問われる。",
+    "aliases": [
+      "シミュレーション"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "シャーディングとレプリケーションの目的",
+    "def": "シャーディング: データを分割配置し書き込み/容量をスケールアウト。分散結合やホットスパードが課題。レプリケーション: 同じデータを複製し、読み取りスケールと可用性を得る。整合性（同期/非同期）とフェイルオーバー設計が要点。両者は併用される。",
+    "aliases": [
+      "シャーディングとレプリケーションの目的"
+    ],
+    "track": "security",
+    "source": "Q670"
+  },
+  {
+    "term": "シングルサインオン（SSO）",
+    "def": "一度の認証で複数システムを利用。利便性と、認証基盤障害・侵害時の影響拡大がトレードオフ。",
+    "aliases": [
+      "シングルサインオン（SSO）",
+      "SSO",
+      "シングルサインオン"
+    ],
+    "track": "security",
+    "source": "Q048"
+  },
+  {
+    "term": "シンホール／ブラックホールルーティング",
+    "def": "攻撃トラフィックを捨てる経路制御。大規模DDoS緩和で使うことあり。",
+    "aliases": [
+      "シンホール／ブラックホールルーティング"
+    ],
+    "track": "security",
+    "source": "Q122"
+  },
+  {
+    "term": "ジャストインタイム（JIT）アクセス",
+    "def": "必要な時にだけ一時的に特権を付与し、使用後に自動で取り消す方式。常時特権を保持しない。PAMの重要機能。",
+    "aliases": [
+      "ジャストインタイム（JIT）アクセス",
+      "JIT",
+      "ジャストインタイムアクセス"
+    ],
+    "track": "security",
+    "source": "Q284"
+  },
+  {
+    "term": "スクラムの主要イベントと役割",
+    "def": "役割: プロダクトオーナー（要求の優先順位）、スクラムマスター（プロセス支援）、開発チーム。イベント: スプリント計画→デイリースクラム（15分）→スプリントレビュー→スプリントレトロスペクティブ。成果物: プロダクトバックログ、スプリントバックログ、インクリメント。",
+    "aliases": [
+      "スクラムの主要イベントと役割"
+    ],
+    "track": "security",
+    "source": "Q597"
+  },
+  {
+    "term": "スケールアップとスケールアウト",
+    "def": "スケールアップ: サーバのスペック増強（CPU/メモリ追加）。スケールアウト: サーバの台数増加。可用性はスケールアウトが有利。",
+    "aliases": [
+      "スケールアップとスケールアウト"
+    ],
+    "track": "security",
+    "source": "Q476"
+  },
+  {
+    "term": "スタック（Stack / LIFO）",
+    "def": "「後に入れたものが先に出る」データ構造。Pythonではリストの`append()`/`pop()`で実現。括弧の対応チェック、単調スタックなどで使う。",
+    "aliases": [
+      "スタック（Stack / LIFO）",
+      "Stack / LIFO",
+      "Stack",
+      "LIFO",
+      "スタック"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ステートフルインスペクションFWとパケットフィルタ",
+    "def": "パケットフィルタ: 各パケットのヘッダ（IP/ポート/フラグ）を個別判定、戻り通信の穴あけが煩雑。ステートフル: コネクションの状態（3ウェイの進行、確立済みか）を追跡し、正当な戻りパケットのみ許可。なりすましパケットを弾きやすい。",
+    "aliases": [
+      "ステートフルインスペクションFWとパケットフィルタ"
+    ],
+    "track": "security",
+    "source": "Q688"
+  },
+  {
+    "term": "ストレッチング（鍵導出の反復）",
+    "def": "ハッシュや鍵導出を意図的に何度も繰り返し、総当たりのコストを上げる。bcrypt、PBKDF2、Argon2など。",
+    "aliases": [
+      "ストレッチング（鍵導出の反復）",
+      "鍵導出の反復",
+      "ストレッチング"
+    ],
+    "track": "security",
+    "source": "Q013"
+  },
+  {
+    "term": "スナップショット分離で起きる「書き込みスキュー",
+    "def": "2つのトランザクションが各々一貫スナップショットを読み、重ならない行を更新するが、両者の前提（不変条件）を同時に壊すアノマリ。例: 「常に1人は当直」制約下で2人が同時に自分を外す。SERIALIZABLE（SSI等）でないと防げない。",
+    "aliases": [
+      "スナップショット分離で起きる「書き込みスキュー"
+    ],
+    "track": "security",
+    "source": "Q666"
+  },
+  {
+    "term": "スピアフィッシング",
+    "def": "特定個人・組織を狙う標的型。一般フィッシングより精度が高い。",
+    "aliases": [
+      "スピアフィッシング"
+    ],
+    "track": "security",
+    "source": "Q085"
+  },
+  {
+    "term": "スラッシング",
+    "def": "ページフォルトが頻発し、ページの入替え処理がCPU時間の大半を占める状態。メモリ不足が原因。ワーキングセットの確保が対策。",
+    "aliases": [
+      "スラッシング"
+    ],
+    "track": "security",
+    "source": "Q456"
+  },
+  {
+    "term": "スループット・レスポンスタイム・ターンアラウンドタイム",
+    "def": "スループット: 単位時間あたりの処理量（件/秒）。レスポンスタイム: 要求送信から最初の応答までの時間。ターンアラウンドタイム: 要求送信から処理完了までの全時間（レスポンスタイムより長い）。ベンチマークではこれらを総合的に評価。",
+    "aliases": [
+      "スループット・レスポンスタイム・ターンアラウンドタイム"
+    ],
+    "track": "security",
+    "source": "Q586"
+  },
+  {
+    "term": "セキュアなログ設計で避けるべきこ",
+    "def": "パスワード、トークン、クレジットカード番号等の機密情報をログに記録しない。ログインジェクション対策として改行コードの無害化。ログの改ざん防止。",
+    "aliases": [
+      "セキュアなログ設計で避けるべきこ"
+    ],
+    "track": "security",
+    "source": "Q405"
+  },
+  {
+    "term": "セキュアコーディング",
+    "def": "設計・実装段階で脆弱性を作り込まない。後追い修正より安い。",
+    "aliases": [
+      "セキュアコーディング"
+    ],
+    "track": "security",
+    "source": "Q146"
+  },
+  {
+    "term": "セキュアブート",
+    "def": "起動時に改ざんされていないコンポーネントだけを実行する。",
+    "aliases": [
+      "セキュアブート"
+    ],
+    "track": "security",
+    "source": "Q129"
+  },
+  {
+    "term": "セキュアブートとTPMの役割",
+    "def": "セキュアブート: ブートローダ・カーネルの署名を検証し、改ざんされた起動を拒否する（起動チェーンの信頼）。TPM: 耐タンパなチップで鍵保管と測定値（PCR）の保持を行い、起動構成のリモート検証（リモートアテステーション）やディスク暗号鍵の封印に使う。",
+    "aliases": [
+      "セキュアブートとTPMの役割"
+    ],
+    "track": "security",
+    "source": "Q659"
+  },
+  {
+    "term": "セキュリティチャンピオン制度",
+    "def": "開発チーム内にセキュリティの知識を持つメンバー（チャンピオン）を配置し、セキュリティチームとの橋渡し役を担わせる制度。セキュリティの左シフトを支援。",
+    "aliases": [
+      "セキュリティチャンピオン制度"
+    ],
+    "track": "security",
+    "source": "Q392"
+  },
+  {
+    "term": "セキュリティバイデザイン／デフォルト",
+    "def": "設計で安全を組み込み、初期設定も安全側にする。",
+    "aliases": [
+      "セキュリティバイデザイン／デフォルト"
+    ],
+    "track": "security",
+    "source": "Q178"
+  },
+  {
+    "term": "セキュリティ倫理で押さえたいこ",
+    "def": "権限の私的利用禁止、発見した脆弱性の適切な報告、利用者・社会への影響考慮。",
+    "aliases": [
+      "セキュリティ倫理で押さえたいこ"
+    ],
+    "track": "security",
+    "source": "Q193"
+  },
+  {
+    "term": "セキュリティ成熟度モデル",
+    "def": "組織のセキュリティ能力をレベル（初期→反復→定義→管理→最適化等）で評価するフレームワーク。C2M2、CMMI等。現状評価と改善目標の設定に活用。",
+    "aliases": [
+      "セキュリティ成熟度モデル"
+    ],
+    "track": "security",
+    "source": "Q415"
+  },
+  {
+    "term": "セグメント木（Segment Tree）",
+    "def": "配列の「区間に対する演算（最大値/合計/最小値）」と「1点の更新」をどちらもO(logN)で行える木構造。配列サイズ2Nの完全二分木として実装。区間クエリが大量にある問題で使う。",
+    "aliases": [
+      "セグメント木（Segment Tree）",
+      "Segment Tree",
+      "セグメント木"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "セッションハイジャック",
+    "def": "有効なセッションIDを盗んでなりすます。HTTPS、HttpOnly、短寿命、固定化対策。",
+    "aliases": [
+      "セッションハイジャック"
+    ],
+    "track": "security",
+    "source": "Q057"
+  },
+  {
+    "term": "セッションフィクセーション",
+    "def": "攻撃者が用意したセッションIDを被害者に使わせ、ログイン後に乗っ取る。ログイン時にID再発行で対策。",
+    "aliases": [
+      "セッションフィクセーション"
+    ],
+    "track": "security",
+    "source": "Q056"
+  },
+  {
+    "term": "セマフォとミューテックス",
+    "def": "ミューテックス: バイナリ（0/1）で単一資源の排他制御。ロックした者だけがアンロック可能。セマフォ: カウンタ値を持ち、複数資源の同時利用数を制御可能（カウンティングセマフォ）。P操作（wait/減算）とV操作（signal/加算）で制御。",
+    "aliases": [
+      "セマフォとミューテックス"
+    ],
+    "track": "security",
+    "source": "Q506"
+  },
+  {
+    "term": "ゼロデイ攻撃",
+    "def": "修正前の未知脆弱性を突く。多層防御、振る舞い検知、最小権限が重要。",
+    "aliases": [
+      "ゼロデイ攻撃"
+    ],
+    "track": "security",
+    "source": "Q095"
+  },
+  {
+    "term": "ゼロトラストネットワークの基本原則",
+    "def": "「社内網だから信頼」を捨て、すべてのアクセスを都度検証（ユーザ・デバイス・コンテキスト）。最小権限、マイクロセグメンテーション、常時認証・認可、ログの全面可視化。境界防御（城と堀）の限界（内部侵入後の横移動）への回答。",
+    "aliases": [
+      "ゼロトラストネットワークの基本原則"
+    ],
+    "track": "security",
+    "source": "Q690"
+  },
+  {
+    "term": "ソルト",
+    "def": "パスワードハッシュに付ける乱数。同じパスワードでもハッシュを変え、レインボーテーブル攻撃を困難にする。",
+    "aliases": [
+      "ソルト"
+    ],
+    "track": "security",
+    "source": "Q012"
+  },
+  {
+    "term": "ソーシャルエンジニアリング",
+    "def": "人の心理を突いて情報や行動を引き出す。技術対策だけでは不十分。訓練が必要。",
+    "aliases": [
+      "ソーシャルエンジニアリング"
+    ],
+    "track": "security",
+    "source": "Q100"
+  },
+  {
+    "term": "タイポスクワッティング",
+    "def": "正規ドメインやパッケージ名の誤入力を狙って類似名を登録し、マルウェア配布等を行う手法。依存パッケージ名の正確性確認、レジストリの保護。",
+    "aliases": [
+      "タイポスクワッティング"
+    ],
+    "track": "security",
+    "source": "Q328"
+  },
+  {
+    "term": "タイムスタンプ（署名付き）",
+    "def": "ある時点でデータが存在し改ざんされていないことを示す。長期署名で有効。",
+    "aliases": [
+      "タイムスタンプ（署名付き）",
+      "署名付き",
+      "タイムスタンプ"
+    ],
+    "track": "security",
+    "source": "Q044"
+  },
+  {
+    "term": "タグVLAN（802.1Q）とポートVLAN",
+    "def": "ポートVLAN: スイッチのポートごとにVLANを割り当て。1ポート1VLAN。タグVLAN（802.1Q）: フレームにVLAN IDタグを付与し、1本の物理リンク（トランクポート）で複数VLANのトラフィックを伝送。スイッチ間接続で使用。",
+    "aliases": [
+      "タグVLAN（802.1Q）とポートVLAN",
+      "802.1Q",
+      "タグVLANとポートVLAN"
+    ],
+    "track": "security",
+    "source": "Q549"
+  },
+  {
+    "term": "ダイクストラ法（Dijkstra）",
+    "def": "**重み付きグラフ（辺の重みが非負）の最短経路**を求めるアルゴリズム。ヒープで「最短距離が確定していない頂点のうち最も近いもの」を取り出す。O((V+E)logV)。負の辺があると使えない。",
+    "aliases": [
+      "ダイクストラ法（Dijkstra）",
+      "Dijkstra",
+      "ダイクストラ法"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ダブリング",
+    "def": "「1回の操作で次のマスに移る」ような遷移を、2^0回先, 2^1回先, 2^2回先, ... と前計算しておき、任意のK回先をO(logK)で求めるテクニック。例: `next[k][v]` = vから2^k回遷移した先。K=10^18でもlog₂(10^18)≈60回の計算で済む。",
+    "aliases": [
+      "ダブリング"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ダーティリード・ノンリピータブルリード・ファントムリード",
+    "def": "ダーティリード: 他トランザクションの未コミットデータを読む。ノンリピータブルリード: 同じ行を2回読んだとき他トランザクションの更新で値が変わる。ファントムリード: 同じ条件で検索したとき他トランザクションの挿入/削除で行数が変わる。",
+    "aliases": [
+      "ダーティリード・ノンリピータブルリード・ファントムリード"
+    ],
+    "track": "security",
+    "source": "Q530"
+  },
+  {
+    "term": "ディスク暗号化",
+    "def": "端末紛失時の情報漏洩防止。鍵管理が本体。電源ON中のマルウェアには別対策。",
+    "aliases": [
+      "ディスク暗号化"
+    ],
+    "track": "security",
+    "source": "Q130"
+  },
+  {
+    "term": "ディレクトリトラバーサル",
+    "def": "`../`等で意図しないファイルを読む。パス正規化、ルート外アクセス禁止、ユーザ入力をパスに直接使わない。",
+    "aliases": [
+      "ディレクトリトラバーサル"
+    ],
+    "track": "security",
+    "source": "Q075"
+  },
+  {
+    "term": "デシリアライゼーション攻撃",
+    "def": "信頼できないデータを復元時にコード実行。信頼できるデータのみ、安全な形式、検証。",
+    "aliases": [
+      "デシリアライゼーション攻撃"
+    ],
+    "track": "security",
+    "source": "Q082"
+  },
+  {
+    "term": "デジタルフォレンジックの証拠保全で最初にやるこ",
+    "def": "揮発性の高い情報から順に取得する（RFC 3227の揮発性順序）。メモリ→ネットワーク状態→ディスク→物理証拠。電源を切ると消えるものを優先。",
+    "aliases": [
+      "デジタルフォレンジックの証拠保全で最初にやるこ"
+    ],
+    "track": "security",
+    "source": "Q372"
+  },
+  {
+    "term": "デッドロック",
+    "def": "複数のトランザクションが互いに相手のロック解除を待ち、永久に処理が進まない状態。タイムアウトやデッドロック検出で対処。",
+    "aliases": [
+      "デッドロック"
+    ],
+    "track": "security",
+    "source": "Q463"
+  },
+  {
+    "term": "デッドロックの予防・回避・検出",
+    "def": "予防: 4条件のいずれかを構造的に排除する設計（例: 資源の順序付け）。回避: 実行時に安全状態か判定してから割当て（銀行家のアルゴリズム）。検出: デッドロック発生を資源割当てグラフ等で検出し、プロセスの強制終了や資源の回収で解消。",
+    "aliases": [
+      "デッドロックの予防・回避・検出"
+    ],
+    "track": "security",
+    "source": "Q505"
+  },
+  {
+    "term": "デュアルシステムとデュプレックスシステム",
+    "def": "デュアル: 同一処理を2系統で並行実行し結果を照合。信頼性最重視。デュプレックス: 主系と待機系を分け、障害時に切替。ホットスタンバイとコールドスタンバイがある。",
+    "aliases": [
+      "デュアルシステムとデュプレックスシステム"
+    ],
+    "track": "security",
+    "source": "Q498"
+  },
+  {
+    "term": "データマスキング（動的/静的）",
+    "def": "本番の機微データを、非本番環境や権限の低い利用者に対して伏字/擬似値で見せる技術。静的: コピー時に変換。動的: 参照時にリアルタイム変換。テスト・分析での漏えいリスクと、開発者への過剰な情報露出を減らす。",
+    "aliases": [
+      "データマスキング（動的/静的）",
+      "動的/静的",
+      "動的",
+      "静的",
+      "データマスキング"
+    ],
+    "track": "security",
+    "source": "Q676"
+  },
+  {
+    "term": "データ分類（ラベル）",
+    "def": "機密度に応じた扱い（暗号化、共有範囲、保管）を統一する。",
+    "aliases": [
+      "データ分類（ラベル）",
+      "ラベル",
+      "データ分類"
+    ],
+    "track": "security",
+    "source": "Q145"
+  },
+  {
+    "term": "トランザクションのACID特性",
+    "def": "原子性（Atomicity）、一貫性（Consistency）、独立性（Isolation）、耐久性（Durability）。DBの整合性保証の基本。",
+    "aliases": [
+      "トランザクションのACID特性"
+    ],
+    "track": "security",
+    "source": "Q462"
+  },
+  {
+    "term": "トークンバインディング",
+    "def": "トークンを特定のTLS接続やクライアントに紐づけ、トークン窃取時の悪用を防ぐ仕組み。DPoP（Demonstrating Proof-of-Possession）が代替として普及。",
+    "aliases": [
+      "トークンバインディング"
+    ],
+    "track": "security",
+    "source": "Q286"
+  },
+  {
+    "term": "ドライブバイダウンロード",
+    "def": "Web閲覧だけでマルウェアを落とす。ブラウザ/プラグイン更新、分離、フィルタ。",
+    "aliases": [
+      "ドライブバイダウンロード"
+    ],
+    "track": "security",
+    "source": "Q088"
+  },
+  {
+    "term": "ナグルアルゴリズム",
+    "def": "小さなデータ（数バイト）の送信を遅延させ、ACK到着後にまとめて送信する仕組み。ネットワーク効率を向上させるが、対話型アプリでは遅延が問題になるため無効化（TCP_NODELAY）する場合がある。",
+    "aliases": [
+      "ナグルアルゴリズム"
+    ],
+    "track": "security",
+    "source": "Q544"
+  },
+  {
+    "term": "ナップサックDP（0-1ナップサック）",
+    "def": "「N個のアイテム（重さw, 価値v）から、重さの合計がW以下で価値が最大になるように選ぶ」問題。dp[j]=重さj以下の最大価値。**逆順ループ**で各アイテムを1回だけ使う制約を保証する。",
+    "aliases": [
+      "ナップサックDP（0-1ナップサック）",
+      "0-1ナップサック",
+      "ナップサックDP"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ニム（Nim）",
+    "def": "複数の山から好きな数だけ石を取り合うゲーム。全山の石数のXOR（排他的論理和）が0なら後手勝ち、非0なら先手勝ち。これがニムの定理。",
+    "aliases": [
+      "ニム（Nim）",
+      "Nim",
+      "ニム"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ネットワークセグメンテーション",
+    "def": "侵害の横展開を防ぐ。VLAN、FW、ゼロトラストセグメント。",
+    "aliases": [
+      "ネットワークセグメンテーション"
+    ],
+    "track": "security",
+    "source": "Q110"
+  },
+  {
+    "term": "ネットワークフォレンジック",
+    "def": "ネットワークトラフィックを収集・分析してセキュリティインシデントを調査する手法。パケットキャプチャ、フロー分析、ログ相関が主な技術。",
+    "aliases": [
+      "ネットワークフォレンジック"
+    ],
+    "track": "security",
+    "source": "Q351"
+  },
+  {
+    "term": "ハイパーバイザのType1とType2",
+    "def": "Type1（ベアメタル型）: ハードウェア上に直接動作。VMware ESXi、Hyper-V、KVM。性能が高く本番環境向き。Type2（ホスト型）: ホストOS上で動作。VirtualBox、VMware Workstation。開発・テスト向き。オーバーヘッドが大きい。",
+    "aliases": [
+      "ハイパーバイザのType1とType2"
+    ],
+    "track": "security",
+    "source": "Q589"
+  },
+  {
+    "term": "ハイブリッド暗号",
+    "def": "本文は共通鍵で高速暗号化し、その共通鍵だけを公開鍵で暗号化する方式。TLSの基本発想。",
+    "aliases": [
+      "ハイブリッド暗号"
+    ],
+    "track": "security",
+    "source": "Q016"
+  },
+  {
+    "term": "ハッシュ法の衝突解決: オープンアドレス法とチェイン法",
+    "def": "チェイン法: 同じハッシュ値のデータを連結リストで管理。実装が容易で削除も簡単。オープンアドレス法: 衝突時にテーブル内の別のスロットを探索（線形探索法、二次探索法、ダブルハッシュ法）。メモリ効率が良いが負荷率が高いと性能劣化。",
+    "aliases": [
+      "ハッシュ法の衝突解決: オープンアドレス法とチェイン法"
+    ],
+    "track": "security",
+    "source": "Q565"
+  },
+  {
+    "term": "ハニーネット",
+    "def": "複数のハニーポットで構成されたネットワーク。より現実的な環境を模して攻撃者の行動を詳細に観察する。",
+    "aliases": [
+      "ハニーネット"
+    ],
+    "track": "security",
+    "source": "Q355"
+  },
+  {
+    "term": "ハニーポット",
+    "def": "攻撃者をおびき寄せるための囮システム。攻撃手法の情報収集、早期検知に使う。本番環境から隔離して配置。",
+    "aliases": [
+      "ハニーポット"
+    ],
+    "track": "security",
+    "source": "Q354"
+  },
+  {
+    "term": "ハードニング（強化）",
+    "def": "不要サービス停止、既定パスワード変更、権限縮小、セキュア設定の適用。",
+    "aliases": [
+      "ハードニング（強化）",
+      "強化",
+      "ハードニング"
+    ],
+    "track": "security",
+    "source": "Q128"
+  },
+  {
+    "term": "バスタブ曲線（故障率曲線）",
+    "def": "故障率を時間軸でプロットした曲線。初期故障期（設計・製造不良で故障率高）→偶発故障期（故障率一定、ランダム故障）→摩耗故障期（経年劣化で故障率上昇）の3期間。MTBFは偶発故障期の指標。",
+    "aliases": [
+      "バスタブ曲線（故障率曲線）",
+      "故障率曲線",
+      "バスタブ曲線"
+    ],
+    "track": "security",
+    "source": "Q592"
+  },
+  {
+    "term": "バッファオーバーフロー",
+    "def": "想定外サイズの書込みでメモリ破壊・任意コード実行。言語/コンパイラの保護、境界チェック、ASLR等。",
+    "aliases": [
+      "バッファオーバーフロー"
+    ],
+    "track": "security",
+    "source": "Q077"
+  },
+  {
+    "term": "パイプラインハザードの3種類",
+    "def": "データハザード: 前の命令の結果を後の命令が参照する依存関係（フォワーディングで軽減）。制御ハザード: 分岐命令で次の命令が確定しない（分岐予測で軽減）。構造ハザード: 同一ハードウェア資源の競合（資源の多重化で解消）。いずれもパイプラインストールの原因。",
+    "aliases": [
+      "パイプラインハザードの3種類"
+    ],
+    "track": "security",
+    "source": "Q512"
+  },
+  {
+    "term": "パスワードスプレー攻撃",
+    "def": "多数アカウントに対し少ない共通パスワードを試す。ロック回避狙い。異常ログイン検知。",
+    "aliases": [
+      "パスワードスプレー攻撃"
+    ],
+    "track": "security",
+    "source": "Q090"
+  },
+  {
+    "term": "パスワードリスト攻撃",
+    "def": "他サービスから漏洩したID/パスワードの組を試す。使い回しが弱点。MFA・漏洩検知が有効。",
+    "aliases": [
+      "パスワードリスト攻撃"
+    ],
+    "track": "security",
+    "source": "Q062"
+  },
+  {
+    "term": "パープルチーミング",
+    "def": "レッドチーム（攻撃者視点）とブルーチーム（防御者視点）が協力してセキュリティを改善する手法。レッドの知見をブルーの検知・対応力向上にリアルタイムで活かす。",
+    "aliases": [
+      "パープルチーミング"
+    ],
+    "track": "security",
+    "source": "Q335"
+  },
+  {
+    "term": "ヒューリスティック",
+    "def": "厳密な最適解を求めるのが不可能（or非現実的）な問題で、「十分良い解」を見つける方法の総称。AtCoder Heuristic Contest (AHC)で使う。",
+    "aliases": [
+      "ヒューリスティック"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ヒープ（Heap / 優先度付きキュー）",
+    "def": "最小値（or最大値）を常にO(logN)で取り出せるデータ構造。Pythonでは`heapq`モジュール。最大ヒープにしたいときは値を負にして入れる（`heappush(pq, -v)`）。",
+    "aliases": [
+      "ヒープ（Heap / 優先度付きキュー）",
+      "Heap / 優先度付きキュー",
+      "Heap",
+      "優先度付きキュー",
+      "ヒープ"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ヒープ（優先度付きキュー）が効くアルゴリズムを3つと理由",
+    "def": "ダイクストラ（未確定の最小距離を効率取得）、ハフマン符号（最小頻度2つの結合を反復）、イベントスケジューリング/マージ（次に処理すべき最小要素）。共通点は「動的な集合から最小/最大を繰り返し取り出す」構造でO(log n)取得が効く。",
+    "aliases": [
+      "ヒープ（優先度付きキュー）が効くアルゴリズムを3つと理由",
+      "優先度付きキュー",
+      "ヒープが効くアルゴリズムを3つと理由"
+    ],
+    "track": "security",
+    "source": "Q703"
+  },
+  {
+    "term": "ビジネスメール詐欺（BEC）",
+    "def": "取引先・経営者を装い送金等を指示。多要素確認、手続きの二重確認。",
+    "aliases": [
+      "ビジネスメール詐欺（BEC）",
+      "BEC",
+      "ビジネスメール詐欺"
+    ],
+    "track": "security",
+    "source": "Q097"
+  },
+  {
+    "term": "ビジネスロジック攻撃",
+    "def": "アプリケーションの業務フローの設計上の欠陥を悪用する攻撃（価格操作、手順スキップ等）。WAFやSASTでは検出困難。脅威モデリングとロジックテストで対策。",
+    "aliases": [
+      "ビジネスロジック攻撃"
+    ],
+    "track": "security",
+    "source": "Q339"
+  },
+  {
+    "term": "ビットDP",
+    "def": "集合をビットマスクで表して状態にするDP。dp[bit][v]=「bitで表される頂点集合を訪問済みで、今vにいるときの最小コスト」。巡回セールスマン問題(TSP)が代表例。",
+    "aliases": [
+      "ビットDP"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ビット全探索",
+    "def": "N個の要素それぞれに「使う/使わない」の2択があるとき、全パターン（2^N通り）を試す方法。N≤20なら現実的（2^20≈100万）。`for bit in range(1 << N)` で全パターンを列挙し、`bit & (1 << i)` でi番目が選ばれているか確認する。",
+    "aliases": [
+      "ビット全探索"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ビット演算",
+    "def": "整数を2進数として各桁(ビット)を操作する演算。`&`(AND), `|`(OR), `^`(XOR), `<<`(左シフト), `>>`(右シフト)。集合の「選ぶ/選ばない」をビットで表現できる。",
+    "aliases": [
+      "ビット演算"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ファイルシステムのi-node",
+    "def": "UNIXでファイルのメタデータ（所有者、権限、サイズ、データブロック位置等）を格納するデータ構造。ファイル名はディレクトリエントリに格納。",
+    "aliases": [
+      "ファイルシステムのi-node"
+    ],
+    "track": "security",
+    "source": "Q457"
+  },
+  {
+    "term": "ファイルレスマルウェア",
+    "def": "ディスクにファイルを書き込まず、メモリ上やOS標準ツール（PowerShell等）で動作するマルウェア。従来のファイルスキャン型アンチウイルスで検知しにくい。EDR/振る舞い検知で対策。",
+    "aliases": [
+      "ファイルレスマルウェア"
+    ],
+    "track": "security",
+    "source": "Q322"
+  },
+  {
+    "term": "ファジング（Fuzz Testing）",
+    "def": "ランダムまたは半構造化した入力を大量に与え、クラッシュや異常動作を引き起こす脆弱性を探す手法。バッファオーバーフロー等の発見に有効。AFL、libFuzzer等。",
+    "aliases": [
+      "ファジング（Fuzz Testing）",
+      "Fuzz Testing",
+      "ファジング"
+    ],
+    "track": "security",
+    "source": "Q390"
+  },
+  {
+    "term": "ファンクションポイント法",
+    "def": "ソフトウェアの機能量（入力、出力、照会、ファイル等）を基に規模を見積もる手法。言語やツールに依存しない。",
+    "aliases": [
+      "ファンクションポイント法"
+    ],
+    "track": "security",
+    "source": "Q488"
+  },
+  {
+    "term": "フィッシング",
+    "def": "偽サイト・偽メールで認証情報等を盗む。利用者教育、MFA、DMARC等。",
+    "aliases": [
+      "フィッシング"
+    ],
+    "track": "security",
+    "source": "Q084"
+  },
+  {
+    "term": "フェイルセキュアとフェイルオープン",
+    "def": "フェイルセキュア: 障害時にアクセスを拒否する（安全側）。フェイルオープン: 障害時にアクセスを許可する。セキュリティ用途ではフェイルセキュアが原則。",
+    "aliases": [
+      "フェイルセキュアとフェイルオープン"
+    ],
+    "track": "security",
+    "source": "Q402"
+  },
+  {
+    "term": "フェイルセーフとフェイルソフト",
+    "def": "フェイルセーフ: 故障時に安全側に停止。フェイルソフト: 故障時に機能を縮退して運用継続。フールプルーフは人為ミス防止。",
+    "aliases": [
+      "フェイルセーフとフェイルソフト"
+    ],
+    "track": "security",
+    "source": "Q475"
+  },
+  {
+    "term": "フェデレーション認証",
+    "def": "組織をまたいで認証情報を連携（SAML、OpenID Connect等）。IdPとSPの役割分担。",
+    "aliases": [
+      "フェデレーション認証"
+    ],
+    "track": "security",
+    "source": "Q049"
+  },
+  {
+    "term": "フェルマーの小定理",
+    "def": "pが素数のとき、`a^(p-1) ≡ 1 (mod p)`。これを使うと`a`の逆元（mod pでの「1/a」）が`a^(p-2) mod p`で求まる。Pythonでは`pow(a, MOD-2, MOD)`。",
+    "aliases": [
+      "フェルマーの小定理"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ブラックボックステストとホワイトボックステスト",
+    "def": "ブラックボックス: 内部構造を知らず入出力で検証。ホワイトボックス: 内部構造（分岐、パス等）を基に検証。",
+    "aliases": [
+      "ブラックボックステストとホワイトボックステスト"
+    ],
+    "track": "security",
+    "source": "Q477"
+  },
+  {
+    "term": "ブルートフォースと辞書攻撃",
+    "def": "総当たりがブルート。よくある単語・パターンを試すのが辞書。レート制限・ロックアウト・複雑性。",
+    "aliases": [
+      "ブルートフォースと辞書攻撃"
+    ],
+    "track": "security",
+    "source": "Q063"
+  },
+  {
+    "term": "ブロック暗号のモード CBC と CTR",
+    "def": "CBCは前ブロックの暗号文とXORして連鎖。並列暗号化が難しい。CTRはカウンタを暗号化した鍵ストリームとXOR。並列化しやすい。いずれもIV/nonceの使い方が重要。",
+    "aliases": [
+      "ブロック暗号のモード CBC と CTR"
+    ],
+    "track": "security",
+    "source": "Q004"
+  },
+  {
+    "term": "プライバシーバイデザイン",
+    "def": "設計段階から個人情報保護を組み込む考え方。",
+    "aliases": [
+      "プライバシーバイデザイン"
+    ],
+    "track": "security",
+    "source": "Q160"
+  },
+  {
+    "term": "プリエンプティブとノンプリエンプティブ",
+    "def": "プリエンプティブ: OSが強制的にCPUを切り替える。ノンプリエンプティブ: プロセスが自発的にCPUを解放するまで待つ。現代OSはプリエンプティブが主流。",
+    "aliases": [
+      "プリエンプティブとノンプリエンプティブ"
+    ],
+    "track": "security",
+    "source": "Q452"
+  },
+  {
+    "term": "プロキシサーバのセキュリティ上",
+    "def": "アクセス制御、ログ、コンテンツ検査、匿名性の制御。",
+    "aliases": [
+      "プロキシサーバのセキュリティ上"
+    ],
+    "track": "security",
+    "source": "Q118"
+  },
+  {
+    "term": "プロキシサーバのフォワードプロキシとリバースプロキシ",
+    "def": "フォワードプロキシ: クライアント側に配置。クライアントの代理でインターネットへアクセス。アクセス制御、キャッシュ、匿名化。リバースプロキシ: サーバ側に配置。外部からのアクセスを受けて背後のサーバに振り分け。負荷分散、SSL終端、WAF。",
+    "aliases": [
+      "プロキシサーバのフォワードプロキシとリバースプロキシ"
+    ],
+    "track": "security",
+    "source": "Q559"
+  },
+  {
+    "term": "ペアワイズテスト（オールペア法）",
+    "def": "全パラメータの全組合せ（直交表）ではなく、任意の2パラメータの全値組合せを網羅するテストケース集合を生成する手法。テストケース数を大幅に削減しつつ、2因子間の相互作用による不具合を検出。ツール（PICT等）で自動生成。",
+    "aliases": [
+      "ペアワイズテスト（オールペア法）",
+      "オールペア法",
+      "ペアワイズテスト"
+    ],
+    "track": "security",
+    "source": "Q600"
+  },
+  {
+    "term": "ページフォールト発生時の処理手順",
+    "def": "①CPUがページテーブルを参照し有効ビットが0（不在）を検出 → ②ページフォールト割込み発生 → ③OSが空きフレームを探す（なければページ置換） → ④ディスクから該当ページを読み込み → ⑤ページテーブル更新 → ⑥中断された命令を再実行。",
+    "aliases": [
+      "ページフォールト発生時の処理手順"
+    ],
+    "track": "security",
+    "source": "Q502"
+  },
+  {
+    "term": "ページ置換アルゴリズムのLRU",
+    "def": "Least Recently Used。最も長く使われていないページを置換対象にする。局所性の原理に基づく。",
+    "aliases": [
+      "ページ置換アルゴリズムのLRU"
+    ],
+    "track": "security",
+    "source": "Q455"
+  },
+  {
+    "term": "ホットスタンバイとコールドスタンバイ",
+    "def": "ホットスタンバイ: 待機系が常に起動・同期済みで、障害時に即座に切替（切替時間: 秒〜分）。コスト高。コールドスタンバイ: 待機系は停止状態で、障害時に起動・設定してから切替（切替時間: 分〜時間）。コスト低。ウォームスタンバイはその中間。",
+    "aliases": [
+      "ホットスタンバイとコールドスタンバイ"
+    ],
+    "track": "security",
+    "source": "Q584"
+  },
+  {
+    "term": "ホモモルフィック暗号（準同型暗号）",
+    "def": "暗号化したまま演算ができる暗号。復号せずにデータ処理が可能。プライバシー保護計算に期待されるが、現時点では性能課題が大きい。",
+    "aliases": [
+      "ホモモルフィック暗号（準同型暗号）",
+      "準同型暗号",
+      "ホモモルフィック暗号"
+    ],
+    "track": "security",
+    "source": "Q245"
+  },
+  {
+    "term": "ボイスコッド正規形（BCNF）",
+    "def": "すべての関数従属の決定項（左辺）が候補キーであること。第3正規形では候補キーの一部が決定項でも許される場合がある（候補キーが複数あるとき）。BCNFはより厳格で、第3正規形だがBCNFでない例は候補キーが重複する特殊ケースに限られる。",
+    "aliases": [
+      "ボイスコッド正規形（BCNF）",
+      "BCNF",
+      "ボイスコッド正規形"
+    ],
+    "track": "security",
+    "source": "Q521"
+  },
+  {
+    "term": "ポートスキャン",
+    "def": "開いているサービスを探る偵察。防御側は不要ポート閉鎖、監視、おとり。",
+    "aliases": [
+      "ポートスキャン"
+    ],
+    "track": "security",
+    "source": "Q093"
+  },
+  {
+    "term": "マイクロサービスの利点と、増える課題",
+    "def": "利点: 独立デプロイ・技術選定の自由・障害の局所化・チーム分割。課題: 分散トランザクション（Sagaで結果整合）、ネットワーク遅延・障害、監視/トレーシングの複雑化、認証認可の各サービス伝播。モノリスで足りるなら過剰投資になる。",
+    "aliases": [
+      "マイクロサービスの利点と、増える課題"
+    ],
+    "track": "security",
+    "source": "Q711"
+  },
+  {
+    "term": "マイクロセグメンテーション",
+    "def": "ワークロード単位で細かく通信を制御。データセンタ／クラウドで横展開防止。",
+    "aliases": [
+      "マイクロセグメンテーション"
+    ],
+    "track": "security",
+    "source": "Q124"
+  },
+  {
+    "term": "マネジメントレビューで確認すべきこ",
+    "def": "監査結果、インシデント傾向、リスクアセスメントの変化、是正処置の状況、改善機会。経営層が実効性を判断し方針を見直す。",
+    "aliases": [
+      "マネジメントレビューで確認すべきこ"
+    ],
+    "track": "security",
+    "source": "Q424"
+  },
+  {
+    "term": "マークルツリー（ハッシュ木）",
+    "def": "葉ノードのハッシュを対ごとに結合・再ハッシュして根（ルートハッシュ）を得る木構造。データの部分検証が可能。ブロックチェーンや証明書透過性で利用。",
+    "aliases": [
+      "マークルツリー（ハッシュ木）",
+      "ハッシュ木",
+      "マークルツリー"
+    ],
+    "track": "security",
+    "source": "Q235"
+  },
+  {
+    "term": "ミニマックス法",
+    "def": "2人ゲームで先手はスコア最大（max）、後手は最小（min）を選ぶ前提で、全局面を下から畳み込んで最適解を求める方法。木構造のゲームに使う。",
+    "aliases": [
+      "ミニマックス法"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "メッセージ認証コード（MAC）とデジタル署名",
+    "def": "MACは共通鍵。否認防止は弱い（両者同じ鍵を持つ）。署名は公開鍵で検証でき、否認防止が強い。",
+    "aliases": [
+      "メッセージ認証コード（MAC）とデジタル署名",
+      "MAC",
+      "メッセージ認証コードとデジタル署名"
+    ],
+    "track": "security",
+    "source": "Q015"
+  },
+  {
+    "term": "ライトスルーとライトバック",
+    "def": "ライトスルー: 書込み時にキャッシュと主記憶の両方に同時書込み。一貫性は保たれるが書込みが遅い。ライトバック: キャッシュのみに書込み、追い出し時に主記憶へ反映。高速だが一貫性管理が複雑（ダーティビットで管理）。",
+    "aliases": [
+      "ライトスルーとライトバック"
+    ],
+    "track": "security",
+    "source": "Q509"
+  },
+  {
+    "term": "ライブマイグレーション",
+    "def": "仮想マシンを稼働させたまま別の物理ホストに移動する技術。メモリ内容を段階的にコピーし、最後に短時間の停止で切替。サーバ保守時のダウンタイム回避、負荷分散に活用。前提としてストレージの共有が必要な場合が多い。",
+    "aliases": [
+      "ライブマイグレーション"
+    ],
+    "track": "security",
+    "source": "Q590"
+  },
+  {
+    "term": "ラウンドロビンスケジューリング",
+    "def": "各プロセスに均等なタイムスライスを与え、順番にCPUを割り当てる方式。公平だがタイムスライスの大きさが性能に影響。",
+    "aliases": [
+      "ラウンドロビンスケジューリング"
+    ],
+    "track": "security",
+    "source": "Q453"
+  },
+  {
+    "term": "ランサムウェア",
+    "def": "暗号化等で業務を人質に金銭要求。バックアップ（オフライン）、権限分離、パッチ、訓練。",
+    "aliases": [
+      "ランサムウェア"
+    ],
+    "track": "security",
+    "source": "Q086"
+  },
+  {
+    "term": "リスクベース認証",
+    "def": "ログイン時のIPアドレス・デバイス・行動パターン等からリスクスコアを算出し、高リスク時のみ追加認証を要求。通常時の利便性を維持。",
+    "aliases": [
+      "リスクベース認証"
+    ],
+    "track": "security",
+    "source": "Q290"
+  },
+  {
+    "term": "リスク対応戦略の回避・転嫁・軽減・受容",
+    "def": "回避: リスクの原因を排除（要件の削除等）。転嫁: 第三者にリスクを移転（保険、外注）。軽減: 発生確率や影響を低減する措置を講じる（テスト強化等）。受容: リスクを認識した上で対策を取らない（コンティンジェンシー計画のみ用意）。好機（ポジティブリスク）には活用・共有・強化・受容がある。",
+    "aliases": [
+      "リスク対応戦略の回避・転嫁・軽減・受容"
+    ],
+    "track": "security",
+    "source": "Q617"
+  },
+  {
+    "term": "リファクタリング",
+    "def": "外部から見た振る舞いを変えずに内部構造を改善すること。可読性・保守性の向上、重複コードの排除、設計の改善が目的。テスト（特に回帰テスト）が十分に存在することが前提。機能追加やバグ修正とは別作業として行う。",
+    "aliases": [
+      "リファクタリング"
+    ],
+    "track": "security",
+    "source": "Q608"
+  },
+  {
+    "term": "リプレイ攻撃",
+    "def": "正当な通信を録画して再送する攻撃。nonce、タイムスタンプ、ワンタイムトークンで防ぐ。",
+    "aliases": [
+      "リプレイ攻撃"
+    ],
+    "track": "security",
+    "source": "Q055"
+  },
+  {
+    "term": "リリース管理・展開管理",
+    "def": "承認された変更を本番環境に安全に展開すること。リリースの種類: メジャー/マイナー/緊急パッチ。展開方式: ビッグバン（一斉）/段階的/プッシュ（強制配布）/プル（利用者が取得）。ロールバック計画を事前に用意。",
+    "aliases": [
+      "リリース管理・展開管理"
+    ],
+    "track": "security",
+    "source": "Q629"
+  },
+  {
+    "term": "ルーティングの静的と動的",
+    "def": "静的: 管理者が手動設定。小規模向き。動的: OSPF、BGP等のプロトコルで自動学習。大規模向き。",
+    "aliases": [
+      "ルーティングの静的と動的"
+    ],
+    "track": "security",
+    "source": "Q471"
+  },
+  {
+    "term": "レースコンディション（TOCTOU）",
+    "def": "確認と利用の間に状態が変わる競合。原子的操作、適切なロック。",
+    "aliases": [
+      "レースコンディション（TOCTOU）",
+      "TOCTOU",
+      "レースコンディション"
+    ],
+    "track": "security",
+    "source": "Q078"
+  },
+  {
+    "term": "レートリミット",
+    "def": "過負荷・総当たり・スクレイピング抑制。429等。",
+    "aliases": [
+      "レートリミット"
+    ],
+    "track": "security",
+    "source": "Q121"
+  },
+  {
+    "term": "ローリングハッシュ",
+    "def": "文字列の部分文字列を数値（ハッシュ値）で表し、部分文字列の比較をO(1)で行うテクニック。ハッシュ値の差分更新でスライドしながら計算する。",
+    "aliases": [
+      "ローリングハッシュ"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "ワーキングセット",
+    "def": "ある時間窓内でプロセスが参照するページの集合。物理メモリがワーキングセット全体を収容できないとページフォルトが頻発しスラッシングに陥る。対策はメモリ増設、多重度の制御、プロセスのスワップアウト。",
+    "aliases": [
+      "ワーキングセット"
+    ],
+    "track": "security",
+    "source": "Q503"
+  },
+  {
+    "term": "ワーシャルフロイド法の特徴は？ダイクストラ法と",
+    "def": "全点対間最短経路を求める。動的計画法ベースで計算量O(V³)。負の辺も扱えるが負の閉路は不可。ダイクストラは単一始点でO((V+E)log V)。全点対が必要ならワーシャルフロイド、単一始点なら複数回ダイクストラも選択肢。",
+    "aliases": [
+      "ワーシャルフロイド法の特徴は？ダイクストラ法と"
+    ],
+    "track": "security",
+    "source": "Q572"
+  },
+  {
+    "term": "中間者攻撃（MITM）",
+    "def": "通信の間に入り盗聴・改ざんする攻撃。TLSと正しい証明書検証で防ぐ。検証をスキップすると無効。",
+    "aliases": [
+      "中間者攻撃（MITM）",
+      "MITM",
+      "中間者攻撃"
+    ],
+    "track": "security",
+    "source": "Q040"
+  },
+  {
+    "term": "二分探索+貪欲判定",
+    "def": "「答えをXとしたとき実現可能か？」を貪欲法でO(N)で判定し、Xを二分探索する組み合わせ。「最小値の最大化」「最大値の最小化」問題の定番パターン。",
+    "aliases": [
+      "二分探索+貪欲判定"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "二分探索（にぶんたんさく）",
+    "def": "ソート済みの範囲を毎回半分に絞って答えを見つける方法。1000個の中から探すのに、全探索なら最大1000回、二分探索なら約10回(log₂1000≈10)で済む。",
+    "aliases": [
+      "二分探索（にぶんたんさく）",
+      "にぶんたんさく",
+      "二分探索"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "二分木の3つの走査順序",
+    "def": "前順（preorder）: 根→左→右。中順（inorder）: 左→根→右（二分探索木ではソート順になる）。後順（postorder）: 左→右→根。幅優先（レベル順）走査はキューを使う。前順は木のコピー、後順は削除処理に適する。",
+    "aliases": [
+      "二分木の3つの走査順序"
+    ],
+    "track": "security",
+    "source": "Q569"
+  },
+  {
+    "term": "二部マッチング",
+    "def": "2つのグループ間で、条件を満たすペアを最大数作る問題。最大フロー（Dinic法）に帰着できる。学生と席の割り当てなど。",
+    "aliases": [
+      "二部マッチング"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "交換証明（こうかんしょうめい）",
+    "def": "貪欲法の正当性を示す方法。「最適解で貪欲でない選択をしている部分を貪欲な選択に交換しても、結果が悪くならない」ことを示す。",
+    "aliases": [
+      "交換証明（こうかんしょうめい）",
+      "こうかんしょうめい",
+      "交換証明"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "仮名加工情報",
+    "def": "他の情報と照合しない限り特定個人を識別できないように加工した情報。内部利用に限り、目的外利用や第三者提供の制限が緩和される。",
+    "aliases": [
+      "仮名加工情報"
+    ],
+    "track": "security",
+    "source": "Q428"
+  },
+  {
+    "term": "仮想アドレスから物理アドレスへの変換とTLB",
+    "def": "MMUが多段ページテーブルを辿って変換（ページウォーク）。TLB（Translation Lookaside Buffer）は変換結果のキャッシュで、ヒットすればページウォークを省ける。コンテキストスイッチでTLBフラッシュが必要になり、これがMeltdown/Spectre対策（KPTI）の性能コストの一因。",
+    "aliases": [
+      "仮想アドレスから物理アドレスへの変換とTLB"
+    ],
+    "track": "security",
+    "source": "Q657"
+  },
+  {
+    "term": "仮想記憶のページング",
+    "def": "メモリを固定サイズのページに分割し、必要なページだけ物理メモリに配置する。ページフォルト時にディスクから読み込む。",
+    "aliases": [
+      "仮想記憶のページング"
+    ],
+    "track": "security",
+    "source": "Q454"
+  },
+  {
+    "term": "依存ライブラリ管理でやるこ",
+    "def": "SBOM、既知脆弱性監視、更新、ライセンス確認。",
+    "aliases": [
+      "依存ライブラリ管理でやるこ"
+    ],
+    "track": "security",
+    "source": "Q150"
+  },
+  {
+    "term": "依存関係かく乱攻撃（Dependency Confusion）",
+    "def": "内部パッケージと同名のパッケージを公開リポジトリに登録し、ビルドシステムに悪意あるパッケージを取得させる。名前空間の予約やプライベートレジストリの優先設定で対策。",
+    "aliases": [
+      "依存関係かく乱攻撃（Dependency Confusion）",
+      "Dependency Confusion",
+      "依存関係かく乱攻撃"
+    ],
+    "track": "security",
+    "source": "Q329"
+  },
+  {
+    "term": "個人データの安全管理措置",
+    "def": "組織的・人的・物理的・技術的措置。委託先監督も含む。",
+    "aliases": [
+      "個人データの安全管理措置"
+    ],
+    "track": "security",
+    "source": "Q183"
+  },
+  {
+    "term": "個人情報保護法とGDPRの十分性認定",
+    "def": "日EU間で相互に個人データ移転を認める枠組み。日本は補完的ルールを設けて十分性認定を取得。これにより標準契約条項（SCC）なしで移転可能。",
+    "aliases": [
+      "個人情報保護法とGDPRの十分性認定"
+    ],
+    "track": "security",
+    "source": "Q440"
+  },
+  {
+    "term": "償却計算量（amortized）",
+    "def": "個々の操作は高コストでも、一連の操作で平均すれば低コストになる評価。動的配列のappendは通常O(1)だが、容量超過時に倍サイズへ再確保（O(n)）。倍々に増やすと再確保は稀で、全体を均すと1回あたりO(1)に償却される。",
+    "aliases": [
+      "償却計算量（amortized）",
+      "amortized",
+      "償却計算量"
+    ],
+    "track": "security",
+    "source": "Q695"
+  },
+  {
+    "term": "優先度スケジューリングの静的と動的",
+    "def": "静的優先度: プロセス生成時に固定（リアルタイムOS等）。動的優先度: 実行状況に応じて変動（エイジングで飢餓防止）。プリエンプティブ方式では高優先度プロセスが即座にCPUを奪取する。",
+    "aliases": [
+      "優先度スケジューリングの静的と動的"
+    ],
+    "track": "security",
+    "source": "Q518"
+  },
+  {
+    "term": "全探索（ぜんたんさく）",
+    "def": "答えの候補を1つずつ全部試して正解を見つける方法。「全部やれば絶対見つかる」という最も確実な戦略。迷ったらまず全探索を考える。",
+    "aliases": [
+      "全探索（ぜんたんさく）",
+      "ぜんたんさく",
+      "全探索"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "共通鍵暗号と公開鍵暗号",
+    "def": "共通鍵は暗号化・復号に同じ鍵。高速だが鍵配送が課題。公開鍵は公開鍵で暗号化・秘密鍵で復号（または署名の逆）。鍵配送は楽だが遅い。実務では共通鍵で本文、公開鍵で鍵配送（ハイブリッド）が定石。",
+    "aliases": [
+      "共通鍵暗号と公開鍵暗号"
+    ],
+    "track": "security",
+    "source": "Q001"
+  },
+  {
+    "term": "内部監査",
+    "def": "方針・手順の遵守と有効性を独立に確認し、改善につなげる。",
+    "aliases": [
+      "内部監査"
+    ],
+    "track": "security",
+    "source": "Q176"
+  },
+  {
+    "term": "内部監査と外部監査",
+    "def": "内部監査: 自組織の人員が実施、改善目的。外部監査: 第三者機関が実施、認証取得・維持が目的。独立性と客観性のレベルが異なる。",
+    "aliases": [
+      "内部監査と外部監査"
+    ],
+    "track": "security",
+    "source": "Q409"
+  },
+  {
+    "term": "再帰呼び出しのスタック消費",
+    "def": "再帰呼び出しごとにコールスタックにフレーム（引数、戻り先等）が積まれる。深い再帰はスタックオーバーフローの原因。末尾再帰は関数の最後で再帰呼び出しを行う形で、コンパイラが最適化するとスタック消費がO(1)になる（末尾呼び出し最適化）。",
+    "aliases": [
+      "再帰呼び出しのスタック消費"
+    ],
+    "track": "security",
+    "source": "Q576"
+  },
+  {
+    "term": "分割統治法とDP",
+    "def": "分割統治: 部分問題が独立（重複しない）で、統合する（マージソート等）。DP: 部分問題が重複するので結果を記憶して再利用（メモ化/表）。重複がなければ分割統治、重複が多ければDP。フィボナッチの素朴再帰が重複の典型。",
+    "aliases": [
+      "分割統治法とDP"
+    ],
+    "track": "security",
+    "source": "Q698"
+  },
+  {
+    "term": "初動でやってはいけないこ",
+    "def": "証拠を壊す雑な操作、報告なしの独自判断、被害拡大につながる公開。手順と連絡体制に従う。",
+    "aliases": [
+      "初動でやってはいけないこ"
+    ],
+    "track": "security",
+    "source": "Q170"
+  },
+  {
+    "term": "初期化ベクトル（IV）",
+    "def": "同じ鍵・同じ平文でも暗号文を変えるための乱数的な値。予測可能・再利用だと安全性が落ちる。",
+    "aliases": [
+      "初期化ベクトル（IV）",
+      "IV",
+      "初期化ベクトル"
+    ],
+    "track": "security",
+    "source": "Q006"
+  },
+  {
+    "term": "前方秘匿性（PFS / Forward Secrecy）",
+    "def": "長期鍵が漏洩しても過去の通信は復号できない性質。一時鍵（ephemeral）を使う鍵交換（DHE/ECDHE）で実現。",
+    "aliases": [
+      "前方秘匿性（PFS / Forward Secrecy）",
+      "PFS / Forward Secrecy",
+      "PFS",
+      "前方秘匿性"
+    ],
+    "track": "security",
+    "source": "Q227"
+  },
+  {
+    "term": "前方秘匿性（PFS）",
+    "def": "セッションごとに使い捨ての鍵（ECDHEの一時鍵）を使い、長期秘密鍵が将来漏れても過去の通信を復号できない性質。記録して後で解読する「収集して後で復号」攻撃を無力化する。RSA鍵交換にはPFSがない。",
+    "aliases": [
+      "前方秘匿性（PFS）",
+      "PFS",
+      "前方秘匿性"
+    ],
+    "track": "security",
+    "source": "Q680"
+  },
+  {
+    "term": "労働者派遣法と偽装請負",
+    "def": "労働者派遣: 派遣元が雇用し派遣先が指揮命令。派遣法の規制あり（期間制限、同一労働同一賃金等）。偽装請負: 形式は請負・委任だが実態は派遣先が直接指揮命令。違法。判断基準は「誰が業務の指示・管理をしているか」。二重派遣も禁止。",
+    "aliases": [
+      "労働者派遣法と偽装請負"
+    ],
+    "track": "security",
+    "source": "Q643"
+  },
+  {
+    "term": "動的計画法（DP: Dynamic Programming）",
+    "def": "「大きな問題を小さな部分問題に分解し、その答えをテーブルに記録して再利用する」方法。再帰で同じ計算を何度もするのを防ぐ。dp[i]が「iの状態での最適値」を表す。",
+    "aliases": [
+      "動的計画法（DP: Dynamic Programming）",
+      "DP: Dynamic Programming",
+      "DP",
+      "動的計画法"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "包除原理（ほうじょげんり）",
+    "def": "「AまたはB」= A + B − AかつB。2次元累積和で矩形の和を求めるときに使う：右下全体 − 上の余白 − 左の余白 + 二重に引いた左上。",
+    "aliases": [
+      "包除原理（ほうじょげんり）",
+      "ほうじょげんり",
+      "包除原理"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "区間DP",
+    "def": "dp[l][r]=「区間[l,r]での最適値」として、区間の幅を広げながら計算するDP。カードゲームやブロック除去で使う。",
+    "aliases": [
+      "区間DP"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "区間スケジューリング",
+    "def": "複数の仕事[開始,終了]から重ならずに最大数選ぶ問題。**終了時刻が早い順にソート**して、重ならないものを順に選ぶ。直感: 早く終わる仕事を選べば次の仕事の余地が最大になる。",
+    "aliases": [
+      "区間スケジューリング"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "半分全列挙（はんぶんぜんれっきょ）",
+    "def": "N個の要素を前半・後半に分けてそれぞれ全探索し、二分探索で組み合わせる。O(2^N)をO(2^(N/2)·log)に削減。N=40でも使える（2^20≈100万×2回）。",
+    "aliases": [
+      "半分全列挙（はんぶんぜんれっきょ）",
+      "はんぶんぜんれっきょ",
+      "半分全列挙"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "単調スタック",
+    "def": "スタック内の要素が常に単調増加（or単調減少）になるように管理するテクニック。「各要素の左側で最初に大きい値」のような問題をO(N)で解ける。",
+    "aliases": [
+      "単調スタック"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "単調性（たんちょうせい）",
+    "def": "「ある値を境に、それ以下は全部NG、それ以上は全部OK」のように結果が切り替わる性質。二分探索はこの性質がないと使えない。",
+    "aliases": [
+      "単調性（たんちょうせい）",
+      "たんちょうせい",
+      "単調性"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "反転フラグ",
+    "def": "配列を実際に反転（O(N)）せず、「今反転中か？」のフラグ1つで管理するトリック。反転中なら `A[N-1-i]` でアクセス。反転操作がO(1)になる。",
+    "aliases": [
+      "反転フラグ"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "同値分割法と境界値分析",
+    "def": "同値分割: 入力を有効/無効グループに分け代表値をテスト。境界値: グループの境界上と境界付近を重点テスト。境界にバグが集中する。",
+    "aliases": [
+      "同値分割法と境界値分析"
+    ],
+    "track": "security",
+    "source": "Q478"
+  },
+  {
+    "term": "商標権・意匠権・実用新案権",
+    "def": "商標権: ブランド名・ロゴ等の標識を保護。更新により半永久的に存続。意匠権: 製品のデザイン（形状・模様・色彩）を保護。出願から25年。実用新案権: 小発明（物品の形状・構造・組合せ）を保護。無審査で登録、出願から10年。特許より保護範囲が狭い。",
+    "aliases": [
+      "商標権・意匠権・実用新案権"
+    ],
+    "track": "security",
+    "source": "Q640"
+  },
+  {
+    "term": "回帰テスト（リグレッションテスト）",
+    "def": "変更・修正後に既存機能に影響がないことを確認するテスト。CI/CDで自動化が重要。",
+    "aliases": [
+      "回帰テスト（リグレッションテスト）",
+      "リグレッションテスト",
+      "回帰テスト"
+    ],
+    "track": "security",
+    "source": "Q479"
+  },
+  {
+    "term": "増幅攻撃（アンプ）",
+    "def": "小さな要求で大きな応答を返すサーバを悪用し被害者へ反射。オープンリゾルバ対策等。",
+    "aliases": [
+      "増幅攻撃（アンプ）",
+      "アンプ",
+      "増幅攻撃"
+    ],
+    "track": "security",
+    "source": "Q092"
+  },
+  {
+    "term": "変更管理のCAB（Change Advisory Board）",
+    "def": "変更要求を評価・承認する諮問委員会。変更のリスク、影響、テスト計画を審議。緊急変更は事後承認の場合あり。",
+    "aliases": [
+      "変更管理のCAB（Change Advisory Board）",
+      "Change Advisory Board",
+      "変更管理のCAB"
+    ],
+    "track": "security",
+    "source": "Q491"
+  },
+  {
+    "term": "多段階攻撃（APT）のキルチェーン",
+    "def": "Lockheed Martinのモデル: 偵察→武器化→配送→エクスプロイト→インストール→C2→目的実行。各段階での検知・遮断が多層防御の考え方。",
+    "aliases": [
+      "多段階攻撃（APT）のキルチェーン",
+      "APT",
+      "多段階攻撃のキルチェーン"
+    ],
+    "track": "security",
+    "source": "Q340"
+  },
+  {
+    "term": "安定ソートと不安定ソート",
+    "def": "安定ソート: 同じキー値の要素の相対順序が保存される。マージソート、挿入ソート、バブルソートが安定。不安定ソート: 相対順序が保証されない。クイックソート、ヒープソート、選択ソートが不安定。複数キーでのソートでは安定性が重要。",
+    "aliases": [
+      "安定ソートと不安定ソート"
+    ],
+    "track": "security",
+    "source": "Q562"
+  },
+  {
+    "term": "定性的リスク分析と定量的リスク分析",
+    "def": "定性的: リスクの発生確率と影響度をHigh/Medium/Lowで評価し、リスクマトリクスで優先度を決定。全リスクに実施。定量的: モンテカルロシミュレーション等で確率分布や金額を数値化。重大リスクに限定して実施。定性的→定量的の順で行う。",
+    "aliases": [
+      "定性的リスク分析と定量的リスク分析"
+    ],
+    "track": "security",
+    "source": "Q624"
+  },
+  {
+    "term": "定量分析と定性分析",
+    "def": "定量: 金額で評価（ALE等）。客観的だがデータ収集が困難。定性: 高/中/低等で評価。迅速だが主観的。実務では組み合わせが一般的。",
+    "aliases": [
+      "定量分析と定性分析"
+    ],
+    "track": "security",
+    "source": "Q418"
+  },
+  {
+    "term": "尺取り法（しゃくとりほう）",
+    "def": "区間[l,r]の両端を尺取り虫のように伸縮させて条件を満たす区間を数える方法。rを右に伸ばして条件を超えたらlを右に縮める。O(N)で全区間を調べられる。",
+    "aliases": [
+      "尺取り法（しゃくとりほう）",
+      "しゃくとりほう",
+      "尺取り法"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "山登り法（Hill Climbing）",
+    "def": "今の解から少し変えた「近傍解」を作り、スコアが改善されたら採用する。改善されなくなるまで繰り返す。局所最適に陥りやすいのが弱点。",
+    "aliases": [
+      "山登り法（Hill Climbing）",
+      "Hill Climbing",
+      "山登り法"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "差分配列",
+    "def": "いもす法で使う配列。「ここから始まる」「ここで終わる」だけを記録する。累積和を取ると元の値に復元できる。",
+    "aliases": [
+      "差分配列"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "座標圧縮（ざひょうあっしゅく）",
+    "def": "値が巨大（例: 10⁹）でも種類が少ない（例: N個）とき、値を0〜N-1の連番に置き換える。ソート→重複除去→bisect_leftで元の値をインデックスに変換。",
+    "aliases": [
+      "座標圧縮（ざひょうあっしゅく）",
+      "ざひょうあっしゅく",
+      "座標圧縮"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "情報セキュリティ委員会",
+    "def": "セキュリティ方針の審議・承認、リスクの報告、予算・人員の承認、重大インシデントの判断。経営層が参加し意思決定する場。",
+    "aliases": [
+      "情報セキュリティ委員会"
+    ],
+    "track": "security",
+    "source": "Q422"
+  },
+  {
+    "term": "排他ロックと共有ロック",
+    "def": "排他ロック: 他のトランザクションの読書きを両方ブロック。共有ロック: 読みは許可、書きをブロック。",
+    "aliases": [
+      "排他ロックと共有ロック"
+    ],
+    "track": "security",
+    "source": "Q464"
+  },
+  {
+    "term": "揮発性順序（RFC 3227）",
+    "def": "レジスタ・キャッシュ→メモリ→ネットワーク状態→実行中プロセス→ディスク→リムーバブルメディア→印刷物。揮発性が高い順に取得。",
+    "aliases": [
+      "揮発性順序（RFC 3227）",
+      "RFC 3227",
+      "揮発性順序"
+    ],
+    "track": "security",
+    "source": "Q373"
+  },
+  {
+    "term": "損益分岐点売上高の計算手順",
+    "def": "損益分岐点売上高 = 固定費/(1 - 変動費率)。変動費率 = 変動費/売上高。例: 固定費600万円、変動費率0.4 → 600万/(1-0.4) = 1000万円。売上1000万円で利益ゼロ。安全余裕率 = (実際売上 - 損益分岐点)/実際売上 × 100%で余裕度を評価。",
+    "aliases": [
+      "損益分岐点売上高の計算手順"
+    ],
+    "track": "security",
+    "source": "Q637"
+  },
+  {
+    "term": "教育・訓練",
+    "def": "人的対策。フィッシング訓練、インシデント手順の習熟。",
+    "aliases": [
+      "教育・訓練"
+    ],
+    "track": "security",
+    "source": "Q167"
+  },
+  {
+    "term": "暗号アルゴリズムの危殆化",
+    "def": "計算能力や攻撃手法の進歩で安全とみなせなくなること。移行計画が必要（例: SHA-1→SHA-2）。",
+    "aliases": [
+      "暗号アルゴリズムの危殆化"
+    ],
+    "track": "security",
+    "source": "Q024"
+  },
+  {
+    "term": "暗号スイート",
+    "def": "鍵交換・認証・共通鍵暗号・MAC等のアルゴリズム組み合わせ。弱いスイートは無効化する。",
+    "aliases": [
+      "暗号スイート"
+    ],
+    "track": "security",
+    "source": "Q035"
+  },
+  {
+    "term": "暗号化と符号化",
+    "def": "暗号化は鍵がないと戻せない（秘匿）。Base64等の符号化は誰でも戻せる（表現変換）。セキュリティ対策ではない。",
+    "aliases": [
+      "暗号化と符号化"
+    ],
+    "track": "security",
+    "source": "Q025"
+  },
+  {
+    "term": "最大フロー（Maximum Flow）",
+    "def": "ネットワーク（容量付き有向グラフ）で、始点から終点に流せる最大量を求める問題。",
+    "aliases": [
+      "最大フロー（Maximum Flow）",
+      "Maximum Flow",
+      "最大フロー"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "最小権限の原則",
+    "def": "業務に必要な最小限の権限だけ与える。侵害時の被害を限定。",
+    "aliases": [
+      "最小権限の原則"
+    ],
+    "track": "security",
+    "source": "Q059"
+  },
+  {
+    "term": "最小費用流（Minimum Cost Flow）",
+    "def": "最大フローに「各辺のコスト」が追加された問題。流量を満たしつつコスト最小にする。ベルマンフォード法で最短増加路を見つけて流す。",
+    "aliases": [
+      "最小費用流（Minimum Cost Flow）",
+      "Minimum Cost Flow",
+      "最小費用流"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "条件付きアクセス（Conditional Access）",
+    "def": "ユーザ・デバイス・場所・リスクレベル等の条件に基づきアクセスポリシーを動的に適用する仕組み。Azure AD等で実装。ゼロトラストの実装手段。",
+    "aliases": [
+      "条件付きアクセス（Conditional Access）",
+      "Conditional Access",
+      "条件付きアクセス"
+    ],
+    "track": "security",
+    "source": "Q280"
+  },
+  {
+    "term": "桁DP（けたDP）",
+    "def": "「N以下の整数で条件を満たすものの個数」を求めるDP。上の桁から1桁ずつ決めていく。**tight**フラグで「まだ上限ギリギリか？」を管理する。tightがTrueなら元の数字以下しか置けない、Falseなら0〜9自由。",
+    "aliases": [
+      "桁DP（けたDP）",
+      "けたDP",
+      "桁DP"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "楽観的制御と悲観的制御",
+    "def": "悲観的制御: 競合を前提とし、アクセス前にロックを取得。安全だが並行性が低下。楽観的制御: 競合は稀と想定し、コミット時に競合を検出。競合があればロールバック。読み取り中心のワークロードに適する。",
+    "aliases": [
+      "楽観的制御と悲観的制御"
+    ],
+    "track": "security",
+    "source": "Q528"
+  },
+  {
+    "term": "構成問題",
+    "def": "「条件を満たすものを1つ作れ」という問題。存在を示すだけでなく実際に出力する。正則グラフの構成などがある。",
+    "aliases": [
+      "構成問題"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "構成管理（SCM）のベースライン",
+    "def": "正式にレビュー・承認された成果物のスナップショット。以降の変更は変更管理プロセスを通じて行う。バージョン管理ツール（Git等）でタグやブランチとして管理。要件ベースライン、設計ベースライン等がある。",
+    "aliases": [
+      "構成管理（SCM）のベースライン",
+      "SCM",
+      "構成管理のベースライン"
+    ],
+    "track": "security",
+    "source": "Q609"
+  },
+  {
+    "term": "次元を落とす",
+    "def": "3重ループO(N³)が重いとき、1つの変数を固定して残りを工夫する（例: A+B+C=K → C=K-A-Bとして2重ループに）。",
+    "aliases": [
+      "次元を落とす"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "残留リスク",
+    "def": "対策後も残るリスク。受容するか追加対策するか経営判断。",
+    "aliases": [
+      "残留リスク"
+    ],
+    "track": "security",
+    "source": "Q165"
+  },
+  {
+    "term": "漸化式（ぜんかしき）",
+    "def": "dp[i]をdp[i-1]やdp[i-2]から求める式。例: `dp[i] = min(dp[i-1]+cost1, dp[i-2]+cost2)`。DPの本質は「どの漸化式を立てるか」。",
+    "aliases": [
+      "漸化式（ぜんかしき）",
+      "ぜんかしき",
+      "漸化式"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "焼きなまし法（Simulated Annealing / SA）",
+    "def": "山登り法の改良版。スコアが悪くなる近傍解も「温度」に応じた確率で受け入れる。温度は時間とともに下げる（最初は自由に探索、後半は最適解に収束）。局所最適を脱出できる。",
+    "aliases": [
+      "焼きなまし法（Simulated Annealing / SA）",
+      "Simulated Annealing / SA",
+      "SA",
+      "焼きなまし法"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "特権ID管理で重要なこ",
+    "def": "共用禁止、申請・承認、利用ログ、定期棚卸、緊急時手順。",
+    "aliases": [
+      "特権ID管理で重要なこ"
+    ],
+    "track": "security",
+    "source": "Q067"
+  },
+  {
+    "term": "特権操作の録画・セッション管理",
+    "def": "抑止と監査。インシデント時の追跡。",
+    "aliases": [
+      "特権操作の録画・セッション管理"
+    ],
+    "track": "security",
+    "source": "Q143"
+  },
+  {
+    "term": "状態空間BFS",
+    "def": "「盤面全体」や「ビットマスクで表した状態」を1つの頂点とみなしてBFSする方法。各状態から1手で到達できる状態を辺で繋ぐ。パズルの最小手数などに使う。",
+    "aliases": [
+      "状態空間BFS"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "理由",
+    "def": "「〜のため（本文根拠）。その結果〜を防ぐ/満たす」の2段が安定。",
+    "aliases": [
+      "理由"
+    ],
+    "track": "security",
+    "source": "Q203"
+  },
+  {
+    "term": "直列・並列・複合系の稼働率計算の手順",
+    "def": "直列: R = R1 × R2 × ... × Rn。並列: R = 1 - (1-R1)(1-R2)...(1-Rn)。複合系: 内側の並列/直列から計算し、段階的に合成する。例: 稼働率0.9の機器2台並列 → 1-(1-0.9)²=0.99。これが3組直列 → 0.99³≒0.970。",
+    "aliases": [
+      "直列・並列・複合系の稼働率計算の手順"
+    ],
+    "track": "security",
+    "source": "Q581"
+  },
+  {
+    "term": "直列化可能性（Serializability）",
+    "def": "複数トランザクションの並行実行結果が、何らかの逐次実行順序と同じ結果になること。競合直列化可能性（競合する操作の順序が一致）と、ビュー直列化可能性がある。2相ロックは競合直列化可能性を保証する手法。",
+    "aliases": [
+      "直列化可能性（Serializability）",
+      "Serializability",
+      "直列化可能性"
+    ],
+    "track": "security",
+    "source": "Q526"
+  },
+  {
+    "term": "相関副問合せ",
+    "def": "外側の問合せの各行ごとに内側の副問合せが評価される方式。内側が外側のテーブルの列を参照する。通常の副問合せは1回だけ評価されて結果が外側に渡される。相関副問合せは行数分繰り返すため一般にパフォーマンスが劣る。",
+    "aliases": [
+      "相関副問合せ"
+    ],
+    "track": "security",
+    "source": "Q522"
+  },
+  {
+    "term": "科目Bで最初にやるこ",
+    "def": "設問の「何を答えよ」（対策名/理由/手順/値）を丸で囲み、本文の該当箇所に線を引く。",
+    "aliases": [
+      "科目Bで最初にやるこ"
+    ],
+    "track": "security",
+    "source": "Q201"
+  },
+  {
+    "term": "答えに対する二分探索",
+    "def": "「答えがXだとしたら条件を満たすか？」をYes/Noで判定し、Xを二分探索する方法。例: 「K枚印刷する最短時間は？」→「T分以内にK枚印刷できるか？」で二分探索。最適化問題を判定問題に変換するテクニック。",
+    "aliases": [
+      "答えに対する二分探索"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "素数（そすう）",
+    "def": "1と自分自身以外に約数を持たない2以上の自然数。2, 3, 5, 7, 11, ...。1は素数ではない。",
+    "aliases": [
+      "素数（そすう）",
+      "そすう",
+      "素数"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "累積和（るいせきわ）",
+    "def": "配列の先頭からi番目までの合計を事前に計算しておく前処理。一度作れば、どの区間の合計もO(1)（一発の引き算）で求められる。例: `A=[3,1,4,1,5]` → `S=[0,3,4,8,9,14]`。区間[1,3)の和 = S[3]-S[1] = 8-3 = 5（つまりA[1]+A[2]=1+4=5）。",
+    "aliases": [
+      "累積和（るいせきわ）",
+      "るいせきわ",
+      "累積和"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "経営層が担うべきこ",
+    "def": "方針承認、資源配分、リスク受容の最終判断、重大インシデントの指揮。",
+    "aliases": [
+      "経営層が担うべきこ"
+    ],
+    "track": "security",
+    "source": "Q177"
+  },
+  {
+    "term": "経済安全保障推進法の基幹インフラ制度",
+    "def": "電気・通信・金融等の基幹インフラ事業者が重要設備を導入する際、事前に国の審査を受ける制度。サプライチェーンリスクの排除が目的。",
+    "aliases": [
+      "経済安全保障推進法の基幹インフラ制度"
+    ],
+    "track": "security",
+    "source": "Q433"
+  },
+  {
+    "term": "経路復元",
+    "def": "DPテーブルを逆にたどって「どの選択をしたか」を復元する。dp[i]がdp[i-1]とdp[i-2]のどちらから来たかを調べて戻る。",
+    "aliases": [
+      "経路復元"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "結果整合性（Eventual Consistency）",
+    "def": "更新が全ノードに即座に反映されなくても、十分な時間が経てば全ノードで一貫した状態に収束するモデル。強い整合性よりも可用性と性能を優先する場合に採用。DynamoDB、Cassandra等のNoSQLで使用。",
+    "aliases": [
+      "結果整合性（Eventual Consistency）",
+      "Eventual Consistency",
+      "結果整合性"
+    ],
+    "track": "security",
+    "source": "Q539"
+  },
+  {
+    "term": "線形DP",
+    "def": "dp[i]がdp[i-1]やdp[i-2]など直前の状態だけから決まるDP。最もシンプルな形。",
+    "aliases": [
+      "線形DP"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "線形探索（せんけいたんさく）",
+    "def": "配列を先頭から順に1つずつ見ていく探索。計算量O(N)。`for i in range(N)` で回すだけ。",
+    "aliases": [
+      "線形探索（せんけいたんさく）",
+      "せんけいたんさく",
+      "線形探索"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "編集距離（レーベンシュタイン距離）",
+    "def": "2つの文字列を一致させるのに必要な最小操作数（挿入/削除/置換）。2次元DP。",
+    "aliases": [
+      "編集距離（レーベンシュタイン距離）",
+      "レーベンシュタイン距離",
+      "編集距離"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "職務分掌（セグリゲーション）",
+    "def": "重要な操作を一人で完結させない（申請と承認の分離など）。不正・ミスの抑止。",
+    "aliases": [
+      "職務分掌（セグリゲーション）",
+      "セグリゲーション",
+      "職務分掌"
+    ],
+    "track": "security",
+    "source": "Q060"
+  },
+  {
+    "term": "脅威モデリング",
+    "def": "資産・脅威・対策を設計段階で洗い出す（STRIDE等）。",
+    "aliases": [
+      "脅威モデリング"
+    ],
+    "track": "security",
+    "source": "Q152"
+  },
+  {
+    "term": "脆弱性スキャンとペネトレーションテスト",
+    "def": "スキャンは既知弱点の洗い出し。ペンテストは攻撃者視点で侵入可否まで検証。",
+    "aliases": [
+      "脆弱性スキャンとペネトレーションテスト"
+    ],
+    "track": "security",
+    "source": "Q094"
+  },
+  {
+    "term": "脆弱性開示（責任ある開示）",
+    "def": "発見者が調整してから公開し、利用者が対策できる時間を確保する考え方。",
+    "aliases": [
+      "脆弱性開示（責任ある開示）",
+      "責任ある開示",
+      "脆弱性開示"
+    ],
+    "track": "security",
+    "source": "Q174"
+  },
+  {
+    "term": "著作権と特許権",
+    "def": "著作権: 創作と同時に自動発生。登録不要。表現を保護（アイデアは不可）。保護期間は著作者の死後70年。プログラムも著作物。特許権: 出願・審査・登録が必要。発明（アイデア・技術）を保護。出願から20年。特許は独占排他権が強い。",
+    "aliases": [
+      "著作権と特許権"
+    ],
+    "track": "security",
+    "source": "Q639"
+  },
+  {
+    "term": "行列累乗",
+    "def": "漸化式 `f(n) = a·f(n-1) + b·f(n-2)` のような線形漸化式を行列の形に書き、行列のN乗を繰り返し二乗法でO(logN)で計算するテクニック。Nが10^18でも高速。",
+    "aliases": [
+      "行列累乗"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "見積手法の類推・係数・ボトムアップ",
+    "def": "類推見積: 類似プロジェクトの実績を参考に概算。初期段階向き、精度は低い。係数見積（パラメトリック）: 統計モデル（FP×生産性等）で算出。データがあれば精度高い。ボトムアップ見積: WBSの各作業を個別に見積り積算。精度最高だが工数大。",
+    "aliases": [
+      "見積手法の類推・係数・ボトムアップ"
+    ],
+    "track": "security",
+    "source": "Q623"
+  },
+  {
+    "term": "計算量 O(N)",
+    "def": "「入力サイズNに比例する回数だけ処理する」という意味。N=10万ならだいたい10万回。O(N²)ならN²回。AtCoderでは **O(10⁸)以下** なら制限時間に間に合う目安。",
+    "aliases": [
+      "計算量 O(N)",
+      "N",
+      "計算量 O"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "証拠保全で意識するこ",
+    "def": "改ざん防止、取得過程の記録、原本性、専門家連携。勝手な解析は証拠能力を損なうことも。",
+    "aliases": [
+      "証拠保全で意識するこ"
+    ],
+    "track": "security",
+    "source": "Q199"
+  },
+  {
+    "term": "証明書チェーン（パス）",
+    "def": "サーバ証明書→中間CA→ルートCAとたどり、信頼できるルートに到達することで正当性を確認する列。",
+    "aliases": [
+      "証明書チェーン（パス）",
+      "パス",
+      "証明書チェーン"
+    ],
+    "track": "security",
+    "source": "Q029"
+  },
+  {
+    "term": "証明書ピンニング",
+    "def": "アプリが期待する証明書/公開鍵を固定し、偽CA発行の証明書を拒否。運用・更新が難しい。",
+    "aliases": [
+      "証明書ピンニング"
+    ],
+    "track": "security",
+    "source": "Q039"
+  },
+  {
+    "term": "試験直前に法令でやるべきこ",
+    "def": "「どの法律が何を禁じ/義務づけるか」を一問一答で再確認。改正情報はIPA・公式を優先。",
+    "aliases": [
+      "試験直前に法令でやるべきこ"
+    ],
+    "track": "security",
+    "source": "Q200"
+  },
+  {
+    "term": "認定認証業務",
+    "def": "電子署名法に基づき主務大臣の認定を受けた認証業務。厳格な本人確認を行い、法的な推定効のある電子署名に使える証明書を発行。",
+    "aliases": [
+      "認定認証業務"
+    ],
+    "track": "security",
+    "source": "Q258"
+  },
+  {
+    "term": "認証と認可",
+    "def": "認証＝誰かを確認。認可＝何をしてよいかを許可。401と403の区別に対応。",
+    "aliases": [
+      "認証と認可"
+    ],
+    "track": "security",
+    "source": "Q046"
+  },
+  {
+    "term": "認証局（CA）",
+    "def": "申請者の身元確認のうえ、公開鍵に署名して証明書を発行。信頼の起点（ルートCA）をブラウザ等が保持。",
+    "aliases": [
+      "認証局（CA）",
+      "CA",
+      "認証局"
+    ],
+    "track": "security",
+    "source": "Q028"
+  },
+  {
+    "term": "請負契約と委任（準委任）契約",
+    "def": "請負: 仕事の完成を約束。成果物に対して報酬。契約不適合責任（旧: 瑕疵担保責任）あり。受注者に裁量あり。委任/準委任: 事務処理の遂行が義務（善管注意義務）。成果物の完成義務なし。SES等で使用。指揮命令が発注者にあると偽装請負の疑い。",
+    "aliases": [
+      "請負契約と委任（準委任）契約",
+      "準委任",
+      "請負契約と委任契約"
+    ],
+    "track": "security",
+    "source": "Q641"
+  },
+  {
+    "term": "負荷分散の方式: ラウンドロビンと最小接続数",
+    "def": "ラウンドロビン: リクエストを順番に各サーバに振り分け。サーバ性能が均等なら公平。最小接続数（Least Connections）: 現在の接続数が最も少ないサーバに振り分け。長時間接続がある場合に効果的。重み付きラウンドロビンはサーバ性能差を反映。",
+    "aliases": [
+      "負荷分散の方式: ラウンドロビンと最小接続数"
+    ],
+    "track": "security",
+    "source": "Q585"
+  },
+  {
+    "term": "貪欲法（たんよくほう / Greedy）",
+    "def": "「今この瞬間の最善手を繰り返す」ことで全体の最適解を得る方法。常に正しいとは限らないが、正しいパターンを知っていれば強力。「交換しても損しない（交換証明）」で正当性を確認できる。",
+    "aliases": [
+      "貪欲法（たんよくほう / Greedy）",
+      "たんよくほう / Greedy",
+      "たんよくほう",
+      "Greedy",
+      "貪欲法"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "転倒数（てんとうすう）",
+    "def": "配列で i<j かつ A[i]>A[j] となるペアの数。「バブルソートの交換回数」に等しい。BITを使ってO(NlogN)で求まる。",
+    "aliases": [
+      "転倒数（てんとうすう）",
+      "てんとうすう",
+      "転倒数"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "近似アルゴリズムとヒューリスティック",
+    "def": "近似アルゴリズム: 最適解からの誤差に理論保証がある（例: 2-近似）。ヒューリスティック: 経験則で速く良い解を狙うが保証はない（焼きなまし、遺伝的アルゴリズム）。NP困難問題で実用解を得る現実解。鉄則本7章のヒューリスティックはこの後者。",
+    "aliases": [
+      "近似アルゴリズムとヒューリスティック"
+    ],
+    "track": "security",
+    "source": "Q706"
+  },
+  {
+    "term": "近傍解（きんぼうかい）",
+    "def": "今の解を少しだけ変えた解。例: 2つの要素をswapする、1マス移動方向を変える、など。良い近傍の設計がヒューリスティックの鍵。",
+    "aliases": [
+      "近傍解（きんぼうかい）",
+      "きんぼうかい",
+      "近傍解"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "逆元（ぎゃくげん）",
+    "def": "mod演算で「÷a」をしたいとき、代わりに「×(aの逆元)」をする。aの逆元=`pow(a, MOD-2, MOD)`（フェルマーの小定理）。",
+    "aliases": [
+      "逆元（ぎゃくげん）",
+      "ぎゃくげん",
+      "逆元"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "遷移（せんい）",
+    "def": "ある状態から別の状態へ移ること。「dp[i-1]からdp[i]へ遷移する」のように使う。遷移式＝漸化式。",
+    "aliases": [
+      "遷移（せんい）",
+      "せんい",
+      "遷移"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "部分和DP",
+    "def": "「N個の数からいくつか選んで合計Sにできるか」を判定するDP。dp[j]=True/Falseで「合計jが作れるか」を管理。",
+    "aliases": [
+      "部分和DP"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "配るDP",
+    "def": "通常のDPは「dp[i]をどこから受け取るか」で計算するが、配るDPは「dp[i]からdp[j]に配る」方向で計算する。遷移先が複数あるときに書きやすい。",
+    "aliases": [
+      "配るDP"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "鍵のライフサイクルで管理すべきこ",
+    "def": "生成・配布・保管・利用・更新・破棄。漏洩時のローテーション手順もセット。",
+    "aliases": [
+      "鍵のライフサイクルで管理すべきこ"
+    ],
+    "track": "security",
+    "source": "Q017"
+  },
+  {
+    "term": "鍵の世代管理",
+    "def": "鍵をバージョン管理し、ローテーション後も旧世代の鍵で過去データを復号できるようにする運用。クラウドKMSで一般的。",
+    "aliases": [
+      "鍵の世代管理"
+    ],
+    "track": "security",
+    "source": "Q234"
+  },
+  {
+    "term": "鍵エスクロー",
+    "def": "第三者（信頼機関）に暗号鍵の写しを預ける仕組み。法執行機関のアクセスや鍵紛失対策が目的だが、プライバシーとの緊張がある。",
+    "aliases": [
+      "鍵エスクロー"
+    ],
+    "track": "security",
+    "source": "Q233"
+  },
+  {
+    "term": "鍵カプセル化メカニズム（KEM）",
+    "def": "公開鍵を使って共通鍵を安全に相手へ渡す仕組み。耐量子暗号ではKEMが中心的役割を果たす（例: ML-KEM/Kyber）。",
+    "aliases": [
+      "鍵カプセル化メカニズム（KEM）",
+      "KEM",
+      "鍵カプセル化メカニズム"
+    ],
+    "track": "security",
+    "source": "Q228"
+  },
+  {
+    "term": "鍵配送問題",
+    "def": "共通鍵を安全に相手へ渡す難しさ。公開鍵暗号や鍵交換プロトコルで解決を図る。",
+    "aliases": [
+      "鍵配送問題"
+    ],
+    "track": "security",
+    "source": "Q021"
+  },
+  {
+    "term": "長期署名（AdES）",
+    "def": "署名後に証明書が失効しても検証可能にする署名形式。タイムスタンプと検証情報を埋め込む。PAdES（PDF）、CAdES（CMS）、XAdES（XML）の3形式。",
+    "aliases": [
+      "長期署名（AdES）",
+      "AdES",
+      "長期署名"
+    ],
+    "track": "security",
+    "source": "Q255"
+  },
+  {
+    "term": "隣接リスト",
+    "def": "グラフの持ち方。`graph[v]` = 頂点vから直接行ける頂点のリスト。`graph = [[] for _ in range(N)]` で初期化し、`graph[u].append(v)` で辺を追加。",
+    "aliases": [
+      "隣接リスト"
+    ],
+    "track": "atcoder",
+    "source": "鉄則用語辞典"
+  },
+  {
+    "term": "隣接行列と隣接リスト",
+    "def": "隣接行列: V×Vの2次元配列。辺の有無をO(1)で判定。空間O(V²)。密グラフ向き。隣接リスト: 各頂点の隣接頂点をリストで管理。空間O(V+E)。疎グラフ向き。辺の列挙が効率的。",
+    "aliases": [
+      "隣接行列と隣接リスト"
+    ],
+    "track": "security",
+    "source": "Q573"
+  }
+]

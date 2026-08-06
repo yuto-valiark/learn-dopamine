@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>ドパカード</title>
+  <style>
+    :root {
+      --bg: #0b1220; --card: #141c2e; --text: #f1f5f9; --muted: #94a3b8;
+      --accent: #38bdf8; --ok: #34d399; --bad: #fb7185;
+      --top: 0px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--text);
+      font-family: "Hiragino Sans", "Noto Sans JP", system-ui, sans-serif; }
+    body { padding: 0 0 calc(24px + env(safe-area-inset-bottom)); max-width: 520px; margin: 0 auto; }
+    .top {
+      position: sticky; top: 0; z-index: 20; background: rgba(11,18,32,.94);
+      backdrop-filter: blur(8px); padding: 10px 12px 8px;
+      border-bottom: 1px solid #1e293b;
+    }
+    header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; gap: 8px; }
+    h1 { font-size: 14px; margin: 0; font-weight: 800; }
+    .meta { color: var(--muted); font-size: 11px; }
+    .stats { color: var(--muted); font-size: 11px; margin-bottom: 4px; }
+    .progress { height: 4px; background: #1e293b; border-radius: 99px; overflow: hidden; margin-bottom: 6px; }
+    .progress > span { display: block; height: 100%; background: linear-gradient(90deg,#22d3ee,#34d399); width: 0%; }
+    .filters { display: flex; flex-wrap: wrap; gap: 4px; }
+    button {
+      border: 0; border-radius: 999px; padding: 10px 14px; font-size: 14px; font-weight: 700;
+      background: #1e293b; color: var(--text);
+    }
+    .filters button {
+      padding: 4px 8px; font-size: 11px; font-weight: 700; line-height: 1.2;
+    }
+    .filters button.active { background: var(--accent); color: #0b1220; }
+    #feed { padding: 10px 12px 80px; display: flex; flex-direction: column; gap: 14px; }
+    .card {
+      background: var(--card); border: 1px solid #243047; border-radius: 18px;
+      padding: 16px 14px 18px; box-shadow: 0 8px 28px rgba(0,0,0,.28);
+      scroll-margin-top: 110px;
+    }
+    .tagrow { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .tag { font-size: 11px; color: #0b1220; background: #67e8f9; border-radius: 999px; padding: 3px 9px; font-weight: 800; }
+    .tag.type-quiz { background: #fbbf24; }
+    .difficulty {
+      margin-left: auto; font-size: 12px; letter-spacing: .5px; color: #fbbf24;
+      background: #422006; border: 1px solid #92400e; border-radius: 999px;
+      padding: 3px 9px; font-weight: 900; white-space: nowrap;
+    }
+    .title { font-size: 18px; line-height: 1.4; margin: 0 0 8px; font-weight: 800; word-break: break-word; }
+    .problem {
+      font-size: 14px; line-height: 1.45; color: #cbd5e1; margin: 0 0 12px;
+      padding: 10px 12px; border-radius: 12px; background: #0f172a; border-left: 3px solid var(--accent);
+    }
+    .block { margin: 0 0 12px; }
+    .label { font-size: 12px; color: var(--muted); margin-bottom: 4px; font-weight: 800; }
+    .one { font-size: 18px; line-height: 1.4; font-weight: 800; }
+    .body { font-size: 16px; line-height: 1.55; white-space: pre-wrap; }
+    .trap .body { color: #fdba74; }
+    .detail .body { color: #e2e8f0; font-size: 14px; }
+    pre.code {
+      margin: 0; padding: 12px; border-radius: 12px; background: #0a0f1a; color: #e2e8f0;
+      font-size: 13px; line-height: 1.45; overflow-x: auto; white-space: pre;
+      font-family: ui-monospace, Menlo, monospace; -webkit-overflow-scrolling: touch;
+    }
+    .choices { display: grid; gap: 8px; }
+    .choices button {
+      border-radius: 14px; text-align: left; padding: 12px; font-size: 14px; line-height: 1.4;
+      background: #1e293b; border: 2px solid #334155;
+    }
+    .choices button.correct { background: #064e3b; border-color: var(--ok); }
+    .choices button.wrong { background: #4c0519; border-color: var(--bad); }
+    .explain { margin-top: 10px; padding: 12px; border-radius: 12px; background: #0f766e33; font-size: 14px; line-height: 1.5; }
+    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+    .actions .speak { grid-column: 1 / -1; background: var(--ok); color: #052e1c; font-size: 15px; padding: 12px; }
+    .actions .mark.on { background: #7c3aed; }
+    .actions .learned.on { background: #059669; }
+    .notes { margin-top: 4px; padding: 12px; border-radius: 12px; background: #111827; border: 1px solid #334155; }
+    .notes .label { margin-bottom: 8px; }
+    .notes dl { margin: 0; display: grid; gap: 10px; }
+    .notes dt { font-size: 13px; font-weight: 800; color: #7dd3fc; }
+    .notes dd { margin: 2px 0 0; font-size: 13px; line-height: 1.45; color: #cbd5e1; }
+    #gloss-view { display: none; padding: 10px 12px 100px; max-width: 100%; overflow-x: hidden; }
+    #gloss-view.on { display: block; }
+    #feed.hide { display: none; }
+    .jump.hide { display: none; }
+    .gloss-search {
+      width: 100%; max-width: 100%; margin-bottom: 10px; padding: 12px 14px; border-radius: 12px;
+      border: 1px solid #334155; background: #0f172a; color: var(--text); font-size: 16px;
+      box-sizing: border-box; -webkit-appearance: none; appearance: none;
+    }
+    .gloss-meta { color: var(--muted); font-size: 12px; margin-bottom: 10px; }
+    .gloss-list { display: flex; flex-direction: column; gap: 8px; }
+    .gloss-item {
+      padding: 12px; border-radius: 12px; background: #141c2e; border: 1px solid #243047;
+    }
+    .gloss-item .term {
+      font-weight: 800; color: #7dd3fc; font-size: 14px; line-height: 1.35;
+      margin-bottom: 6px; word-break: break-word; overflow-wrap: anywhere;
+    }
+    .gloss-item .def {
+      font-size: 13px; line-height: 1.5; color: #cbd5e1;
+      word-break: break-word; overflow-wrap: anywhere;
+    }
+    .gloss-empty { color: var(--muted); padding: 30px 8px; text-align: center; }
+
+    /* 幅があるときだけ2カラム表 */
+    @media (min-width: 520px) {
+      .gloss-list { display: none; }
+      .gloss-table-wrap { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .gloss-table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+      .gloss-table th, .gloss-table td {
+        text-align: left; vertical-align: top; padding: 10px 8px;
+        border-bottom: 1px solid #1e293b; line-height: 1.45;
+        word-break: break-word; overflow-wrap: anywhere;
+      }
+      .gloss-table th { color: var(--muted); font-size: 11px; position: sticky; top: 108px; background: #0b1220; z-index: 1; }
+      .gloss-table .term-col { width: 32%; font-weight: 800; color: #7dd3fc; }
+    }
+    @media (max-width: 519px) {
+      .gloss-table-wrap { display: none; }
+    }
+    .end { text-align: center; color: var(--muted); font-size: 12px; padding: 20px 0 40px; }
+    .jump {
+      position: fixed; right: max(10px, calc(50% - 250px + 10px)); bottom: calc(16px + env(safe-area-inset-bottom));
+      display: flex; flex-direction: column; gap: 8px; z-index: 30;
+    }
+    .jump button {
+      width: 56px; height: 56px; border-radius: 18px; font-size: 22px; padding: 0;
+      background: #1e293b; border: 1px solid #334155; box-shadow: 0 6px 18px rgba(0,0,0,.35);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .jump #shuffle {
+      width: 56px; height: 56px; font-size: 26px; background: #0ea5e9; color: #0b1220;
+      border-color: #38bdf8;
+    }
+    .jump #podcast {
+      width: 56px; height: 56px; font-size: 22px; background: #334155; color: #f8fafc;
+      border-color: #64748b;
+    }
+    .jump #podcast.on {
+      background: #f97316; color: #0b1220; border-color: #fb923c;
+      animation: pod-pulse 1.6s ease-in-out infinite;
+    }
+    @keyframes pod-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+    .pod-banner {
+      display: none; margin: 0 0 8px; padding: 8px 10px; border-radius: 12px;
+      background: #431407; border: 1px solid #c2410c; color: #fed7aa;
+      font-size: 12px; line-height: 1.4; font-weight: 700;
+    }
+    .pod-banner.on { display: block; }
+  </style>
+</head>
+<body>
+  <div class="top">
+    <header>
+      <h1>ドパカード</h1>
+      <div class="meta" id="counter">—</div>
+    </header>
+    <div class="stats" id="stats"></div>
+    <div class="progress"><span id="bar"></span></div>
+    <div class="pod-banner" id="pod-banner">ポッドキャスト再生中 · 読み上げ後に自動で次へ · 再タップで停止</div>
+    <div class="filters">
+      <button type="button" data-f="all" class="active">全部</button>
+      <button type="button" data-f="atcoder">AtCoder</button>
+      <button type="button" data-f="security">セキュ</button>
+      <button type="button" data-f="glossary">用語一覧</button>
+      <button type="button" data-f="quiz">クイズ</button>
+      <button type="button" data-f="code">コード</button>
+      <button type="button" data-f="saved">☆保存</button>
+      <button type="button" data-f="unlearned">未習</button>
+    </div>
+  </div>
+  <div id="feed"><div class="empty">読み込み中…</div></div>
+  <div id="gloss-view">
+    <input class="gloss-search" id="gloss-q" type="search" placeholder="用語を検索（例: IV, CBC, 累積和）" enterkeyhint="search" />
+    <div class="gloss-meta" id="gloss-meta"></div>
+    <div class="gloss-list" id="gloss-list"></div>
+    <div class="gloss-table-wrap">
+      <table class="gloss-table">
+        <thead><tr><th class="term-col">用語</th><th>解説</th></tr></thead>
+        <tbody id="gloss-body"></tbody>
+      </table>
+    </div>
+    <div class="gloss-empty" id="gloss-empty" hidden>該当なし</div>
+  </div>
+  <div class="jump">
+    <button type="button" id="prev" aria-label="前へ">↑</button>
+    <button type="button" id="podcast" aria-label="ポッドキャスト" title="読み上げて自動送り">🎧</button>
+    <button type="button" id="shuffle" aria-label="シャッフル">🔀</button>
+    <button type="button" id="next" aria-label="次へ">↓</button>
+  </div>
+
+  <script>
+    const KEY = "dopamine-progress-v2";
+    const BATCH = 12;
+    let cards = [];
+    let glossary = [];
+    let filtered = [];
+    let idx = 0;
+    let filter = "all";
+    let shown = 0;
+    let io = null;
+
+    const feed = document.getElementById("feed");
+    const glossView = document.getElementById("gloss-view");
+    const glossBody = document.getElementById("gloss-body");
+    const glossList = document.getElementById("gloss-list");
+    const glossMeta = document.getElementById("gloss-meta");
+    const glossEmpty = document.getElementById("gloss-empty");
+    const glossQ = document.getElementById("gloss-q");
+    const jump = document.querySelector(".jump");
+    const counter = document.getElementById("counter");
+    const bar = document.getElementById("bar");
+    const statsEl = document.getElementById("stats");
+
+    function loadProg() {
+      try { return JSON.parse(localStorage.getItem(KEY) || "{}"); } catch { return {}; }
+    }
+    function saveProg(p) { localStorage.setItem(KEY, JSON.stringify(p)); }
+    function prog() {
+      const p = loadProg();
+      p.learned = p.learned || {};
+      p.saved = p.saved || {};
+      return p;
+    }
+    function shuffleInPlace(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+    }
+    function esc(s) {
+      return String(s || "")
+        .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+    }
+
+    function updateStats() {
+      const p = prog();
+      const studyCount = cards.filter(c => c.type !== "quiz").length;
+      const quizCount = cards.filter(c => c.type === "quiz").length;
+      statsEl.textContent = `覚えた ${Object.keys(p.learned).length} · 教材 ${studyCount} · クイズ ${quizCount}`;
+    }
+
+    function setActiveIndex(i, scroll = false) {
+      if (!filtered.length) {
+        counter.textContent = "0/0";
+        bar.style.width = "0%";
+        return;
+      }
+      idx = Math.max(0, Math.min(i, filtered.length - 1));
+      counter.textContent = `${idx + 1}/${filtered.length}`;
+      bar.style.width = `${((idx + 1) / filtered.length) * 100}%`;
+      if (scroll) {
+        ensureShown(idx + 1);
+        const el = document.getElementById(`card-${idx}`);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+
+    function cardHTML(c, i) {
+      const p = prog();
+      const tags = [
+        `<span class="tag type-${esc(c.type || "essence")}">${esc(c.type || "essence")}</span>`,
+        `<span class="tag">${esc(c.track)}</span>`,
+        ...(c.tags || []).slice(0, 3).map(t => `<span class="tag">${esc(t)}</span>`),
+        ...(c.track === "atcoder" && c.difficulty
+          ? [`<span class="difficulty" title="鉄則本基準の難易度目安">難易度 ${"★".repeat(c.difficulty)}${"☆".repeat(Math.max(0, (c.difficulty_scale || 5) - c.difficulty))}</span>`]
+          : [])
+      ].join("");
+
+      const detailBlock = c.detail
+        ? `<div class="block detail"><div class="label">詳細</div><div class="body">${esc(c.detail)}</div></div>`
+        : "";
+      const notesBlock = (c.notes && c.notes.length)
+        ? `<div class="block notes"><div class="label">備考（用語）</div><dl>${
+            c.notes.map(n => `<div><dt>${esc(n.term)}</dt><dd>${esc(n.def)}</dd></div>`).join("")
+          }</dl></div>`
+        : "";
+      const solCode = c.code
+        ? `<div class="block"><div class="label">正解コード</div><pre class="code">${esc(c.code)}</pre></div>`
+        : "";
+      const preview = c.code_preview || (c.type === "quiz" ? c.code : "");
+
+      let main = "";
+      if (c.type === "quiz" && c.quiz) {
+        main = `
+          <div class="block"><div class="label">問題</div><div class="body">${esc(c.quiz.question)}</div></div>
+          ${preview ? `<div class="block"><div class="label">コード</div><pre class="code">${esc(preview)}</pre></div>` : ""}
+          <div class="choices" data-qi="${i}">
+            ${c.quiz.choices.map((ch, j) => `<button type="button" data-j="${j}">${esc(ch)}</button>`).join("")}
+          </div>
+          <div class="explain-slot"></div>
+          <div class="sol-slot"></div>
+          ${detailBlock}
+          ${notesBlock}
+        `;
+      } else if (c.type === "code") {
+        main = `
+          <div class="block"><div class="label">① 見方</div><div class="one">${esc(c.one_liner)}</div></div>
+          ${c.when ? `<div class="block"><div class="label">② いつ使う</div><div class="body">${esc(c.when)}</div></div>` : ""}
+          ${solCode}
+          ${detailBlock}
+          ${c.trap ? `<div class="block trap"><div class="label">罠</div><div class="body">${esc(c.trap)}</div></div>` : ""}
+          ${notesBlock}
+        `;
+      } else {
+        const whenLabel = c.track === "atcoder" ? "② いつ使う" : "② 問い";
+        main = `
+          <div class="block"><div class="label">① 1行</div><div class="one">${esc(c.one_liner)}</div></div>
+          ${c.when ? `<div class="block"><div class="label">${whenLabel}</div><div class="body">${esc(c.when)}</div></div>` : ""}
+          ${c.track === "atcoder" ? solCode : ""}
+          ${detailBlock}
+          ${c.trap ? `<div class="block trap"><div class="label">罠</div><div class="body">${esc(c.trap)}</div></div>` : ""}
+          ${notesBlock}
+        `;
+      }
+
+      const learnedOn = p.learned[c.id] ? " on" : "";
+      const savedOn = p.saved[c.id] ? " on" : "";
+      const prob = (c.track === "atcoder" && (c.type === "code" || c.type === "quiz" || c.problem))
+        ? (c.problem || "")
+        : ((c.type === "code" || c.type === "quiz") ? (c.problem || "") : "");
+
+      return `
+        <article class="card" id="card-${i}" data-i="${i}" data-id="${esc(c.id)}">
+          <div class="tagrow">${tags}</div>
+          <h2 class="title">${esc(c.title)}</h2>
+          ${prob ? `<div class="problem">${esc(prob)}</div>` : ""}
+          ${main}
+          <div class="actions">
+            <button type="button" class="speak" data-act="speak">▶ 音声</button>
+            <button type="button" class="learned${learnedOn}" data-act="learned">✓ 覚えた</button>
+            <button type="button" class="mark${savedOn}" data-act="saved">☆ 保存</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function wireCard(el) {
+      const i = Number(el.dataset.i);
+      const c = filtered[i];
+      if (!c) return;
+
+      el.querySelector('[data-act="speak"]').onclick = () => {
+        if (podcastOn) stopPodcast();
+        let text;
+        if (c.type === "quiz" && c.quiz) {
+          text = [c.quiz.question, c.quiz.explain || "", c.detail || ""].filter(Boolean).join("。");
+        } else {
+          text = c.audio || [c.one_liner, c.when, c.detail, c.trap].filter(Boolean).join("。");
+        }
+        speak(text);
+      };
+      el.querySelector('[data-act="learned"]').onclick = () => {
+        const pr = prog();
+        if (pr.learned[c.id]) delete pr.learned[c.id]; else pr.learned[c.id] = Date.now();
+        saveProg(pr);
+        if (filter === "unlearned" || filter === "saved") applyFilter(false, false);
+        else {
+          el.querySelector('[data-act="learned"]').classList.toggle("on", !!pr.learned[c.id]);
+          updateStats();
+        }
+      };
+      el.querySelector('[data-act="saved"]').onclick = () => {
+        const pr = prog();
+        if (pr.saved[c.id]) delete pr.saved[c.id]; else pr.saved[c.id] = Date.now();
+        saveProg(pr);
+        if (filter === "saved") applyFilter(false, false);
+        else {
+          el.querySelector('[data-act="saved"]').classList.toggle("on", !!pr.saved[c.id]);
+          updateStats();
+        }
+      };
+
+      if (c.type === "quiz" && c.quiz) {
+        let answered = false;
+        el.querySelectorAll(".choices button").forEach(btn => {
+          btn.onclick = () => {
+            if (answered) return;
+            answered = true;
+            const j = Number(btn.dataset.j);
+            const ok = j === c.quiz.answer;
+            el.querySelectorAll(".choices button").forEach((b, k) => {
+              b.disabled = true;
+              if (k === c.quiz.answer) b.classList.add("correct");
+              if (k === j && !ok) b.classList.add("wrong");
+            });
+            el.querySelector(".explain-slot").innerHTML =
+              `<div class="explain"><b>${ok ? "正解" : "不正解"}</b><br>${esc(c.quiz.explain || "")}</div>`;
+            if (c.track === "atcoder" && c.code) {
+              el.querySelector(".sol-slot").innerHTML =
+                `<div class="block"><div class="label">正解コード</div><pre class="code">${esc(c.code)}</pre></div>`;
+            }
+          };
+        });
+      }
+    }
+
+    function ensureShown(need) {
+      if (!filtered.length) return;
+      const target = Math.min(filtered.length, Math.max(need, shown));
+      if (target <= shown) return;
+      const frag = document.createDocumentFragment();
+      const tmp = document.createElement("div");
+      for (let i = shown; i < target; i++) {
+        tmp.innerHTML = cardHTML(filtered[i], i);
+        const el = tmp.firstElementChild;
+        frag.appendChild(el);
+      }
+      // remove end marker if any
+      const end = feed.querySelector(".end");
+      if (end) end.remove();
+      feed.appendChild(frag);
+      for (let i = shown; i < target; i++) {
+        const el = document.getElementById(`card-${i}`);
+        if (el) {
+          wireCard(el);
+          if (io) io.observe(el);
+        }
+      }
+      shown = target;
+      if (shown >= filtered.length) {
+        const e = document.createElement("div");
+        e.className = "end";
+        e.textContent = "ここまで";
+        feed.appendChild(e);
+      }
+    }
+
+    function setupObserver() {
+      if (io) io.disconnect();
+      io = new IntersectionObserver((entries) => {
+        let best = null, bestRatio = 0;
+        for (const e of entries) {
+          if (e.isIntersecting && e.intersectionRatio >= bestRatio) {
+            best = e; bestRatio = e.intersectionRatio;
+          }
+        }
+        if (best) setActiveIndex(Number(best.target.dataset.i), false);
+      }, { root: null, threshold: [0.35, 0.55, 0.75] });
+    }
+
+    function renderFeed(keepScroll = false) {
+      const y = keepScroll ? window.scrollY : 0;
+      feed.innerHTML = "";
+      shown = 0;
+      setupObserver();
+      if (!filtered.length) {
+        feed.innerHTML = '<div class="empty">カードがありません</div>';
+        setActiveIndex(0, false);
+        return;
+      }
+      ensureShown(Math.max(BATCH, idx + 1));
+      setActiveIndex(idx, false);
+      if (keepScroll) requestAnimationFrame(() => window.scrollTo(0, y));
+      else {
+        const el = document.getElementById(`card-${idx}`);
+        if (el) el.scrollIntoView({ block: "start" });
+        else window.scrollTo(0, 0);
+      }
+    }
+
+    function renderGlossary(q = "") {
+      const needle = (q || "").trim().toLowerCase();
+      const collator = new Intl.Collator("ja");
+      let rows = glossary.slice().sort((a, b) => collator.compare(a.term, b.term));
+      if (needle) {
+        rows = rows.filter(g => {
+          const blob = [g.term, g.def, ...(g.aliases || [])].join(" ").toLowerCase();
+          return blob.includes(needle);
+        });
+      }
+      glossMeta.textContent = needle
+        ? `${rows.length} / ${glossary.length} 語`
+        : `${glossary.length} 語 · 五十音・辞書順`;
+      glossList.innerHTML = rows.map(g => `
+        <article class="gloss-item">
+          <div class="term">${esc(g.term)}</div>
+          <div class="def">${esc(g.def)}</div>
+        </article>
+      `).join("");
+      glossBody.innerHTML = rows.map(g => `
+        <tr>
+          <td class="term-col">${esc(g.term)}</td>
+          <td>${esc(g.def)}</td>
+        </tr>
+      `).join("");
+      glossEmpty.hidden = rows.length > 0;
+    }
+
+    function setMode(isGloss) {
+      glossView.classList.toggle("on", isGloss);
+      feed.classList.toggle("hide", isGloss);
+      jump.classList.toggle("hide", isGloss);
+      if (isGloss) {
+        counter.textContent = "用語";
+        bar.style.width = "100%";
+        renderGlossary(glossQ.value);
+        window.scrollTo(0, 0);
+      }
+    }
+
+    function applyFilter(doShuffle = false, resetIdx = true) {
+      if (filter === "glossary") {
+        setMode(true);
+        updateStats();
+        return;
+      }
+      setMode(false);
+      const p = prog();
+      filtered = cards.filter(c => {
+        if (filter === "saved") return c.type !== "quiz" && !!p.saved[c.id];
+        if (filter === "unlearned") return c.type !== "quiz" && !p.learned[c.id];
+        if (filter === "quiz") return c.type === "quiz";
+        if (filter === "code") return c.type === "code";
+        if (filter === "all") return c.type !== "quiz";
+        if (filter === "atcoder" || filter === "security") {
+          return c.track === filter && c.type !== "quiz";
+        }
+        return false;
+      });
+      if (doShuffle || filter === "all" || filter === "unlearned") shuffleInPlace(filtered);
+      if (resetIdx) idx = 0;
+      else idx = filtered.length ? Math.min(idx, filtered.length - 1) : 0;
+      renderFeed(false);
+      updateStats();
+    }
+
+    let podcastOn = false;
+    let podcastToken = 0;
+    let speakKeepAlive = null;
+    const podBtn = document.getElementById("podcast");
+    const podBanner = document.getElementById("pod-banner");
+
+    function cardSpeechText(c) {
+      if (!c) return "";
+      if (c.type === "quiz" && c.quiz) {
+        return [
+          c.title,
+          c.quiz.question,
+          "解説。",
+          c.quiz.explain || "",
+          c.detail || "",
+        ].filter(Boolean).join("。");
+      }
+      // コード全文は長いので読み上げ対象から外す
+      return c.audio || [
+        c.title,
+        c.problem,
+        c.one_liner,
+        c.when,
+        c.detail,
+        c.trap,
+      ].filter(Boolean).join("。");
+    }
+
+    function stopSpeakEngine() {
+      if (speakKeepAlive) {
+        clearInterval(speakKeepAlive);
+        speakKeepAlive = null;
+      }
+      if (window.speechSynthesis) window.speechSynthesis.cancel();
+    }
+
+    function setPodcastUI(on) {
+      podcastOn = on;
+      podBtn.classList.toggle("on", on);
+      podBanner.classList.toggle("on", on);
+      podBtn.setAttribute("aria-pressed", on ? "true" : "false");
+      podBtn.title = on ? "停止" : "読み上げて自動送り";
+    }
+
+    function stopPodcast() {
+      podcastToken += 1;
+      setPodcastUI(false);
+      stopSpeakEngine();
+    }
+
+    function speak(text, { onEnd } = {}) {
+      if (!window.speechSynthesis) {
+        alert("音声未対応のブラウザです");
+        if (onEnd) onEnd(false);
+        return;
+      }
+      stopSpeakEngine();
+      const cleaned = String(text || "")
+        .replace(/```[\s\S]*?```/g, " ")
+        .replace(/[#*`|>]/g, " ")
+        .replace(/\s+/g, " ")
+        .trim();
+      if (!cleaned) {
+        if (onEnd) onEnd(true);
+        return;
+      }
+      const u = new SpeechSynthesisUtterance(cleaned);
+      u.lang = "ja-JP";
+      u.rate = 1.05;
+      u.onend = () => { if (onEnd) onEnd(true); };
+      u.onerror = () => { if (onEnd) onEnd(false); };
+      // Chrome系で途中停止する対策
+      speakKeepAlive = setInterval(() => {
+        if (!window.speechSynthesis.speaking) return;
+        window.speechSynthesis.pause();
+        window.speechSynthesis.resume();
+      }, 12000);
+      window.speechSynthesis.speak(u);
+    }
+
+    function playPodcastFrom(startIdx) {
+      if (!filtered.length || filter === "glossary") {
+        stopPodcast();
+        return;
+      }
+      const myToken = ++podcastToken;
+      setPodcastUI(true);
+
+      const run = (i) => {
+        if (myToken !== podcastToken || !podcastOn) return;
+        if (i >= filtered.length) {
+          stopPodcast();
+          return;
+        }
+        const c = filtered[i];
+        ensureShown(i + 1);
+        setActiveIndex(i, true);
+        speak(cardSpeechText(c), {
+          onEnd: (ok) => {
+            if (myToken !== podcastToken || !podcastOn) return;
+            if (!ok) {
+              stopPodcast();
+              return;
+            }
+            // カード間の短い間
+            setTimeout(() => {
+              if (myToken !== podcastToken || !podcastOn) return;
+              run(i + 1);
+            }, 450);
+          },
+        });
+      };
+      run(Math.max(0, startIdx));
+    }
+
+    function togglePodcast() {
+      if (podcastOn) {
+        stopPodcast();
+        return;
+      }
+      if (filter === "glossary") {
+        alert("用語一覧では使えません。全部 / AtCoder / セキュ などで再生してください");
+        return;
+      }
+      if (!filtered.length) {
+        alert("再生するカードがありません");
+        return;
+      }
+      playPodcastFrom(idx);
+    }
+
+    function go(delta) {
+      if (!filtered.length) return;
+      if (podcastOn) stopPodcast();
+      const next = Math.max(0, Math.min(filtered.length - 1, idx + delta));
+      ensureShown(next + 1);
+      setActiveIndex(next, true);
+    }
+
+    document.getElementById("prev").onclick = () => go(-1);
+    document.getElementById("next").onclick = () => go(1);
+    podBtn.onclick = () => togglePodcast();
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowUp" || e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") { e.preventDefault(); go(1); }
+      if (e.key === " " && !/input|textarea/i.test(e.target.tagName)) {
+        e.preventDefault();
+        togglePodcast();
+      }
+    });
+
+    document.getElementById("shuffle").onclick = () => {
+      if (podcastOn) stopPodcast();
+      applyFilter(true, true);
+    };
+    document.querySelectorAll(".filters button[data-f]").forEach(btn => {
+      btn.onclick = () => {
+        if (podcastOn) stopPodcast();
+        document.querySelectorAll(".filters button[data-f]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        filter = btn.dataset.f;
+        applyFilter(filter === "all" || filter === "unlearned", true);
+      };
+    });
+
+    // 追加読み込み（下まで近づいたら）
+    window.addEventListener("scroll", () => {
+      if (shown >= filtered.length) return;
+      if (window.innerHeight + window.scrollY > document.body.offsetHeight - 900) {
+        ensureShown(shown + BATCH);
+      }
+    }, { passive: true });
+
+    glossQ.addEventListener("input", () => renderGlossary(glossQ.value));
+
+    // 画面を離れたら停止（意図しない読み上げ継続を防ぐ）
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden && podcastOn) stopPodcast();
+    });
+
+    fetch("./cards.json")
+      .then(r => r.json())
+      .then(data => {
+        cards = data;
+        return fetch("./glossary.json").then(r => r.json()).catch(() => []);
+      })
+      .then(g => {
+        glossary = Array.isArray(g) ? g : [];
+        applyFilter(true, true);
+      })
+      .catch(() => { feed.innerHTML = '<div class="empty">cards.json が見つかりません</div>'; });
+  </script>
+</body>
+</html>
