@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex">
-  <meta name="description" content="勉強クエスト。算数・理科・社会の4択練習と、英語の音読。">
+  <meta name="description" content="勉強クエスト。算数・理科・社会の練習問題と、英語の音読。">
   <meta property="og:title" content="練習問題｜勉強クエスト">
   <title>練習問題｜勉強クエスト</title>
   <link rel="stylesheet" href="../english/style.css">
-  <link rel="stylesheet" href="../quest.css?v=ed311c85e2">
-  <script src="practice.js?v=6448e2601c" data-workbook="98731e27ff" defer></script>
+  <link rel="stylesheet" href="../quest.css?v=ea4358e013">
+  <script src="practice.js?v=d9b228f421" data-workbook="694e87dc8d" defer></script>
 </head>
 <body class="practice-page">
   <main>
@@ -56,10 +56,14 @@
             <summary>問題集の解答</summary>
             <div id="model-body"></div>
           </details>
-          <button id="ask" class="help-button" type="button">ChatGPTに聞く</button>
-          <p id="copy-status" class="copy-status" role="status"></p>
-          <textarea id="copy-fallback" aria-label="解説をお願いする文章" readonly hidden></textarea>
-          <a id="open-chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener" hidden>ChatGPTを開く</a>
+          <div class="chat-help">
+            <button id="ask" class="help-button" type="button" aria-controls="chat-next" aria-expanded="false">ChatGPTへの質問文をコピー</button>
+            <div id="chat-next" class="chat-next" hidden>
+              <p id="copy-status" role="status"></p>
+              <textarea id="copy-fallback" aria-label="ChatGPTに貼り付ける質問文" readonly hidden></textarea>
+              <a id="open-chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPTを開く ↗</a>
+            </div>
+          </div>
         </section>
         <section id="summary" class="quiz-card score-card" hidden>
           <div class="score-icon" aria-hidden="true">🏆</div>
@@ -87,7 +91,7 @@
           <img id="figure-full" alt="">
         </div>
       </dialog>
-      <noscript>4択練習を使うにはJavaScriptを有効にしてください。</noscript>
+      <noscript>練習問題を開くにはJavaScriptを有効にしてください。</noscript>
     </main>
 </body>
 </html>

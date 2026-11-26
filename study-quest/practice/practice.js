@@ -27,9 +27,15 @@ function key(index = position) {
   return [phase, index].join("/");
 }
 
+function figureUrl(name) {
+  const url = new URL("figures/" + name + ".png", location.href);
+  if (workbookVersion) url.searchParams.set("v", workbookVersion);
+  return url.href;
+}
+
 function figure(name, alt, kind = "material") {
   const image = document.createElement("img");
-  image.src = "figures/" + name + ".png";
+  image.src = figureUrl(name);
   image.alt = alt;
   image.className = "problem-image";
   const button = document.createElement("button");
@@ -141,6 +147,7 @@ function render(focus = false) {
     (current.id ? "　" + current.id + "　｜　" + current.group : "");
   $("jump").value = position;
   $("phase-number").textContent = "フェーズ " + phase;
+  $("workbook").href = "../materials/" + token + (phase <= 10 ? "-01-10.pdf" : "-11-15.pdf");
   $("progress").max = set.questions.length;
   $("progress").value = position + 1;
   $("question").textContent = current.sourceTex ? "問題" : current.text;
@@ -152,6 +159,10 @@ function render(focus = false) {
   renderContext();
   $("instruction").hidden = !current.instruction || current.instruction === "元の問題に合う答えを一つ選ぼう。";
   $("instruction").textContent = current.instruction || "";
+  if (current.selfCheck) {
+    $("instruction").hidden = false;
+    $("instruction").textContent = "答えを考えてから「問題集の解答」を開こう。";
+  }
   $("paper").hidden = !current.paper;
   $("paper-detail").textContent = current.paper ? current.id + "　" + current.paper : "";
   $("options").replaceChildren(...(current.options || []).map((option, index) => {
@@ -180,17 +191,29 @@ function render(focus = false) {
   $("advance").dataset.result = current.paper ? "paper" : "";
   $("celebration").replaceChildren();
   $("result").textContent = "";
+  if (current.selfCheck) {
+    $("model").hidden = false;
+    $("model").open = Boolean(state.checked);
+    if (state.checked) $("advance").hidden = false;
+  }
   updateBack();
   $("next-label").textContent = position + 1 === set.questions.length ? "結果を見る" : "次の問題";
   showChoice(state.selected);
+  $("ask").setAttribute("aria-expanded", "false");
+  $("chat-next").hidden = true;
   $("copy-status").textContent = "";
   $("copy-fallback").hidden = true;
-  $("open-chatgpt").hidden = true;
   params.set("question", String(position + 1));
   history.replaceState(null, "", "?" + params);
   $("stage").scrollTop = 0;
   if (focus) $("question").focus({ preventScroll: true });
 }
+
+$("model").addEventListener("toggle", () => {
+  if (!current?.selfCheck || !$("model").open || $("quiz").hidden) return;
+  attempts.set(key(), { checked: true });
+  $("advance").hidden = false;
+});
 
 function start(number, question = 1, focus = false) {
   phase = number;
@@ -220,7 +243,7 @@ function promptForQuestion() {
     current.context && "場面：" + current.context,
     current.table && "資料の表：\n" + current.table.map(row => row.join(" ｜ ")).join("\n"),
     current.figureText && "図・資料の文字情報：\n" + current.figureText,
-    current.figure && !current.sourceTex && "図・資料の画像：" + new URL("figures/" + current.figure + ".png", location.href).href,
+    current.figure && !current.sourceTex && "図・資料の画像：" + figureUrl(current.figure),
     current.contextFigure && "この問題は、前の小問の図も参照します。",
     current.prior?.length && "前の小問：\n" + current.prior.join("\n"),
     "問題：" + current.text,
@@ -236,19 +259,24 @@ function promptForQuestion() {
 $("ask").addEventListener("click", async () => {
   const question = current;
   const text = promptForQuestion();
+  let copied = false;
   try {
     await navigator.clipboard.writeText(text);
-    if (current !== question || $("quiz").hidden) return;
-    $("copy-status").textContent = "コピーしました。ChatGPTを開いて貼り付けてね。";
-    $("copy-fallback").hidden = true;
+    copied = true;
   } catch {
-    if (current !== question || $("quiz").hidden) return;
-    $("copy-fallback").value = text;
-    $("copy-fallback").hidden = false;
-    $("copy-fallback").select();
-    $("copy-status").textContent = "自動コピーできなかったので、下の文章をコピーしてね。";
+    // Some browsers block clipboard writes and need a manual copy.
   }
-  $("open-chatgpt").hidden = false;
+  if (current !== question || $("quiz").hidden) return;
+  $("chat-next").hidden = false;
+  $("ask").setAttribute("aria-expanded", "true");
+  const fallback = $("copy-fallback");
+  fallback.value = copied ? "" : text;
+  fallback.hidden = copied;
+  $("copy-status").textContent = copied
+    ? "コピーできたよ！ ChatGPTを開いて、入力欄に貼り付けて送ってみよう。"
+    : "下の質問文をコピーしてから、ChatGPTの入力欄に貼り付けて送ってみよう。";
+  if (!copied) fallback.select();
+  $("chat-next").scrollIntoView({ block: "nearest" });
 });
 
 function slideTo(offset, duration, easing) {
@@ -311,14 +339,19 @@ function showSummary(questions) {
   $("stage").scrollTop = 0;
   let answered = 0;
   let score = 0;
+  let checked = 0;
   questions.forEach((q, i) => {
-    const selected = attempts.get(key(i))?.selected;
+    const attempt = attempts.get(key(i));
+    const selected = attempt?.selected;
+    if (q.selfCheck && attempt?.checked) checked++;
     if (!q.paper && selected !== undefined) {
       answered++;
       if (selected === q.correct) score++;
     }
   });
-  $("score").textContent = "解いた" + answered + "問中 " + score + "問 正解";
+  const choiceScore = answered ? "選択問題 " + answered + "問中 " + score + "問正解" : "";
+  const selfCheckScore = checked ? "答えを確認した問題 " + checked + "問" : "";
+  $("score").textContent = [choiceScore, selfCheckScore].filter(Boolean).join(" ｜ ") || "結果";
   $("continue").hidden = phase === subject.phases.length;
   $("score").focus({ preventScroll: true });
 }
@@ -469,7 +502,6 @@ async function load() {
   ));
   $("credits").hidden = token !== "social";
   $("paper-link").hidden = token !== "math";
-  $("workbook").href = "../materials/" + token + ".pdf";
   $("workbook").hidden = false;
   for (const id of ["phase", "jump"]) $(id).disabled = false;
   $("load-status").hidden = true;

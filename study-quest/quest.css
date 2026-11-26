@@ -205,19 +205,31 @@
 .answers .correct .choice-letter { background: #6df2b9; color: #0e3b2e; }
 .answers .incorrect { border-color: #ff9eaa; background: #562637; }
 .answers .incorrect .choice-letter { background: #ff9eaa; color: #4a1b2c; }
-.practice-page .help-button {
-  margin-top: .35rem;
-  padding-inline: 0;
-  border: 0;
-  background: transparent;
-  text-decoration: underline;
-  text-underline-offset: .18em;
-  color: var(--quest-muted);
-  font-size: .88rem;
+.chat-help { margin-top: .8rem; }
+.practice-page .help-button,
+.practice-page #open-chatgpt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: .6rem .85rem;
+  border: 1px solid #ab98f9;
+  border-radius: .65rem;
+  background: #342e5b;
+  color: #fff;
+  font-size: .94rem;
+  font-weight: 700;
+  text-decoration: none;
 }
-.copy-status { margin: 0 0 .45rem; font-size: .9rem; }
-.copy-status:empty { display: none; }
-.practice-page textarea { display: block; width: 100%; min-height: 7rem; font: inherit; margin-bottom: .55rem; }
+.chat-next {
+  margin-top: .5rem;
+  padding: .68rem .8rem;
+  border: 1px solid var(--quest-line);
+  border-radius: .65rem;
+  background: var(--quest-panel);
+}
+.chat-next p { margin: 0 0 .55rem; line-height: 1.55; }
+.practice-page #copy-fallback { display: block; width: 100%; min-height: 7rem; font: inherit; margin-bottom: .55rem; }
 .context, .model, .lesson {
   margin-block: .55rem;
   padding: .48rem .68rem;
