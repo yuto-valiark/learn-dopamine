@@ -2,71 +2,81 @@
 <html lang="ja">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="robots" content="noindex">
   <meta name="description" content="勉強クエスト。算数・理科・社会の4択練習と、英語の音読。">
   <meta property="og:title" content="練習問題｜勉強クエスト">
   <title>練習問題｜勉強クエスト</title>
   <link rel="stylesheet" href="../english/style.css">
-  <link rel="stylesheet" href="../quest.css">
-  <script src="practice.js" defer></script>
+  <link rel="stylesheet" href="../quest.css?v=aa8594e81c">
+  <script src="practice.js?v=30f2acad55" defer></script>
 </head>
-<body>
-  <header class="brand"><a href="../">勉強クエスト</a></header>
+<body class="practice-page">
   <main>
-      <a class="back" href="../">教科の一覧</a>
-      <h1 id="heading">練習問題</h1>
-      <p class="intro">フェーズと問題番号を選んで、4択で答えよう。</p>
-      <div class="phase-controls">
-        <label for="phase">フェーズ</label>
-        <select id="phase" disabled></select>
-        <label for="mode">練習の種類</label>
-        <select id="mode" disabled>
-          <option value="workbook">問題集の全問</option>
-          <option value="quick">追加4択ドリル</option>
-        </select>
-        <label for="jump">問題番号</label>
-        <select id="jump" disabled></select>
-        <a id="workbook" hidden>練習問題集（PDF）</a>
-      </div>
-      <details id="lesson" class="lesson" hidden><summary>このフェーズの要点と例題</summary><div id="lesson-body"></div></details>
-      <a id="credits" href="../materials/sources.html" hidden>写真・地図の出典</a>
-      <p id="paper-link" hidden><a href="../materials/paper.html">「紙で実施」の作図問題一覧</a></p>
-      <p id="load-status" role="status">問題を読み込み中…</p>
-      <section id="quiz" class="quiz-card" hidden aria-labelledby="question">
-        <p id="position" class="question-count"></p>
-        <div id="context" class="context" hidden></div>
-        <h2 id="question" tabindex="-1"></h2>
-        <img id="prompt-image" class="problem-image" alt="" hidden>
-        <p id="instruction" class="answer-instruction" hidden></p>
-        <div id="options" class="answers" role="group" aria-label="答えの選択肢"></div>
-        <div id="paper" class="model" hidden>
-          <p><strong>紙で実施</strong></p>
-          <p id="paper-detail"></p>
-          <a href="../materials/math.pdf">算数の問題集（PDF）を開く</a>
+      <header class="practice-header">
+        <a class="home-link" href="../" aria-label="教科の一覧"><span aria-hidden="true">⌂</span></a>
+        <div class="practice-title">
+          <h1 id="heading">練習問題</h1>
+          <span id="phase-number"></span>
         </div>
-        <p id="result" role="status"></p>
-        <details id="model" class="model" hidden>
-          <summary>元の問題集の解答・確認例</summary>
-          <div id="model-body"></div>
+        <div id="streak" class="streak"><span aria-hidden="true">🔥</span> <strong id="streak-count">0</strong> 連続</div>
+        <details id="menu" class="practice-menu">
+          <summary aria-label="問題を選ぶ・メニュー"><span aria-hidden="true">☰</span></summary>
+          <div class="menu-panel">
+            <div class="phase-controls">
+              <label for="phase">フェーズ</label>
+              <select id="phase" disabled></select>
+              <label for="jump">問題番号</label>
+              <select id="jump" disabled></select>
+            </div>
+            <button id="previous" type="button" hidden>前の問題</button>
+            <details id="lesson" class="lesson" hidden><summary>フェーズの要点と例題</summary><div id="lesson-body"></div></details>
+            <a id="paper-link" href="../materials/paper.html" hidden>紙で実施する作図</a>
+            <a id="workbook" hidden>問題集PDF</a>
+            <a id="credits" href="../materials/sources.html" hidden>写真・地図の出典</a>
+          </div>
         </details>
-        <div class="actions">
-          <button id="previous" type="button" hidden>前の問題</button>
-          <button id="ask" type="button">ChatGPTに聞く</button>
-          <button id="next" type="button" class="primary" hidden>次の問題</button>
-        </div>
-        <p id="copy-status" class="copy-status" role="status"></p>
-        <textarea id="copy-fallback" aria-label="解説をお願いする文章" readonly hidden></textarea>
-        <a id="open-chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener" hidden>ChatGPTを開く</a>
-      </section>
-      <section id="summary" class="quiz-card" hidden>
-        <h2 id="score" tabindex="-1"></h2>
-        <p>これは練習の結果です。本番のテストは兄と確認しよう。</p>
-        <div class="actions">
-          <button id="retry" type="button">もう一度解く</button>
-          <button id="continue" type="button" class="primary">次のフェーズを練習</button>
-        </div>
-      </section>
+      </header>
+      <progress id="progress" class="quest-progress" aria-label="フェーズ内の問題位置" max="1" value="0"></progress>
+      <div id="stage" class="practice-stage">
+        <p id="load-status" role="status">問題を読み込み中…</p>
+        <section id="quiz" class="quiz-card" hidden aria-labelledby="question">
+          <p id="position" class="question-count"></p>
+          <div id="context" class="context" hidden></div>
+          <h2 id="question" tabindex="-1"></h2>
+          <img id="prompt-image" class="problem-image" alt="" hidden>
+          <p id="instruction" class="answer-instruction" hidden></p>
+          <div id="options" class="answers" role="group" aria-label="答えの選択肢"></div>
+          <div id="paper" class="model paper-note" hidden>
+            <p><strong>紙で実施</strong></p>
+            <p id="paper-detail"></p>
+            <a href="../materials/paper.html">作図の一覧</a>
+          </div>
+          <details id="model" class="model" hidden>
+            <summary>問題集の解答</summary>
+            <div id="model-body"></div>
+          </details>
+          <button id="ask" class="help-button" type="button">ChatGPTに聞く</button>
+          <p id="copy-status" class="copy-status" role="status"></p>
+          <textarea id="copy-fallback" aria-label="解説をお願いする文章" readonly hidden></textarea>
+          <a id="open-chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener" hidden>ChatGPTを開く</a>
+        </section>
+        <section id="summary" class="quiz-card score-card" hidden>
+          <div class="score-icon" aria-hidden="true">🏆</div>
+          <h2 id="score" tabindex="-1"></h2>
+          <div class="actions">
+            <button id="retry" type="button">もう一度解く</button>
+            <button id="continue" type="button" class="primary">次のフェーズへ</button>
+          </div>
+        </section>
+      </div>
+      <aside id="advance" class="advance-dock" hidden aria-label="採点と次の問題">
+        <div id="celebration" class="celebration" aria-hidden="true"></div>
+        <p id="result" role="status" aria-live="polite"></p>
+        <button id="next" type="button" class="next-button">
+          <span id="next-label">次の問題</span><small>スワイプでも進める</small>
+        </button>
+      </aside>
       <noscript>4択練習を使うにはJavaScriptを有効にしてください。</noscript>
     </main>
 </body>

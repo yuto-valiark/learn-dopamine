@@ -4,7 +4,8 @@ const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const letters = "ABCD";
 const attempts = new Map();
-let banks, token, subject, phase, position, current, mode;
+let token, subject, phase, position, current;
+let streak = 0;
 
 function paragraph(text) {
   const p = document.createElement("p");
@@ -16,8 +17,8 @@ function phaseSet() {
   return subject.phases[phase - 1];
 }
 
-function key() {
-  return [token, mode, phase, position].join("/");
+function key(index = position) {
+  return [phase, index].join("/");
 }
 
 function figure(name, alt) {
@@ -58,17 +59,46 @@ function renderContext() {
   context.hidden = !context.children.length;
 }
 
-function showChoice(index) {
+function celebrate() {
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reducedMotion) return;
+  const particles = Array.from({ length: 12 }, (_, index) => {
+    const particle = document.createElement("span");
+    particle.style.setProperty("--x", ((index - 5.5) * 23) + "px");
+    particle.style.setProperty("--y", (-24 - (index * 17 % 58)) + "px");
+    particle.style.setProperty("--turn", ((index - 5) * 42) + "deg");
+    particle.style.setProperty("--hue", [46, 158, 196, 315][index % 4]);
+    return particle;
+  });
+  $("celebration").replaceChildren(...particles);
+  $("streak").animate([
+    { transform: "scale(1)" }, { transform: "scale(1.18)" }, { transform: "scale(1)" },
+  ], { duration: 420 });
+}
+
+function updateStreak() {
+  $("streak-count").textContent = streak;
+  $("streak").classList.toggle("on-fire", streak >= 3);
+}
+
+function showChoice(index, fresh = false) {
   if (index === undefined) return;
   const passed = index === current.correct;
   Array.from($("options").children).forEach((button, i) => {
-    button.disabled = true;
+    button.setAttribute("aria-disabled", "true");
     if (i === current.correct) button.classList.add("correct");
     else if (i === index) button.classList.add("incorrect");
   });
-  $("result").textContent = passed ? "正解！" : "正解は「" + current.options[current.correct] + "」です。";
+  if (fresh) {
+    streak = passed ? streak + 1 : 0;
+    updateStreak();
+  }
+  $("advance").hidden = false;
+  $("advance").dataset.result = passed ? "correct" : "incorrect";
+  const count = fresh && streak > 1 ? "　🔥 " + streak + "連続" : "";
+  $("result").textContent = passed ? "✦ 正解！" + count : "おしい！ 正解は " + letters[current.correct];
   $("model").hidden = !current.answer;
-  $("next").hidden = false;
+  if (fresh && passed) celebrate();
 }
 
 function render(focus = false) {
@@ -80,7 +110,11 @@ function render(focus = false) {
   $("position").textContent = (position + 1) + " / " + set.questions.length + " 問" +
     (current.id ? "　" + current.id + "　｜　" + current.group : "");
   $("jump").value = position;
+  $("phase-number").textContent = "フェーズ " + phase;
+  $("progress").max = set.questions.length;
+  $("progress").value = position + 1;
   $("question").textContent = current.sourceTex ? "問題" : current.text;
+  $("question").classList.toggle("visually-hidden", Boolean(current.sourceTex));
   const image = $("prompt-image");
   image.hidden = !current.sourceTex;
   if (current.sourceTex) {
@@ -88,17 +122,23 @@ function render(focus = false) {
     image.alt = current.text;
   }
   renderContext();
-  $("instruction").hidden = !current.instruction;
+  $("instruction").hidden = !current.instruction || current.instruction === "元の問題に合う答えを一つ選ぼう。";
   $("instruction").textContent = current.instruction || "";
   $("paper").hidden = !current.paper;
   $("paper-detail").textContent = current.paper ? current.id + "　" + current.paper : "";
   $("options").replaceChildren(...(current.options || []).map((option, index) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.textContent = letters[index] + ". " + option;
+    const letter = document.createElement("span");
+    letter.className = "choice-letter";
+    letter.textContent = letters[index];
+    const content = document.createElement("span");
+    content.textContent = option;
+    button.append(letter, content);
     button.addEventListener("click", () => {
-      attempts.set(key(), { ...state, selected: index });
-      showChoice(index);
+      if (attempts.has(key())) return;
+      attempts.set(key(), { selected: index });
+      showChoice(index, true);
     });
     return button;
   }));
@@ -107,17 +147,20 @@ function render(focus = false) {
   $("model-body").replaceChildren(...(current.answer
     ? [current.answerFigure ? figure(current.answerFigure, current.answer) : paragraph(current.answer)]
     : []));
+  $("advance").hidden = !current.paper;
+  $("advance").dataset.result = current.paper ? "paper" : "";
+  $("celebration").replaceChildren();
   $("result").textContent = "";
   $("previous").hidden = position === 0;
-  $("next").hidden = !current.paper;
-  $("next").textContent = position + 1 === set.questions.length ? "結果を見る" : "次の問題";
+  $("next-label").textContent = position + 1 === set.questions.length ? "結果を見る" : "次の問題";
   showChoice(state.selected);
   $("copy-status").textContent = "";
   $("copy-fallback").hidden = true;
   $("open-chatgpt").hidden = true;
   params.set("question", String(position + 1));
   history.replaceState(null, "", "?" + params);
-  if (focus) $("question").focus();
+  $("stage").scrollTop = 0;
+  if (focus) $("question").focus({ preventScroll: true });
 }
 
 function start(number, question = 1, focus = false) {
@@ -137,21 +180,6 @@ function start(number, question = 1, focus = false) {
   $("lesson").hidden = !lesson.children.length;
   $("lesson").open = false;
   render(focus);
-}
-
-function setMode(nextMode, number, question) {
-  mode = nextMode === "quick" ? "quick" : "workbook";
-  subject = banks[mode][token];
-  $("mode").value = mode;
-  params.set("mode", mode);
-  $("heading").textContent = subject.label + (mode === "quick" ? "の追加4択" : "の練習問題");
-  document.title = $("heading").textContent + "｜勉強クエスト";
-  $("phase").replaceChildren(...subject.phases.map((set, index) =>
-    new Option("フェーズ" + (index + 1) + (mode === "workbook" || index < 10 ? "　" + set.title : ""), index + 1)
-  ));
-  $("credits").hidden = token !== "social" || mode !== "workbook";
-  $("paper-link").hidden = token !== "math" || mode !== "workbook";
-  start(number, question);
 }
 
 function promptForQuestion() {
@@ -177,12 +205,15 @@ function promptForQuestion() {
 }
 
 $("ask").addEventListener("click", async () => {
+  const question = current;
   const text = promptForQuestion();
   try {
     await navigator.clipboard.writeText(text);
+    if (current !== question || $("quiz").hidden) return;
     $("copy-status").textContent = "コピーしました。ChatGPTを開いて貼り付けてね。";
     $("copy-fallback").hidden = true;
   } catch {
+    if (current !== question || $("quiz").hidden) return;
     $("copy-fallback").value = text;
     $("copy-fallback").hidden = false;
     $("copy-fallback").select();
@@ -191,19 +222,28 @@ $("ask").addEventListener("click", async () => {
   $("open-chatgpt").hidden = false;
 });
 
-$("next").addEventListener("click", () => {
+function advance() {
+  if ($("advance").hidden || $("menu").open) return;
   const questions = phaseSet().questions;
   if (position + 1 < questions.length) {
     position++;
     render(true);
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      $("quiz").animate([
+        { transform: "translateY(22px)", opacity: 0.55 }, { transform: "translateY(0)", opacity: 1 },
+      ], { duration: 240, easing: "ease-out" });
+    }
     return;
   }
   $("quiz").hidden = true;
+  $("advance").hidden = true;
+  $("previous").hidden = true;
   $("summary").hidden = false;
+  $("stage").scrollTop = 0;
   let answered = 0;
   let score = 0;
   questions.forEach((q, i) => {
-    const selected = attempts.get([token, mode, phase, i].join("/"))?.selected;
+    const selected = attempts.get(key(i))?.selected;
     if (!q.paper && selected !== undefined) {
       answered++;
       if (selected === q.correct) score++;
@@ -211,35 +251,107 @@ $("next").addEventListener("click", () => {
   });
   $("score").textContent = "解いた" + answered + "問中 " + score + "問 正解";
   $("continue").hidden = phase === subject.phases.length;
-  $("score").focus();
+  $("score").focus({ preventScroll: true });
+}
+
+$("next").addEventListener("click", advance);
+
+function isVerticalSwipe(start, end, bothDirections = false) {
+  const vertical = start.clientY - end.clientY;
+  const distance = bothDirections ? Math.abs(vertical) : vertical;
+  return distance >= 45 && distance > Math.abs(start.clientX - end.clientX) * 1.4;
+}
+
+const dock = $("advance");
+let dockStart = null;
+let dockSwiped = false;
+dock.addEventListener("pointerdown", event => {
+  if (!event.isPrimary || event.button !== 0) return;
+  dockSwiped = false;
+  dockStart = event;
+  event.target.setPointerCapture(event.pointerId);
 });
-$("previous").addEventListener("click", () => { position--; render(true); });
+dock.addEventListener("pointercancel", () => { dockStart = null; });
+dock.addEventListener("pointerup", event => {
+  if (dockStart?.pointerId !== event.pointerId) return;
+  dockSwiped = isVerticalSwipe(dockStart, event, true);
+  dockStart = null;
+  if (dockSwiped) advance();
+});
+dock.addEventListener("click", event => {
+  if (event.detail && dockSwiped) event.stopImmediatePropagation();
+}, { capture: true });
+
+const stage = $("stage");
+let stageStart = null;
+stage.addEventListener("touchstart", event => {
+  const atEnd = stage.scrollHeight - stage.scrollTop - stage.clientHeight <= 2;
+  stageStart = event.touches.length === 1 && atEnd &&
+    !dock.hidden && !$("menu").open ? event.touches[0] : null;
+}, { passive: true });
+stage.addEventListener("touchcancel", () => { stageStart = null; }, { passive: true });
+stage.addEventListener("touchend", event => {
+  const start = stageStart;
+  stageStart = null;
+  if (!start || event.touches.length || !isVerticalSwipe(start, event.changedTouches[0])) return;
+  if (event.cancelable) event.preventDefault();
+  advance();
+});
+
+$("previous").addEventListener("click", () => {
+  $("menu").open = false;
+  position--;
+  render(true);
+});
 $("retry").addEventListener("click", () => {
-  phaseSet().questions.forEach((_, i) => attempts.delete([token, mode, phase, i].join("/")));
+  phaseSet().questions.forEach((_, i) => attempts.delete(key(i)));
+  streak = 0;
+  updateStreak();
   start(phase, 1, true);
 });
 $("continue").addEventListener("click", () => start(phase + 1, 1, true));
-$("phase").addEventListener("change", () => start(Number($("phase").value)));
-$("jump").addEventListener("change", () => { position = Number($("jump").value); render(true); });
-$("mode").addEventListener("change", () => setMode($("mode").value, phase, 1));
+$("phase").addEventListener("change", () => {
+  $("menu").open = false;
+  start(Number($("phase").value), 1, true);
+});
+$("jump").addEventListener("change", () => {
+  $("menu").open = false;
+  position = Number($("jump").value);
+  render(true);
+});
+document.addEventListener("click", event => {
+  if ($("menu").open && !$("menu").contains(event.target)) $("menu").open = false;
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape" && $("menu").open) {
+    $("menu").open = false;
+    $("menu").querySelector("summary").focus();
+  }
+});
 
 async function load() {
-  const [workbook, quick] = await Promise.all(["workbook.json", "bank.json"].map(async file => {
-    const response = await fetch(file);
-    if (!response.ok) throw new Error(file);
-    return response.json();
-  }));
-  banks = { workbook, quick };
+  const response = await fetch("workbook.json");
+  if (!response.ok) throw new Error("workbook.json");
+  const workbook = await response.json();
   const choice = params.get("subject");
   token = Object.hasOwn(workbook, choice) ? choice : "math";
+  subject = workbook[token];
   params.set("subject", token);
+  params.delete("mode");
+  $("heading").textContent = subject.label;
+  document.title = subject.label + "｜勉強クエスト";
+  $("phase").replaceChildren(...subject.phases.map((set, index) =>
+    new Option("フェーズ" + (index + 1) + "　" + set.title, index + 1)
+  ));
+  $("credits").hidden = token !== "social";
+  $("paper-link").hidden = token !== "math";
   $("workbook").href = "../materials/" + token + ".pdf";
   $("workbook").hidden = false;
-  for (const id of ["phase", "jump", "mode"]) $(id).disabled = false;
+  for (const id of ["phase", "jump"]) $(id).disabled = false;
   $("load-status").hidden = true;
   const requested = Number(params.get("phase"));
-  const valid = Number.isInteger(requested) && requested >= 1 && requested <= workbook[token].phases.length;
-  setMode(params.get("mode"), valid ? requested : 1, Number(params.get("question")));
+  const valid = Number.isInteger(requested) && requested >= 1 && requested <= subject.phases.length;
+  start(valid ? requested : 1, Number(params.get("question")));
 }
 load().catch(() => {
   $("load-status").hidden = false;
