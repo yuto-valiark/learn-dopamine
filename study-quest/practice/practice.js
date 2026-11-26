@@ -10,6 +10,7 @@ let streak = 0;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const stage = $("stage");
 const dock = $("advance");
+const figureDialog = $("figure-dialog");
 let transition;
 
 function paragraph(text) {
@@ -26,13 +27,37 @@ function key(index = position) {
   return [phase, index].join("/");
 }
 
-function figure(name, alt) {
+function figure(name, alt, kind = "material") {
   const image = document.createElement("img");
   image.src = "figures/" + name + ".png";
   image.alt = alt;
   image.className = "problem-image";
-  return image;
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "figure-preview " + kind;
+  const hint = document.createElement("span");
+  hint.textContent = "拡大";
+  button.append(image, hint);
+  button.addEventListener("click", () => {
+    $("figure-full").src = image.src;
+    $("figure-full").alt = image.alt;
+    setFigureZoom(false);
+    figureDialog.showModal();
+    $("figure-view").scrollTo(0, 0);
+  });
+  return button;
 }
+
+function setFigureZoom(zoomed) {
+  const button = $("figure-zoom");
+  button.setAttribute("aria-pressed", String(zoomed));
+  button.textContent = zoomed ? "全体表示" : "拡大";
+  $("figure-view").classList.toggle("zoomed", zoomed);
+}
+
+$("figure-zoom").addEventListener("click", () => {
+  setFigureZoom($("figure-zoom").getAttribute("aria-pressed") !== "true");
+});
 
 function renderContext() {
   const context = $("context");
@@ -120,12 +145,10 @@ function render(focus = false) {
   $("progress").value = position + 1;
   $("question").textContent = current.sourceTex ? "問題" : current.text;
   $("question").classList.toggle("visually-hidden", Boolean(current.sourceTex));
-  const image = $("prompt-image");
-  image.hidden = !current.sourceTex;
-  if (current.sourceTex) {
-    image.src = "figures/" + current.figure + ".png";
-    image.alt = current.text;
-  }
+  const promptImage = $("prompt-image");
+  promptImage.hidden = !current.sourceTex;
+  promptImage.replaceChildren(...(current.sourceTex
+    ? [figure(current.figure, current.text, "printed-question")] : []));
   renderContext();
   $("instruction").hidden = !current.instruction || current.instruction === "元の問題に合う答えを一つ選ぼう。";
   $("instruction").textContent = current.instruction || "";
@@ -157,7 +180,7 @@ function render(focus = false) {
   $("advance").dataset.result = current.paper ? "paper" : "";
   $("celebration").replaceChildren();
   $("result").textContent = "";
-  $("previous").hidden = position === 0;
+  updateBack();
   $("next-label").textContent = position + 1 === set.questions.length ? "結果を見る" : "次の問題";
   showChoice(state.selected);
   $("copy-status").textContent = "";
@@ -283,8 +306,8 @@ async function advance(direction = -1) {
 function showSummary(questions) {
   $("quiz").hidden = true;
   $("advance").hidden = true;
-  $("previous").hidden = true;
   $("summary").hidden = false;
+  updateBack();
   $("stage").scrollTop = 0;
   let answered = 0;
   let score = 0;
@@ -380,9 +403,27 @@ stage.addEventListener("touchend", event => {
   settleSlide(delta, false);
 });
 
-$("previous").addEventListener("click", () => {
+function updateBack() {
+  const onSummary = !$("summary").hidden;
+  const back = $("back");
+  if (position === 0 && !onSummary) {
+    back.href = "../";
+    back.textContent = "教科一覧";
+    return;
+  }
+  const previous = new URLSearchParams(params);
+  previous.set("question", String(onSummary ? position + 1 : position));
+  back.href = "?" + previous;
+  back.textContent = onSummary ? "問題に戻る" : "前の問題";
+}
+
+$("back").addEventListener("click", event => {
+  if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !current) return;
+  const onSummary = !$("summary").hidden;
+  if (position === 0 && !onSummary) return;
+  event.preventDefault();
   $("menu").open = false;
-  position--;
+  if (!onSummary) position--;
   render(true);
 });
 $("retry").addEventListener("click", () => {

@@ -8,13 +8,13 @@
   <meta property="og:title" content="練習問題｜勉強クエスト">
   <title>練習問題｜勉強クエスト</title>
   <link rel="stylesheet" href="../english/style.css">
-  <link rel="stylesheet" href="../quest.css?v=1f8446f95b">
-  <script src="practice.js?v=65f376dba7" data-workbook="dc12a289a0" defer></script>
+  <link rel="stylesheet" href="../quest.css?v=ed311c85e2">
+  <script src="practice.js?v=6448e2601c" data-workbook="64a643a6d4" defer></script>
 </head>
 <body class="practice-page">
   <main>
       <header class="practice-header">
-        <a class="home-link" href="../" aria-label="教科の一覧"><span aria-hidden="true">⌂</span></a>
+        <a id="back" class="quiz-back" href="../">教科一覧</a>
         <div class="practice-title">
           <h1 id="heading">練習問題</h1>
           <span id="phase-number"></span>
@@ -29,11 +29,11 @@
               <label for="jump">問題番号</label>
               <select id="jump" disabled></select>
             </div>
-            <button id="previous" type="button" hidden>前の問題</button>
             <details id="lesson" class="lesson" hidden><summary>フェーズの要点と例題</summary><div id="lesson-body"></div></details>
             <a id="paper-link" href="../materials/paper.html" hidden>紙で実施する作図</a>
             <a id="workbook" hidden>問題集PDF</a>
             <a id="credits" href="../materials/sources.html" hidden>写真・地図の出典</a>
+            <a href="../">教科一覧</a>
           </div>
         </details>
       </header>
@@ -44,7 +44,7 @@
           <p id="position" class="question-count"></p>
           <div id="context" class="context" hidden></div>
           <h2 id="question" tabindex="-1"></h2>
-          <img id="prompt-image" class="problem-image" alt="" hidden>
+          <div id="prompt-image" hidden></div>
           <p id="instruction" class="answer-instruction" hidden></p>
           <div id="options" class="answers" role="group" aria-label="答えの選択肢"></div>
           <div id="paper" class="model paper-note" hidden>
@@ -77,6 +77,16 @@
           <span id="next-label">次の問題</span><small>スワイプでも進める</small>
         </button>
       </aside>
+      <dialog id="figure-dialog" class="figure-dialog" aria-labelledby="figure-title">
+        <header>
+          <strong id="figure-title">図・資料</strong>
+          <button id="figure-zoom" type="button" aria-pressed="false">拡大</button>
+          <form method="dialog"><button type="submit">閉じる</button></form>
+        </header>
+        <div id="figure-view" class="figure-view" tabindex="0" aria-label="画像の表示欄">
+          <img id="figure-full" alt="">
+        </div>
+      </dialog>
       <noscript>4択練習を使うにはJavaScriptを有効にしてください。</noscript>
     </main>
 </body>
