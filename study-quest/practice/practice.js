@@ -68,7 +68,8 @@ $("figure-zoom").addEventListener("click", () => {
 function renderContext() {
   const context = $("context");
   context.replaceChildren();
-  if (current.context) context.append(paragraph(current.context));
+  const introduction = current.guessContext || current.context;
+  if (introduction) context.append(paragraph(introduction));
   if (current.contextFigure) context.append(figure(current.contextFigure, "前の小問の資料"));
   if (current.figure && !current.sourceTex) {
     context.append(figure(current.figure, current.figureText || "問題の図・資料"));
@@ -249,7 +250,7 @@ function promptForQuestion() {
     "勉強クエストの練習問題です。小学生にも分かる日本語で、考え方を順番に解説してください。",
     "選んだ答えに誤りがあれば、答えと理由のどこを見直すとよいか教えてください。",
     "教科：" + subject.label + "　フェーズ：" + phase + "　問題番号：" + (current.id || position + 1),
-    current.context && "場面：" + current.context,
+    (current.guessContext || current.context) && "場面：" + (current.guessContext || current.context),
     current.table && "資料の表：\n" + current.table.map(row => row.join(" ｜ ")).join("\n"),
     current.figureText && "図・資料の文字情報：\n" + current.figureText,
     current.figure && !current.sourceTex && "図・資料の画像：" + figureUrl(current.figure),
