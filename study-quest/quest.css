@@ -50,4 +50,28 @@ button:focus-visible, select:focus-visible, textarea:focus-visible {
 #result { min-height: 1.6rem; font-weight: 700; line-height: 1.55; }
 .copy-status { margin-bottom: .5rem; }
 textarea { display: block; width: 100%; min-height: 9rem; font: inherit; margin-bottom: .55rem; }
+.context, .model, .lesson {
+  margin-block: .8rem;
+  padding: .7rem .85rem;
+  border-radius: .55rem;
+  background: #edf5f1;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+.context p, .model p, .lesson p { margin: .35rem 0; white-space: pre-wrap; }
+.context table { margin-block: .45rem; border-collapse: collapse; }
+.context td, .context th { border: 1px solid #81aa9d; padding: .3rem .5rem; }
+.problem-image { display: block; max-width: 100%; height: auto; margin: .6rem 0; }
+#written textarea { min-height: 5.4rem; margin-top: .4rem; }
+#drawing { margin: .65rem 0; }
+#drawing summary { min-height: 44px; padding-block: .55rem; cursor: pointer; }
+#sketch {
+  display: block;
+  width: 100%;
+  aspect-ratio: 640 / 300;
+  margin-bottom: .5rem;
+  border: 1px solid #81aa9d;
+  border-radius: .5rem;
+  touch-action: none;
+}
 @media (min-width: 40rem) { .subject-list { grid-template-columns: repeat(2, 1fr); } }

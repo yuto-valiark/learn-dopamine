@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
   <meta name="description" content="勉強クエスト。算数・理科・社会の4択練習と、英語の音読。">
-  <meta property="og:title" content="4択練習｜勉強クエスト">
-  <title>4択練習｜勉強クエスト</title>
+  <meta property="og:title" content="練習問題｜勉強クエスト">
+  <title>練習問題｜勉強クエスト</title>
   <link rel="stylesheet" href="../english/style.css">
   <link rel="stylesheet" href="../quest.css">
   <script src="practice.js" defer></script>
@@ -15,20 +15,42 @@
   <header class="brand"><a href="../">勉強クエスト</a></header>
   <main>
       <a class="back" href="../">教科の一覧</a>
-      <h1 id="heading">4択練習</h1>
-      <p class="intro">フェーズを選んで、5問にチャレンジしよう。記述や作図の練習は問題集でできます。</p>
+      <h1 id="heading">練習問題</h1>
+      <p class="intro">フェーズと問題を選ぼう。問題集の番号で探せます。</p>
       <div class="phase-controls">
         <label for="phase">フェーズ</label>
         <select id="phase" disabled></select>
+        <label for="mode">練習の種類</label>
+        <select id="mode" disabled>
+          <option value="workbook">問題集の全問</option>
+          <option value="quick">追加4択ドリル</option>
+        </select>
+        <label for="jump">問題番号</label>
+        <select id="jump" disabled></select>
         <a id="workbook" hidden>練習問題集（PDF）</a>
       </div>
+      <details id="lesson" class="lesson" hidden><summary>このフェーズの要点と例題</summary><div id="lesson-body"></div></details>
+      <a id="credits" href="../materials/sources.html" hidden>写真・地図の出典</a>
       <p id="load-status" role="status">問題を読み込み中…</p>
       <section id="quiz" class="quiz-card" hidden aria-labelledby="question">
         <p id="position" class="question-count"></p>
+        <div id="context" class="context" hidden></div>
         <h2 id="question" tabindex="-1"></h2>
+        <img id="prompt-image" class="problem-image" alt="" hidden>
         <div id="options" class="answers" role="group" aria-label="答えの選択肢"></div>
+        <div id="written" hidden>
+          <label for="response">自分の答え・作業のメモ</label>
+          <textarea id="response" rows="3"></textarea>
+          <details id="drawing" hidden><summary>図や計算をかく</summary>
+            <canvas id="sketch" width="640" height="300" aria-label="図や計算をかくスペース"></canvas>
+            <button id="clear-sketch" type="button">図を消す</button>
+          </details>
+          <button id="show-answer" type="button">解答・確認例を見る</button>
+          <div id="model" class="model" hidden></div>
+        </div>
         <p id="result" role="status"></p>
         <div class="actions">
+          <button id="previous" type="button" hidden>前の問題</button>
           <button id="ask" type="button">ChatGPTに聞く</button>
           <button id="next" type="button" class="primary" hidden>次の問題</button>
         </div>
