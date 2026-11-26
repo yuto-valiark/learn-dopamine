@@ -41,7 +41,7 @@ button:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: 3px solid #ac5a04;
   outline-offset: 2px;
 }
-.answers button { text-align: start; line-height: 1.55; }
+.answers button { text-align: start; line-height: 1.55; white-space: pre-wrap; }
 .answers button:disabled { cursor: default; opacity: 1; }
 .answers .correct { border-color: #147151; background: #def5e9; }
 .answers .incorrect { border-color: #a84932; background: #ffebe5; }
@@ -62,16 +62,7 @@ textarea { display: block; width: 100%; min-height: 9rem; font: inherit; margin-
 .context table { margin-block: .45rem; border-collapse: collapse; }
 .context td, .context th { border: 1px solid #81aa9d; padding: .3rem .5rem; }
 .problem-image { display: block; max-width: 100%; height: auto; margin: .6rem 0; }
-#written textarea { min-height: 5.4rem; margin-top: .4rem; }
-#drawing { margin: .65rem 0; }
-#drawing summary { min-height: 44px; padding-block: .55rem; cursor: pointer; }
-#sketch {
-  display: block;
-  width: 100%;
-  aspect-ratio: 640 / 300;
-  margin-bottom: .5rem;
-  border: 1px solid #81aa9d;
-  border-radius: .5rem;
-  touch-action: none;
-}
+.answer-instruction { color: var(--muted); line-height: 1.6; }
+.model summary { min-height: 44px; padding-block: .55rem; cursor: pointer; }
+.paper-list { display: grid; gap: .85rem; padding-left: 1.4rem; }
 @media (min-width: 40rem) { .subject-list { grid-template-columns: repeat(2, 1fr); } }
