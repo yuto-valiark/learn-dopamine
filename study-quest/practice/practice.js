@@ -3,9 +3,14 @@
 const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const letters = "ABCD";
+const workbookVersion = document.currentScript?.dataset.workbook;
 const attempts = new Map();
 let token, subject, phase, position, current;
 let streak = 0;
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+const stage = $("stage");
+const dock = $("advance");
+let transition;
 
 function paragraph(text) {
   const p = document.createElement("p");
@@ -60,8 +65,7 @@ function renderContext() {
 }
 
 function celebrate() {
-  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (reducedMotion) return;
+  if (reduceMotion.matches) return;
   const particles = Array.from({ length: 12 }, (_, index) => {
     const particle = document.createElement("span");
     particle.style.setProperty("--x", ((index - 5.5) * 23) + "px");
@@ -102,6 +106,7 @@ function showChoice(index, fresh = false) {
 }
 
 function render(focus = false) {
+  cancelSlide();
   const set = phaseSet();
   current = set.questions[position];
   const state = attempts.get(key()) || {};
@@ -144,9 +149,10 @@ function render(focus = false) {
   }));
   $("model").hidden = true;
   $("model").open = false;
-  $("model-body").replaceChildren(...(current.answer
-    ? [current.answerFigure ? figure(current.answerFigure, current.answer) : paragraph(current.answer)]
-    : []));
+  const explanation = current.webExplanation
+    ? paragraph(current.webExplanation)
+    : current.answerFigure ? figure(current.answerFigure, current.answer) : paragraph(current.answer);
+  $("model-body").replaceChildren(...(current.answer ? [explanation] : []));
   $("advance").hidden = !current.paper;
   $("advance").dataset.result = current.paper ? "paper" : "";
   $("celebration").replaceChildren();
@@ -222,19 +228,59 @@ $("ask").addEventListener("click", async () => {
   $("open-chatgpt").hidden = false;
 });
 
-function advance() {
-  if ($("advance").hidden || $("menu").open) return;
+function slideTo(offset, duration, easing) {
+  const from = duration ? getComputedStyle(stage).transform : "";
+  transition?.cancel();
+  transition = null;
+  const transform = "translate3d(0," + offset + "px,0)";
+  if (!duration || reduceMotion.matches) {
+    stage.style.transform = reduceMotion.matches ? "" : transform;
+    return;
+  }
+  const animation = stage.animate([
+    { transform: from }, { transform },
+  ], { duration, easing, fill: "forwards" });
+  transition = animation;
+  return animation;
+}
+
+function cancelSlide() {
+  transition?.cancel();
+  transition = null;
+  stage.style.transform = "";
+  stage.inert = false;
+}
+
+async function advance(direction = -1) {
+  if (dock.hidden || $("menu").open || stage.inert) return;
+  stage.inert = true;
+  const distance = stage.clientHeight + dock.clientHeight;
+  if (!reduceMotion.matches) {
+    const outgoing = slideTo(direction * distance, 205, "cubic-bezier(.5,0,.8,.5)");
+    try {
+      await outgoing.finished;
+    } catch {
+      return;
+    }
+  }
   const questions = phaseSet().questions;
   if (position + 1 < questions.length) {
     position++;
     render(true);
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      $("quiz").animate([
-        { transform: "translateY(22px)", opacity: 0.55 }, { transform: "translateY(0)", opacity: 1 },
-      ], { duration: 240, easing: "ease-out" });
-    }
-    return;
+  } else {
+    showSummary(questions);
+    cancelSlide();
   }
+  if (!reduceMotion.matches) {
+    slideTo(-direction * distance);
+    const incoming = slideTo(0, 325, "cubic-bezier(.16,1,.3,1)");
+    incoming.finished.then(() => {
+      if (transition === incoming) cancelSlide();
+    }, () => {});
+  }
+}
+
+function showSummary(questions) {
   $("quiz").hidden = true;
   $("advance").hidden = true;
   $("previous").hidden = true;
@@ -254,48 +300,84 @@ function advance() {
   $("score").focus({ preventScroll: true });
 }
 
-$("next").addEventListener("click", advance);
+$("next").addEventListener("click", () => advance());
 
-function isVerticalSwipe(start, end, bothDirections = false) {
-  const vertical = start.clientY - end.clientY;
-  const distance = bothDirections ? Math.abs(vertical) : vertical;
-  return distance >= 45 && distance > Math.abs(start.clientX - end.clientX) * 1.4;
+function verticalDelta(start, end) {
+  const vertical = end.clientY - start.clientY;
+  return Math.abs(vertical) > Math.abs(start.clientX - end.clientX) * 1.4 ? vertical : 0;
 }
 
-const dock = $("advance");
+function dragSlide(delta) {
+  slideTo(Math.sign(delta) * Math.min(Math.abs(delta) * .75, stage.clientHeight * .8));
+}
+
+function settleSlide(delta, bothDirections) {
+  if (bothDirections ? Math.abs(delta) >= 45 : delta <= -45) {
+    advance(Math.sign(delta));
+  } else {
+    const returned = slideTo(0, 200, "cubic-bezier(.2,.9,.3,1)");
+    returned?.finished.then(() => {
+      if (transition === returned) cancelSlide();
+    }, () => {});
+  }
+}
+
 let dockStart = null;
 let dockSwiped = false;
 dock.addEventListener("pointerdown", event => {
-  if (!event.isPrimary || event.button !== 0) return;
+  if (!event.isPrimary || event.button !== 0 || stage.inert) return;
   dockSwiped = false;
   dockStart = event;
   event.target.setPointerCapture(event.pointerId);
 });
-dock.addEventListener("pointercancel", () => { dockStart = null; });
+dock.addEventListener("pointermove", event => {
+  if (dockStart?.pointerId !== event.pointerId) return;
+  dragSlide(verticalDelta(dockStart, event));
+});
+dock.addEventListener("pointercancel", () => {
+  dockStart = null;
+  settleSlide(0, true);
+});
 dock.addEventListener("pointerup", event => {
   if (dockStart?.pointerId !== event.pointerId) return;
-  dockSwiped = isVerticalSwipe(dockStart, event, true);
+  const delta = verticalDelta(dockStart, event);
   dockStart = null;
-  if (dockSwiped) advance();
+  if (!delta) {
+    settleSlide(0, true);
+    return;
+  }
+  dockSwiped = Math.abs(delta) > 12;
+  settleSlide(delta, true);
 });
 dock.addEventListener("click", event => {
   if (event.detail && dockSwiped) event.stopImmediatePropagation();
 }, { capture: true });
 
-const stage = $("stage");
 let stageStart = null;
 stage.addEventListener("touchstart", event => {
   const atEnd = stage.scrollHeight - stage.scrollTop - stage.clientHeight <= 2;
-  stageStart = event.touches.length === 1 && atEnd &&
+  stageStart = event.touches.length === 1 && atEnd && !stage.inert &&
     !dock.hidden && !$("menu").open ? event.touches[0] : null;
 }, { passive: true });
-stage.addEventListener("touchcancel", () => { stageStart = null; }, { passive: true });
+stage.addEventListener("touchmove", event => {
+  if (!stageStart || event.touches.length !== 1) return;
+  const delta = verticalDelta(stageStart, event.touches[0]);
+  if (delta >= -8) return;
+  if (event.cancelable) event.preventDefault();
+  else return;
+  dragSlide(delta);
+}, { passive: false });
+stage.addEventListener("touchcancel", () => {
+  if (stageStart) settleSlide(0, false);
+  stageStart = null;
+}, { passive: true });
 stage.addEventListener("touchend", event => {
   const start = stageStart;
   stageStart = null;
-  if (!start || event.touches.length || !isVerticalSwipe(start, event.changedTouches[0])) return;
-  if (event.cancelable) event.preventDefault();
-  advance();
+  if (!start || event.touches.length) return;
+  const delta = verticalDelta(start, event.changedTouches[0]);
+  if (delta < -12 && event.cancelable) event.preventDefault();
+  settleSlide(delta, false);
 });
 
 $("previous").addEventListener("click", () => {
@@ -330,7 +412,8 @@ document.addEventListener("keydown", event => {
 });
 
 async function load() {
-  const response = await fetch("workbook.json");
+  const source = workbookVersion ? "workbook.json?v=" + workbookVersion : "workbook.json";
+  const response = await fetch(source);
   if (!response.ok) throw new Error("workbook.json");
   const workbook = await response.json();
   const choice = params.get("subject");
