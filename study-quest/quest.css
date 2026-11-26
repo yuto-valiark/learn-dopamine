@@ -201,6 +201,7 @@
   .answers button:not([aria-disabled]):hover { border-color: #ab98f9; background: #342e5b; }
 }
 .answers button[aria-disabled] { cursor: default; }
+.answers button[aria-pressed="true"] { border-color: #ab98f9; background: #342e5b; }
 .answers .correct { border-color: #6df2b9; background: #154039; }
 .answers .correct .choice-letter { background: #6df2b9; color: #0e3b2e; }
 .answers .incorrect { border-color: #ff9eaa; background: #562637; }

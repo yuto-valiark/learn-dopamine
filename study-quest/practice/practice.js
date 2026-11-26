@@ -161,11 +161,13 @@ function render(focus = false) {
   $("instruction").textContent = current.instruction || "";
   if (current.selfCheck) {
     $("instruction").hidden = false;
-    $("instruction").textContent = "答えを考えてから「問題集の解答」を開こう。";
+    $("instruction").textContent = current.guessOptions
+      ? "答えを一つ選んで「問題集の解答」で確かめよう。"
+      : "答えを考えてから「問題集の解答」を開こう。";
   }
   $("paper").hidden = !current.paper;
   $("paper-detail").textContent = current.paper ? current.id + "　" + current.paper : "";
-  $("options").replaceChildren(...(current.options || []).map((option, index) => {
+  $("options").replaceChildren(...(current.guessOptions || current.options || []).map((option, index) => {
     const button = document.createElement("button");
     button.type = "button";
     const letter = document.createElement("span");
@@ -174,7 +176,14 @@ function render(focus = false) {
     const content = document.createElement("span");
     content.textContent = option;
     button.append(letter, content);
+    if (current.guessOptions) button.setAttribute("aria-pressed", String(state.guess === index));
     button.addEventListener("click", () => {
+      if (current.guessOptions) {
+        attempts.set(key(), { ...attempts.get(key()), guess: index });
+        Array.from($("options").children).forEach((choice, i) =>
+          choice.setAttribute("aria-pressed", String(i === index)));
+        return;
+      }
       if (attempts.has(key())) return;
       attempts.set(key(), { selected: index });
       showChoice(index, true);
@@ -211,7 +220,7 @@ function render(focus = false) {
 
 $("model").addEventListener("toggle", () => {
   if (!current?.selfCheck || !$("model").open || $("quiz").hidden) return;
-  attempts.set(key(), { checked: true });
+  attempts.set(key(), { ...attempts.get(key()), checked: true });
   $("advance").hidden = false;
 });
 
@@ -250,8 +259,8 @@ function promptForQuestion() {
     current.instruction && "Webの補足：" + current.instruction,
     current.paper && "紙で実施する問題です。手順が分かるように説明してください。",
     current.sourceTex && "数式や図を含む原文（LaTeX）：\n" + current.sourceTex,
-    current.options && current.options.map((option, i) => letters[i] + ". " + option).join("\n"),
-    state.selected !== undefined && "選んだ答え：" + letters[state.selected],
+    (current.guessOptions || current.options)?.map((option, i) => letters[i] + ". " + option).join("\n"),
+    (state.guess ?? state.selected) !== undefined && "選んだ答え：" + letters[state.guess ?? state.selected],
     current.figure && !current.sourceTex && "図の配置や画像が必要な場合は、画像の添付をお願いしてください。",
   ].filter(Boolean).join("\n");
 }
