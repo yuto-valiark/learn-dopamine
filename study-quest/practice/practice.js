@@ -150,7 +150,7 @@ function render(focus = false) {
   $("workbook").href = "../materials/" + token + (phase <= 10 ? "-01-10.pdf" : "-11-15.pdf");
   $("progress").max = set.questions.length;
   $("progress").value = position + 1;
-  $("question").textContent = current.sourceTex ? "問題" : current.text;
+  $("question").textContent = current.sourceTex ? "問題" : current.guessPrompt || current.text;
   $("question").classList.toggle("visually-hidden", Boolean(current.sourceTex));
   const promptImage = $("prompt-image");
   promptImage.hidden = !current.sourceTex;
@@ -162,7 +162,7 @@ function render(focus = false) {
   if (current.selfCheck) {
     $("instruction").hidden = false;
     $("instruction").textContent = current.guessOptions
-      ? "答えを一つ選んで「問題集の解答」で確かめよう。"
+      ? "答えや理由がすべて合うものを一つ選んで、解答を確かめよう。"
       : "答えを考えてから「問題集の解答」を開こう。";
   }
   $("paper").hidden = !current.paper;
@@ -255,7 +255,7 @@ function promptForQuestion() {
     current.figure && !current.sourceTex && "図・資料の画像：" + figureUrl(current.figure),
     current.contextFigure && "この問題は、前の小問の図も参照します。",
     current.prior?.length && "前の小問：\n" + current.prior.join("\n"),
-    "問題：" + current.text,
+    "問題：" + (current.guessPrompt || current.text),
     current.instruction && "Webの補足：" + current.instruction,
     current.paper && "紙で実施する問題です。手順が分かるように説明してください。",
     current.sourceTex && "数式や図を含む原文（LaTeX）：\n" + current.sourceTex,
