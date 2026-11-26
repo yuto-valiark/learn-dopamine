@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <meta name="description" content="勉強クエスト。算数・理科・社会の4択練習と、英語の音読。">
+  <meta property="og:title" content="4択練習｜勉強クエスト">
+  <title>4択練習｜勉強クエスト</title>
+  <link rel="stylesheet" href="../english/style.css">
+  <link rel="stylesheet" href="../quest.css">
+  <script src="practice.js" defer></script>
+</head>
+<body>
+  <header class="brand"><a href="../">勉強クエスト</a></header>
+  <main>
+      <a class="back" href="../">教科の一覧</a>
+      <h1 id="heading">4択練習</h1>
+      <p class="intro">フェーズを選んで、5問にチャレンジしよう。記述や作図の練習は問題集でできます。</p>
+      <div class="phase-controls">
+        <label for="phase">フェーズ</label>
+        <select id="phase" disabled></select>
+        <a id="workbook" hidden>練習問題集（PDF）</a>
+      </div>
+      <p id="load-status" role="status">問題を読み込み中…</p>
+      <section id="quiz" class="quiz-card" hidden aria-labelledby="question">
+        <p id="position" class="question-count"></p>
+        <h2 id="question" tabindex="-1"></h2>
+        <div id="options" class="answers" role="group" aria-label="答えの選択肢"></div>
+        <p id="result" role="status"></p>
+        <div class="actions">
+          <button id="ask" type="button">ChatGPTに聞く</button>
+          <button id="next" type="button" class="primary" hidden>次の問題</button>
+        </div>
+        <p id="copy-status" class="copy-status" role="status"></p>
+        <textarea id="copy-fallback" aria-label="解説をお願いする文章" readonly hidden></textarea>
+        <a id="open-chatgpt" href="https://chatgpt.com/" target="_blank" rel="noopener" hidden>ChatGPTを開く</a>
+      </section>
+      <section id="summary" class="quiz-card" hidden>
+        <h2 id="score" tabindex="-1"></h2>
+        <p>これは練習の結果です。本番のテストは兄と確認しよう。</p>
+        <div class="actions">
+          <button id="retry" type="button">もう一度解く</button>
+          <button id="continue" type="button" class="primary">次のフェーズを練習</button>
+        </div>
+      </section>
+      <noscript>4択練習を使うにはJavaScriptを有効にしてください。</noscript>
+    </main>
+</body>
+</html>

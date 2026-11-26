@@ -1,0 +1,53 @@
+[hidden] { display: none !important; }
+.subject-list { display: grid; gap: .9rem; list-style: none; padding: 0; }
+.subject-card, .quiz-card {
+  border: 1px solid var(--line);
+  border-radius: .9rem;
+  background: #fff;
+  padding: 1.1rem;
+}
+.subject-main { display: block; color: inherit; text-decoration: none; }
+.subject-main strong { font-size: 1.55rem; }
+.subject-main small { display: block; color: var(--muted); margin-top: .3rem; font-size: .95rem; }
+.materials-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: .4rem; }
+.phase-controls { display: grid; gap: .45rem; margin-bottom: 1rem; }
+.phase-controls label { font-weight: 700; }
+.phase-controls select {
+  appearance: none;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpath d='m3 6 5 5 5-5' fill='none' stroke='%23164b43' stroke-width='2'/%3E%3C/svg%3E") no-repeat right .8rem center;
+  width: 100%;
+  color: var(--ink);
+  font: inherit;
+  min-height: 44px;
+  padding: .55rem 2rem .55rem .7rem;
+  border: 1px solid #81aa9d;
+  border-radius: .5rem;
+}
+.phase-controls a { justify-self: start; }
+.question-count { margin: 0; color: var(--muted); }
+.quiz-card h2 { font-size: 1.3rem; line-height: 1.55; margin: .5rem 0 1rem; }
+.answers { display: grid; gap: .55rem; }
+button {
+  min-height: 44px;
+  padding: .55rem .85rem;
+  border: 1px solid #81aa9d;
+  border-radius: .55rem;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  cursor: pointer;
+}
+button:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 3px solid #ac5a04;
+  outline-offset: 2px;
+}
+.answers button { text-align: start; line-height: 1.55; }
+.answers button:disabled { cursor: default; opacity: 1; }
+.answers .correct { border-color: #147151; background: #def5e9; }
+.answers .incorrect { border-color: #a84932; background: #ffebe5; }
+.actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+.primary { background: #096656; border-color: #096656; color: white; font-weight: 700; }
+#result { min-height: 1.6rem; font-weight: 700; line-height: 1.55; }
+.copy-status { margin-bottom: .5rem; }
+textarea { display: block; width: 100%; min-height: 9rem; font: inherit; margin-bottom: .55rem; }
+@media (min-width: 40rem) { .subject-list { grid-template-columns: repeat(2, 1fr); } }
