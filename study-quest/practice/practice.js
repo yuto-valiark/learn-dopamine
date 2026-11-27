@@ -251,7 +251,6 @@ function showChoice(index, fresh = false) {
     streak = passed ? streak + 1 : 0;
     updateStreak();
   }
-  $("advance").hidden = false;
   $("advance").dataset.result = passed ? "correct" : "incorrect";
   const count = fresh && streak > 1 ? "　🔥 " + streak + "連続" : "";
   $("result").textContent = passed ? "✦ 正解！" + count : "おしい！ 正解は " + letters[correct];
@@ -323,14 +322,13 @@ function render(focus = false) {
     ? paragraph(current.webExplanation)
     : current.answerFigure ? figure(current.answerFigure, current.answer) : paragraph(current.answer);
   $("model-body").replaceChildren(...(current.answer ? [explanation] : []));
-  $("advance").hidden = true;
+  dock.hidden = false;
   $("advance").dataset.result = "";
   $("celebration").replaceChildren();
   $("result").textContent = "";
   if (manualCheck) {
     $("model").hidden = false;
     $("model").open = Boolean(state.checked);
-    if (state.checked) $("advance").hidden = false;
   }
   updateBack();
   $("next-label").textContent = position + 1 === set.questions.length ? "結果を見る" : "次の問題";
@@ -352,7 +350,6 @@ $("model").addEventListener("toggle", () => {
   if (attempts.get(key())?.checked) return;
   attempts.set(key(), { ...attempts.get(key()), checked: true });
   saveProgress();
-  $("advance").hidden = false;
 });
 
 function start(number, question = 1, focus = false) {
@@ -449,12 +446,19 @@ function cancelSlide() {
   stage.inert = false;
 }
 
-async function advance(direction = -1) {
-  if (dock.hidden || $("menu").open || stage.inert) return;
+function canMove(step) {
+  return current && !$("menu").open && !stage.inert &&
+    (step < 0 ? position > 0 || !$("summary").hidden : !$("quiz").hidden);
+}
+
+async function advance(step = 1) {
+  if (!canMove(step)) return;
+  const nextPosition = $("summary").hidden ? position + step : position;
+  const direction = -step;
   stage.inert = true;
   const distance = stage.clientHeight + dock.clientHeight;
   if (!reduceMotion.matches) {
-    const outgoing = slideTo(direction * distance, 205, "cubic-bezier(.5,0,.8,.5)");
+    const outgoing = slideTo(direction * distance, 145, "cubic-bezier(.5,0,.8,.5)");
     try {
       await outgoing.finished;
     } catch {
@@ -462,8 +466,8 @@ async function advance(direction = -1) {
     }
   }
   const questions = phaseSet().questions;
-  if (position + 1 < questions.length) {
-    position++;
+  if (nextPosition < questions.length) {
+    position = nextPosition;
     render(true);
   } else {
     showSummary(questions);
@@ -471,7 +475,7 @@ async function advance(direction = -1) {
   }
   if (!reduceMotion.matches) {
     slideTo(-direction * distance);
-    const incoming = slideTo(0, 325, "cubic-bezier(.16,1,.3,1)");
+    const incoming = slideTo(0, 240, "cubic-bezier(.16,1,.3,1)");
     incoming.finished.then(() => {
       if (transition === incoming) cancelSlide();
     }, () => {});
@@ -514,12 +518,14 @@ function verticalDelta(start, end) {
 }
 
 function dragSlide(delta) {
+  if (!delta || !canMove(-Math.sign(delta))) return;
   slideTo(Math.sign(delta) * Math.min(Math.abs(delta) * .75, stage.clientHeight * .8));
 }
 
-function settleSlide(delta, bothDirections) {
-  if (bothDirections ? Math.abs(delta) >= 45 : delta <= -45) {
-    advance(Math.sign(delta));
+function settleSlide(delta) {
+  const step = -Math.sign(delta);
+  if (Math.abs(delta) >= 45 && canMove(step)) {
+    advance(step);
   } else {
     const returned = slideTo(0, 200, "cubic-bezier(.2,.9,.3,1)");
     returned?.finished.then(() => {
@@ -542,49 +548,87 @@ dock.addEventListener("pointermove", event => {
 });
 dock.addEventListener("pointercancel", () => {
   dockStart = null;
-  settleSlide(0, true);
+  settleSlide(0);
 });
 dock.addEventListener("pointerup", event => {
   if (dockStart?.pointerId !== event.pointerId) return;
   const delta = verticalDelta(dockStart, event);
   dockStart = null;
   if (!delta) {
-    settleSlide(0, true);
+    settleSlide(0);
     return;
   }
   dockSwiped = Math.abs(delta) > 12;
-  settleSlide(delta, true);
+  settleSlide(delta);
 });
 dock.addEventListener("click", event => {
   if (event.detail && dockSwiped) event.stopImmediatePropagation();
 }, { capture: true });
 
 let stageStart = null;
+function atScrollEdge(step) {
+  return step < 0 ? stage.scrollTop <= 2 :
+    stage.scrollHeight - stage.scrollTop - stage.clientHeight <= 2;
+}
+
+function stageDelta(start, end) {
+  const delta = verticalDelta(start.touch, end);
+  return (delta < 0 ? start.next : start.previous) ? delta : 0;
+}
+
 stage.addEventListener("touchstart", event => {
-  const atEnd = stage.scrollHeight - stage.scrollTop - stage.clientHeight <= 2;
-  stageStart = event.touches.length === 1 && atEnd && !stage.inert &&
-    !dock.hidden && !$("menu").open ? event.touches[0] : null;
+  stageStart = event.touches.length === 1 ? {
+    touch: event.touches[0],
+    previous: atScrollEdge(-1) && canMove(-1),
+    next: atScrollEdge(1) && canMove(1),
+  } : null;
 }, { passive: true });
 stage.addEventListener("touchmove", event => {
   if (!stageStart || event.touches.length !== 1) return;
-  const delta = verticalDelta(stageStart, event.touches[0]);
-  if (delta >= -8) return;
+  const delta = stageDelta(stageStart, event.touches[0]);
+  if (Math.abs(delta) < 8) return;
   if (event.cancelable) event.preventDefault();
   else return;
   dragSlide(delta);
 }, { passive: false });
 stage.addEventListener("touchcancel", () => {
-  if (stageStart) settleSlide(0, false);
+  if (stageStart && (stageStart.next || stageStart.previous)) settleSlide(0);
   stageStart = null;
 }, { passive: true });
 stage.addEventListener("touchend", event => {
   const start = stageStart;
   stageStart = null;
   if (!start || event.touches.length) return;
-  const delta = verticalDelta(start, event.changedTouches[0]);
-  if (delta < -12 && event.cancelable) event.preventDefault();
-  settleSlide(delta, false);
+  if (!start.next && !start.previous) return;
+  const delta = stageDelta(start, event.changedTouches[0]);
+  if (Math.abs(delta) > 12 && event.cancelable) event.preventDefault();
+  settleSlide(delta);
 });
+
+let wheelUntil = 0;
+let wheelStep = 0;
+let wheelDistance = 0;
+function scrollBetweenQuestions(event) {
+  if (event.ctrlKey || Math.abs(event.deltaX) >= Math.abs(event.deltaY)) return;
+  const step = Math.sign(event.deltaY);
+  if (event.timeStamp >= wheelUntil) {
+    wheelStep = (event.currentTarget === dock || atScrollEdge(step)) && canMove(step) ? step : 0;
+    wheelDistance = 0;
+  }
+  wheelUntil = event.timeStamp + 180;
+  if (!wheelStep || wheelStep !== step || !event.cancelable) return;
+  event.preventDefault();
+  const unit = event.deltaMode === WheelEvent.DOM_DELTA_LINE ? 16 :
+    event.deltaMode === WheelEvent.DOM_DELTA_PAGE ? stage.clientHeight : 1;
+  wheelDistance += Math.abs(event.deltaY) * unit;
+  if (wheelDistance >= 44) {
+    wheelStep = 0;
+    advance(step);
+  }
+}
+for (const area of [stage, dock]) {
+  area.addEventListener("wheel", scrollBetweenQuestions, { passive: false });
+}
 
 function updateBack() {
   const onSummary = !$("summary").hidden;
