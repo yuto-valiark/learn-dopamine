@@ -234,8 +234,6 @@ function render(focus = false) {
       ? "答えや理由がすべて合うものを一つ選んで、解答を確かめよう。"
       : "答えを考えてから「問題集の解答」を開こう。";
   }
-  $("paper").hidden = !current.paper;
-  $("paper-detail").textContent = current.paper ? current.id + "　" + current.paper : "";
   $("options").replaceChildren(...(current.guessOptions || current.options || []).map((option, index) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -265,8 +263,8 @@ function render(focus = false) {
     ? paragraph(current.webExplanation)
     : current.answerFigure ? figure(current.answerFigure, current.answer) : paragraph(current.answer);
   $("model-body").replaceChildren(...(current.answer ? [explanation] : []));
-  $("advance").hidden = !current.paper;
-  $("advance").dataset.result = current.paper ? "paper" : "";
+  $("advance").hidden = true;
+  $("advance").dataset.result = "";
   $("celebration").replaceChildren();
   $("result").textContent = "";
   if (current.selfCheck) {
@@ -300,7 +298,7 @@ function start(number, question = 1, focus = false) {
   $("phase").value = number;
   params.set("phase", number);
   $("jump").replaceChildren(...set.questions.map((item, index) =>
-    new Option(item.id ? item.id + "　" + (item.paper ? "紙で実施" : item.group) : "第" + (index + 1) + "問", index)
+    new Option(item.id ? item.id + "　" + item.group : "第" + (index + 1) + "問", index)
   ));
   const lesson = $("lesson-body");
   lesson.replaceChildren(
@@ -326,7 +324,6 @@ function promptForQuestion() {
     current.prior?.length && "前の小問：\n" + current.prior.join("\n"),
     "問題：" + (current.webPrompt || current.guessPrompt || current.text),
     current.instruction && "Webの補足：" + current.instruction,
-    current.paper && "紙で実施する問題です。手順が分かるように説明してください。",
     current.sourceTex && !current.webPrompt && "数式や図を含む原文（LaTeX）：\n" + current.sourceTex,
     (current.guessOptions || current.options)?.map((option, i) => letters[i] + ". " + option).join("\n"),
     (state.guess ?? state.selected) !== undefined && "選んだ答え：" + letters[state.guess ?? state.selected],
@@ -422,7 +419,7 @@ function showSummary(questions) {
     const attempt = attempts.get(key(i));
     const selected = attempt?.selected;
     if (q.selfCheck && attempt?.checked) checked++;
-    if (!q.paper && selected !== undefined) {
+    if (selected !== undefined) {
       answered++;
       if (selected === q.correct) score++;
     }
@@ -585,7 +582,6 @@ async function load() {
     new Option("フェーズ" + (index + 1) + "　" + set.title, index + 1)
   ));
   $("credits").hidden = token !== "social";
-  $("paper-link").hidden = token !== "math";
   $("workbook").hidden = false;
   for (const id of ["phase", "jump"]) $(id).disabled = false;
   $("load-status").hidden = true;

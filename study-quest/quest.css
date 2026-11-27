@@ -52,9 +52,8 @@
 .subject-main strong { font-size: clamp(1.35rem, 6vw, 2rem); }
 .subject-main small { font-size: .82rem; color: var(--quest-muted); }
 .subject-icon { font-size: 1.8rem; }
-.materials-link, .home-paper { display: inline-flex; align-items: center; min-height: 44px; font-size: .88rem; }
+.materials-link { display: inline-flex; align-items: center; min-height: 44px; font-size: .88rem; }
 .materials-link { margin-inline: .82rem; }
-.paper-list { display: grid; gap: .85rem; padding-left: 1.4rem; }
 
 .practice-page main {
   display: grid;
@@ -363,7 +362,6 @@
 }
 .answer-instruction { color: var(--quest-muted); line-height: 1.45; margin: .45rem 0; }
 .practice-page details:not(.practice-menu) > summary { min-height: 44px; padding-block: .55rem; cursor: pointer; }
-.paper-note strong { color: var(--quest-gold); }
 .advance-dock {
   position: relative;
   z-index: 2;
