@@ -7,8 +7,8 @@
   <meta name="description" content="勉強クエスト。算数・理科・社会の練習問題と、英語の音読。">
   <meta property="og:title" content="練習問題｜勉強クエスト">
   <title>練習問題｜勉強クエスト</title>
-  <link rel="stylesheet" href="../english/style.css?v=b644e201a6">
-  <link rel="stylesheet" href="../quest.css?v=10f133f9ce">
+  <link rel="stylesheet" href="../english/style.css?v=ec9ebe9397">
+  <link rel="stylesheet" href="../quest.css?v=358d69b2d9">
   <script src="practice.js?v=eaf2c9f4a4" data-workbook="e1fe53b55f" data-figures="3ec567ce1a" defer></script>
 </head>
 <body class="practice-page">
@@ -40,11 +40,13 @@
       <div id="stage" class="practice-stage">
         <p id="load-status" role="status">問題を読み込み中…</p>
         <section id="quiz" class="quiz-card" hidden aria-labelledby="question">
-          <p id="position" class="question-count"></p>
-          <div id="context" class="context" hidden></div>
-          <h2 id="question" tabindex="-1"></h2>
-          <div id="prompt-image" hidden></div>
-          <p id="instruction" class="answer-instruction" hidden></p>
+          <div class="question-panel">
+            <p id="position" class="question-count"></p>
+            <div id="context" class="context" hidden></div>
+            <h2 id="question" tabindex="-1"></h2>
+            <div id="prompt-image" hidden></div>
+            <p id="instruction" class="answer-instruction" hidden></p>
+          </div>
           <div id="options" class="answers" role="group" aria-label="答えの選択肢"></div>
           <details id="model" class="model" hidden>
             <summary>問題集の解答</summary>
@@ -60,7 +62,7 @@
           </div>
         </section>
         <section id="summary" class="quiz-card score-card" hidden>
-          <div class="score-icon" aria-hidden="true">🏆</div>
+          <div class="score-icon" aria-hidden="true"></div>
           <h2 id="score" tabindex="-1"></h2>
           <div class="actions">
             <button id="retry" type="button">もう一度解く</button>
