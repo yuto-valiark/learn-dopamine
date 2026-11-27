@@ -7,33 +7,53 @@
   <meta name="description" content="勉強クエスト。算数・理科・社会の練習問題と、英語の音読。">
   <meta property="og:title" content="勉強クエスト">
   <title>勉強クエスト</title>
-  <link rel="stylesheet" href="english/style.css">
-  <link rel="stylesheet" href="quest.css?v=be8d4a1ad0">
+  <link rel="stylesheet" href="english/style.css?v=b644e201a6">
+  <link rel="stylesheet" href="quest.css?v=10f133f9ce">
 </head>
 <body class="quest-home">
   <main>
-      <h1>勉強クエスト</h1>
-      <ul class="subject-list">
-        <li><div class="subject-card card-math">
-          <a class="subject-main" href="practice/?subject=math"><span class="subject-icon" aria-hidden="true">📐</span><strong>算数</strong>
-            <small>フェーズ1〜15</small></a>
-          <a class="materials-link" href="materials/#math">練習問題集（PDF）</a>
-        </div></li>
-<li><div class="subject-card card-science">
-          <a class="subject-main" href="practice/?subject=science"><span class="subject-icon" aria-hidden="true">🧪</span><strong>理科</strong>
-            <small>フェーズ1〜15</small></a>
-          <a class="materials-link" href="materials/#science">練習問題集（PDF）</a>
-        </div></li>
-<li><div class="subject-card card-social">
-          <a class="subject-main" href="practice/?subject=social"><span class="subject-icon" aria-hidden="true">🌏</span><strong>社会</strong>
-            <small>フェーズ1〜15</small></a>
-          <a class="materials-link" href="materials/#social">練習問題集（PDF）</a>
-        </div></li>
-        <li><div class="subject-card card-english">
-          <a class="subject-main" href="english/"><span class="subject-icon" aria-hidden="true">🎧</span><strong>英語</strong>
-            <small>全60章｜ストーリーと音声</small></a>
-          <a class="materials-link" href="materials/#english">学習プリント 前編・後編（PDF）</a>
-        </div></li>
-      </ul></main>
+      <div class="quest-stickers" aria-hidden="true">
+        <img class="sticker sticker-triangle" src="quest-art/triangle.webp" width="124" height="124" alt="" decoding="async">
+        <img class="sticker sticker-pencil" src="quest-art/pencil.webp" width="124" height="124" alt="" decoding="async">
+        <img class="sticker sticker-sparkles" src="quest-art/sparkles.webp" width="124" height="124" alt="" decoding="async">
+        <img class="sticker sticker-leaf" src="quest-art/leaf.webp" width="124" height="124" alt="" decoding="async">
+        <img class="sticker sticker-headphones" src="quest-art/headphones.webp" width="124" height="124" alt="" decoding="async">
+        <img class="sticker sticker-dice" src="quest-art/dice.webp" width="124" height="124" alt="" decoding="async">
+      </div>
+      <header class="home-heading">
+        <h1>勉強クエスト</h1>
+        <p>きょうは何をやる？</p>
+      </header>
+      <ul class="subject-list" aria-label="教科">
+        <li class="subject-card" data-subject="math">
+          <a class="subject-main" href="practice/?subject=math">
+            <img class="subject-icon" src="quest-art/math.webp" width="320" height="320" alt="" decoding="async">
+            <span class="subject-label"><strong>算数</strong><small>フェーズ1〜15</small></span>
+            <span class="subject-arrow" aria-hidden="true">›</span>
+          </a>
+        </li>
+        <li class="subject-card" data-subject="science">
+          <a class="subject-main" href="practice/?subject=science">
+            <img class="subject-icon" src="quest-art/science.webp" width="320" height="320" alt="" decoding="async">
+            <span class="subject-label"><strong>理科</strong><small>フェーズ1〜15</small></span>
+            <span class="subject-arrow" aria-hidden="true">›</span>
+          </a>
+        </li>
+        <li class="subject-card" data-subject="social">
+          <a class="subject-main" href="practice/?subject=social">
+            <img class="subject-icon" src="quest-art/social.webp" width="320" height="320" alt="" decoding="async">
+            <span class="subject-label"><strong>社会</strong><small>フェーズ1〜15</small></span>
+            <span class="subject-arrow" aria-hidden="true">›</span>
+          </a>
+        </li>
+        <li class="subject-card" data-subject="english">
+          <a class="subject-main" href="english/">
+            <img class="subject-icon" src="quest-art/english.webp" width="320" height="320" alt="" decoding="async">
+            <span class="subject-label"><strong>英語</strong><small>全60章・音読</small></span>
+            <span class="subject-arrow" aria-hidden="true">›</span>
+          </a>
+        </li>
+      </ul>
+      <div class="home-materials"><a href="materials/">学習プリント（PDF）</a></div></main>
 </body>
 </html>

@@ -1,28 +1,45 @@
 :root {
   color-scheme: light;
-  color: #172e35;
-  background: #edf5f1;
+  color: #262244;
+  background: #f8f6fc;
   font-family: system-ui, "Hiragino Sans", sans-serif;
-  --ink: #172e35;
-  --accent: #096656;
-  --line: #cadfd7;
-  --muted: #456069;
+  --ink: #262244;
+  --accent: #5b4a87;
+  --line: #ddd5eb;
+  --muted: #5c5069;
+  --brand: #3c315c;
+  --brand-label: #e7dffa;
+  --surface: #f0eafb;
+  --player-line: #d9cbe9;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; }
+.english-page {
+  --ink: #472236;
+  --accent: #922256;
+  --line: #edc8da;
+  --muted: #715468;
+  --brand: #7b2957;
+  --brand-label: #ffe1f1;
+  --surface: #f9dfed;
+  --player-line: #edbace;
+  min-height: 100vh;
+  color: var(--ink);
+  background: linear-gradient(160deg, #fff1fa, #fdf7fc 65%);
+}
 a { color: var(--accent); }
 a:focus-visible, audio:focus-visible, summary:focus-visible {
-  outline: 3px solid #ac5a04;
+  outline: 3px solid var(--accent);
   outline-offset: 4px;
 }
 
 .brand {
   padding: 1rem max(1rem, calc((100% - 46rem) / 2));
-  background: #103d39;
+  background: var(--brand);
 }
 .brand a { color: white; font-weight: 750; text-decoration: none; }
-.brand span { margin-inline-start: .5em; color: #bde9d4; font-size: .875rem; }
+.brand span { margin-inline-start: .5em; color: var(--brand-label); font-size: .875rem; }
 main { max-width: 48rem; margin: auto; padding: 1.4rem 1rem 3rem; }
 h1 { font-size: clamp(1.75rem, 5vw, 2.6rem); line-height: 1.25; margin: .4em 0 .25em; }
 .intro, .subtitle { margin: 0 0 1.25rem; color: var(--muted); line-height: 1.65; }
@@ -34,7 +51,7 @@ h1 { font-size: clamp(1.75rem, 5vw, 2.6rem); line-height: 1.25; margin: .4em 0 .
   min-height: 44px;
   padding: .25rem .8rem;
   border-radius: 999px;
-  background: #dcefe6;
+  background: var(--surface);
   font-weight: 750;
   text-decoration: none;
 }
@@ -60,8 +77,8 @@ h2[id^="chapters-"] { margin: 1.6rem 0 .65rem; font-size: 1.15rem; }
   width: 2.25rem;
   height: 2.25rem;
   border-radius: .55rem;
-  background: #dcefe6;
-  color: #115747;
+  background: var(--surface);
+  color: var(--accent);
   font-weight: 750;
 }
 .chapter-list small { display: block; margin-top: .15rem; font-size: .875rem; color: var(--muted); }
@@ -71,12 +88,12 @@ h2[id^="chapters-"] { margin: 1.6rem 0 .65rem; font-size: 1.15rem; }
   position: sticky;
   top: 0;
   z-index: 1;
-  background: #dcefe6;
-  border: 1px solid #badbd0;
+  background: var(--surface);
+  border: 1px solid var(--player-line);
   border-radius: .8rem;
   padding: .55rem .8rem .6rem;
 }
-.player p { margin: 0 0 .25rem; font-size: .875rem; font-weight: 750; color: #164b43; }
+.player p { margin: 0 0 .25rem; font-size: .875rem; font-weight: 750; color: var(--accent); }
 audio { display: block; width: 100%; height: 46px; }
 .story {
   margin-block: 1rem;

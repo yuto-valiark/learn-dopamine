@@ -574,6 +574,7 @@ async function load() {
   const choice = params.get("subject");
   token = Object.hasOwn(workbook, choice) ? choice : "math";
   subject = workbook[token];
+  document.body.dataset.subject = token;
   params.set("subject", token);
   params.delete("mode");
   $("heading").textContent = subject.label;
