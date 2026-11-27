@@ -4,6 +4,7 @@ const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const letters = "ABCD";
 const workbookVersion = document.currentScript?.dataset.workbook;
+const progressVersion = document.currentScript?.dataset.progress || workbookVersion || "";
 const figureVersion = document.currentScript?.dataset.figures;
 const attempts = new Map();
 const phaseProgress = new Map();
@@ -41,7 +42,7 @@ function restoreProgress() {
     const saved = JSON.parse(localStorage.getItem(storageKey()));
     if (!saved) return;
     for (const [number, progress] of saved.phases || []) phaseProgress.set(number, progress);
-    if (saved.workbookVersion === (workbookVersion || "")) {
+    if (saved.workbookVersion === progressVersion) {
       for (const [question, attempt] of saved.attempts || []) attempts.set(question, attempt);
       streak = Number.isSafeInteger(saved.streak) && saved.streak > 0 ? saved.streak : 0;
       updateStreak();
@@ -56,7 +57,7 @@ function saveProgress(summary = false) {
   phaseProgress.set(phase, { question: position + 1, summary });
   try {
     localStorage.setItem(storageKey(), JSON.stringify({
-      workbookVersion: workbookVersion || "",
+      workbookVersion: progressVersion,
       activePhase: phase,
       phases: [...phaseProgress],
       attempts: [...attempts],
@@ -233,12 +234,17 @@ function updateStreak() {
   $("streak").classList.toggle("on-fire", streak >= 3);
 }
 
+function correctOption(question) {
+  return question.correct ?? question.guessCorrect;
+}
+
 function showChoice(index, fresh = false) {
   if (index === undefined) return;
-  const passed = index === current.correct;
+  const correct = correctOption(current);
+  const passed = index === correct;
   Array.from($("options").children).forEach((button, i) => {
     button.setAttribute("aria-disabled", "true");
-    if (i === current.correct) button.classList.add("correct");
+    if (i === correct) button.classList.add("correct");
     else if (i === index) button.classList.add("incorrect");
   });
   if (fresh) {
@@ -248,8 +254,9 @@ function showChoice(index, fresh = false) {
   $("advance").hidden = false;
   $("advance").dataset.result = passed ? "correct" : "incorrect";
   const count = fresh && streak > 1 ? "　🔥 " + streak + "連続" : "";
-  $("result").textContent = passed ? "✦ 正解！" + count : "おしい！ 正解は " + letters[current.correct];
+  $("result").textContent = passed ? "✦ 正解！" + count : "おしい！ 正解は " + letters[correct];
   $("model").hidden = !current.answer;
+  $("retry-question").hidden = false;
   if (fresh && passed) celebrate();
 }
 
@@ -258,6 +265,7 @@ function render(focus = false) {
   cancelSlide();
   const set = phaseSet();
   current = set.questions[position];
+  const manualCheck = correctOption(current) === undefined && current.selfCheck;
   const state = attempts.get(key()) || {};
   $("summary").hidden = true;
   $("quiz").hidden = false;
@@ -277,7 +285,7 @@ function render(focus = false) {
   renderContext();
   $("instruction").hidden = !current.instruction || current.instruction === "元の問題に合う答えを一つ選ぼう。";
   $("instruction").textContent = current.instruction || "";
-  if (current.selfCheck) {
+  if (manualCheck) {
     $("instruction").hidden = false;
     $("instruction").textContent = current.guessOptions
       ? "答えや理由がすべて合うものを一つ選んで、解答を確かめよう。"
@@ -292,16 +300,16 @@ function render(focus = false) {
     const content = document.createElement("span");
     content.textContent = option;
     button.append(letter, content);
-    if (current.guessOptions) button.setAttribute("aria-pressed", String(state.guess === index));
+    if (manualCheck && current.guessOptions) button.setAttribute("aria-pressed", String(state.guess === index));
     button.addEventListener("click", () => {
-      if (current.guessOptions) {
+      if (manualCheck && current.guessOptions) {
         attempts.set(key(), { ...attempts.get(key()), guess: index });
         saveProgress();
         Array.from($("options").children).forEach((choice, i) =>
           choice.setAttribute("aria-pressed", String(i === index)));
         return;
       }
-      if (attempts.has(key())) return;
+      if (attempts.get(key())?.selected !== undefined) return;
       attempts.set(key(), { selected: index });
       showChoice(index, true);
       saveProgress();
@@ -309,6 +317,7 @@ function render(focus = false) {
     return button;
   }));
   $("model").hidden = true;
+  $("retry-question").hidden = true;
   $("model").open = false;
   const explanation = current.webExplanation
     ? paragraph(current.webExplanation)
@@ -318,7 +327,7 @@ function render(focus = false) {
   $("advance").dataset.result = "";
   $("celebration").replaceChildren();
   $("result").textContent = "";
-  if (current.selfCheck) {
+  if (manualCheck) {
     $("model").hidden = false;
     $("model").open = Boolean(state.checked);
     if (state.checked) $("advance").hidden = false;
@@ -339,7 +348,7 @@ function render(focus = false) {
 }
 
 $("model").addEventListener("toggle", () => {
-  if (!current?.selfCheck || !$("model").open || $("quiz").hidden) return;
+  if (!current?.selfCheck || correctOption(current) !== undefined || !$("model").open || $("quiz").hidden) return;
   if (attempts.get(key())?.checked) return;
   attempts.set(key(), { ...attempts.get(key()), checked: true });
   saveProgress();
@@ -484,10 +493,10 @@ function showSummary(questions) {
   questions.forEach((q, i) => {
     const attempt = attempts.get(key(i));
     const selected = attempt?.selected;
-    if (q.selfCheck && attempt?.checked) checked++;
+    if (selected === undefined && q.selfCheck && attempt?.checked) checked++;
     if (selected !== undefined) {
       answered++;
-      if (selected === q.correct) score++;
+      if (selected === correctOption(q)) score++;
     }
   });
   const choiceScore = answered ? "選択問題 " + answered + "問中 " + score + "問正解" : "";
@@ -608,6 +617,10 @@ $("retry").addEventListener("click", () => {
   streak = 0;
   updateStreak();
   start(phase, 1, true);
+});
+$("retry-question").addEventListener("click", () => {
+  attempts.delete(key());
+  render(true);
 });
 $("continue").addEventListener("click", () => resumePhase(phase + 1, undefined, false, true));
 $("phase").addEventListener("change", () => {
