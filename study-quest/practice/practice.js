@@ -6,6 +6,7 @@ const letters = "ABCD";
 const workbookVersion = document.currentScript?.dataset.workbook;
 const figureVersion = document.currentScript?.dataset.figures;
 const attempts = new Map();
+const phaseProgress = new Map();
 let token, subject, phase, position, current;
 let streak = 0;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
@@ -28,6 +29,41 @@ function phaseSet() {
 
 function key(index = position) {
   return [phase, index].join("/");
+}
+
+function storageKey() {
+  return "study-quest:practice:v1:" + token;
+}
+
+function restoreProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey()));
+    if (!saved) return;
+    for (const [number, progress] of saved.phases || []) phaseProgress.set(number, progress);
+    if (saved.workbookVersion === (workbookVersion || "")) {
+      for (const [question, attempt] of saved.attempts || []) attempts.set(question, attempt);
+      streak = Number.isSafeInteger(saved.streak) && saved.streak > 0 ? saved.streak : 0;
+      updateStreak();
+    }
+    return saved.activePhase;
+  } catch {
+    // Practice also works in browsers with storage disabled.
+  }
+}
+
+function saveProgress(summary = false) {
+  phaseProgress.set(phase, { question: position + 1, summary });
+  try {
+    localStorage.setItem(storageKey(), JSON.stringify({
+      workbookVersion: workbookVersion || "",
+      activePhase: phase,
+      phases: [...phaseProgress],
+      attempts: [...attempts],
+      streak,
+    }));
+  } catch {
+    // Keep progress in memory for this visit when storage is unavailable.
+  }
 }
 
 function figureUrl(name) {
@@ -260,6 +296,7 @@ function render(focus = false) {
     button.addEventListener("click", () => {
       if (current.guessOptions) {
         attempts.set(key(), { ...attempts.get(key()), guess: index });
+        saveProgress();
         Array.from($("options").children).forEach((choice, i) =>
           choice.setAttribute("aria-pressed", String(i === index)));
         return;
@@ -267,6 +304,7 @@ function render(focus = false) {
       if (attempts.has(key())) return;
       attempts.set(key(), { selected: index });
       showChoice(index, true);
+      saveProgress();
     });
     return button;
   }));
@@ -293,14 +331,18 @@ function render(focus = false) {
   $("copy-status").textContent = "";
   $("copy-fallback").hidden = true;
   params.set("question", String(position + 1));
+  params.delete("result");
   history.replaceState(null, "", "?" + params);
+  saveProgress();
   $("stage").scrollTop = 0;
   if (focus) $("question").focus({ preventScroll: true });
 }
 
 $("model").addEventListener("toggle", () => {
   if (!current?.selfCheck || !$("model").open || $("quiz").hidden) return;
+  if (attempts.get(key())?.checked) return;
   attempts.set(key(), { ...attempts.get(key()), checked: true });
+  saveProgress();
   $("advance").hidden = false;
 });
 
@@ -321,6 +363,17 @@ function start(number, question = 1, focus = false) {
   $("lesson").hidden = !lesson.children.length;
   $("lesson").open = false;
   render(focus);
+}
+
+function resumePhase(number, requestedQuestion, requestedResult = false, focus = false) {
+  const saved = phaseProgress.get(number);
+  const question = requestedQuestion ?? saved?.question ?? 1;
+  start(number, question, focus);
+  const questions = phaseSet().questions;
+  if (saved?.summary && saved.question === question && position + 1 === questions.length &&
+      (requestedQuestion == null || requestedResult)) {
+    showSummary(questions);
+  }
 }
 
 function promptForQuestion() {
@@ -423,6 +476,9 @@ function showSummary(questions) {
   $("quiz").hidden = true;
   $("advance").hidden = true;
   $("summary").hidden = false;
+  params.set("result", "1");
+  history.replaceState(null, "", "?" + params);
+  saveProgress(true);
   updateBack();
   $("stage").scrollTop = 0;
   let answered = 0;
@@ -533,6 +589,7 @@ function updateBack() {
     return;
   }
   const previous = new URLSearchParams(params);
+  previous.delete("result");
   previous.set("question", String(onSummary ? position + 1 : position));
   back.href = "?" + previous;
   back.textContent = onSummary ? "問題に戻る" : "前の問題";
@@ -548,15 +605,17 @@ $("back").addEventListener("click", event => {
   render(true);
 });
 $("retry").addEventListener("click", () => {
+  if (phaseSet().questions.some((_, i) => attempts.has(key(i))) &&
+      !window.confirm("このフェーズの解答を消して、1問目からやり直す？")) return;
   phaseSet().questions.forEach((_, i) => attempts.delete(key(i)));
   streak = 0;
   updateStreak();
   start(phase, 1, true);
 });
-$("continue").addEventListener("click", () => start(phase + 1, 1, true));
+$("continue").addEventListener("click", () => resumePhase(phase + 1, undefined, false, true));
 $("phase").addEventListener("change", () => {
   $("menu").open = false;
-  start(Number($("phase").value), 1, true);
+  resumePhase(Number($("phase").value), undefined, false, true);
 });
 $("jump").addEventListener("change", () => {
   $("menu").open = false;
@@ -599,9 +658,12 @@ async function load() {
   $("workbook").hidden = false;
   for (const id of ["phase", "jump"]) $(id).disabled = false;
   $("load-status").hidden = true;
+  const saved = restoreProgress();
+  const validPhase = number => Number.isInteger(number) && number >= 1 && number <= subject.phases.length;
   const requested = Number(params.get("phase"));
-  const valid = Number.isInteger(requested) && requested >= 1 && requested <= subject.phases.length;
-  start(valid ? requested : 1, Number(params.get("question")));
+  const initialPhase = validPhase(requested) ? requested : validPhase(saved) ? saved : 1;
+  const initialQuestion = Number(params.get("question")) || undefined;
+  resumePhase(initialPhase, initialQuestion, params.get("result") === "1");
 }
 load().catch(() => {
   $("load-status").hidden = false;
