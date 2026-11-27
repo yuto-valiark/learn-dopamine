@@ -240,14 +240,15 @@
   overflow-x: auto;
 }
 .context p, .model p, .lesson p { margin: .3rem 0; white-space: pre-wrap; }
-.context table { margin-block: .45rem; border-collapse: collapse; }
+.context table { margin: .45rem auto; border-collapse: collapse; }
 .context td, .context th { border: 1px solid var(--quest-line); padding: .3rem .5rem; }
 .practice-page .figure-preview {
   position: relative;
   display: block;
+  width: max-content;
   max-width: 100%;
   padding: 0;
-  margin-block: .45rem;
+  margin: .45rem auto;
   overflow: hidden;
   border: 1px solid var(--quest-line);
   background: white;
@@ -257,14 +258,18 @@
   max-width: 100%;
   width: auto;
   height: auto;
-  max-height: clamp(105px, 28vh, 230px);
-  max-height: clamp(105px, 28svh, 230px);
+  max-height: clamp(145px, 36vh, 340px);
+  max-height: clamp(145px, 36svh, 340px);
   object-fit: contain;
   margin-inline: auto;
 }
+.practice-page .figure-preview.printed-question {
+  min-width: min(100%, 24rem);
+}
 .printed-question .problem-image {
-  max-height: clamp(135px, 43vh, 365px);
-  max-height: clamp(135px, 43svh, 365px);
+  min-width: min(100%, 24rem);
+  max-height: clamp(165px, 47vh, 420px);
+  max-height: clamp(165px, 47svh, 420px);
 }
 .figure-preview > span {
   display: block;
