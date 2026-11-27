@@ -1,0 +1,133 @@
+.rule-gallery { display: grid; gap: 1.25rem; }
+.rule-sheet { overflow: hidden; border: 1px solid #ddd2ed; border-radius: 1.25rem; background: white; }
+.rule-image, .rule-image img { display: block; width: 100%; }
+.rule-actions { display: flex; justify-content: flex-end; padding: .55rem .9rem; }
+.rule-actions a { color: #57398b; font-weight: 750; }
+.rule-transcript { padding: 0 .85rem .8rem; }
+.rule-transcript summary { color: #513775; padding: .4rem 0; cursor: pointer; }
+.rule-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+.rule-poster {
+  --ink: #302541;
+  --accent: #56368e;
+  --rim: #e0d3f2;
+  --wash: #f3eafd;
+  box-sizing: border-box;
+  width: min(100%, 500px);
+  margin: 0 auto;
+  padding: clamp(14px, 4vw, 24px);
+  color: var(--ink);
+  background: radial-gradient(circle at 98% 0%, var(--wash), transparent 48%), linear-gradient(160deg, #fff 50%, var(--wash));
+  font: 600 17px/1.5 -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans CJK JP", sans-serif;
+  letter-spacing: 0;
+}
+.rule-poster :is(h2, h3, p, ol, ul) { margin: 0; }
+.poster-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 88px;
+  align-items: center;
+  min-height: 83px;
+  margin-bottom: 12px;
+}
+.poster-header p { color: var(--accent); font-size: 15px; font-weight: 800; }
+.poster-header p span { display: inline-block; padding: 1px 8px; margin-left: .3em; border-radius: 99px; background: white; border: 1px solid var(--rim); }
+.poster-header h2 { font-size: clamp(24px, 7vw, 33px); line-height: 1.16; color: var(--ink); margin-top: 6px; font-weight: 900; }
+.poster-header img { width: 100%; height: 88px; object-fit: contain; }
+.poster-footer {
+  margin-top: 14px;
+  border: 1px solid var(--rim);
+  background: white;
+  padding: 9px 12px;
+  border-radius: 13px;
+  font-size: 15px;
+  text-align: center;
+  font-weight: 800;
+  color: var(--accent);
+}
+.reward-poster { --ink: #40291a; --accent: #744315; --rim: #efcf81; --wash: #fff0bf; }
+.pyramid { display: grid; justify-items: center; gap: 5px; }
+.pyramid-top {
+  box-sizing: border-box;
+  width: 80%;
+  text-align: center;
+  color: #4d2b09;
+  background: radial-gradient(circle at 20% 0%, #ffffeb, transparent 42%), linear-gradient(160deg, #fff0a0, #ffcf58);
+  border: 2px solid #e9aa37;
+  box-shadow: inset 0 0 0 3px #fff2a8, 0 4px 0 #b9742240;
+  padding: 10px 3px;
+  border-radius: 25px 25px 10px 10px;
+}
+.pyramid-top p { font-size: 17px; font-weight: 800; }
+.pyramid-top strong { display: block; font-size: clamp(33px, 10vw, 54px); line-height: 1.08; letter-spacing: -.035em; font-weight: 950; }
+.pyramid-top small { font-size: 15px; letter-spacing: 0; }
+.pyramid-tier {
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  column-gap: 6px;
+  padding: 6px 10px;
+  border-radius: 9px;
+  border: 1px solid var(--rim);
+  font-size: 16px;
+}
+.tier-bonus { width: 90%; background: #ffe29a; }
+.tier-base { width: 100%; background: #fff1c6; }
+.pyramid-start { font-size: 14px; color: var(--accent); }
+.rule-tracks { list-style: none; padding: 0; display: grid; gap: 5px; }
+.rule-track {
+  display: grid;
+  grid-template-columns: 39px 38px 1fr;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 9px;
+  border: 1px solid var(--rim);
+  border-radius: 12px;
+  background: var(--wash);
+  color: var(--accent);
+}
+.rule-track[data-subject="math"] { --accent: #234d88; --wash: #ebf6ff; --rim: #bdddf8; --step: #81bdf1; }
+.rule-track[data-subject="science"] { --accent: #1b5b43; --wash: #eaf8ee; --rim: #bde4cd; --step: #84cdaa; }
+.rule-track[data-subject="social"] { --accent: #715013; --wash: #fffae7; --rim: #e9d89a; --step: #e9c962; }
+.rule-track[data-subject="english"] { --accent: #8a3460; --wash: #fff0f6; --rim: #f2c6db; --step: #eaa0c2; }
+.rule-track img { display: block; width: 39px; height: 39px; object-fit: contain; }
+.track-labels { display: grid; grid-template-columns: var(--split); text-align: right; font-size: 13px; }
+.track-steps { display: grid; grid-template-columns: repeat(var(--steps), 1fr); gap: 2px; margin-top: 3px; }
+.track-steps i { height: 8px; border-radius: 3px; background: var(--step); }
+.track-steps i.bonus { background: var(--accent); opacity: .8; }
+.rule-poster .track-key { margin-top: 5px; text-align: center; color: var(--accent); font-size: 12px; }
+
+.weekly-steps { list-style: none; counter-reset: steps; padding: 0; display: grid; gap: 9px; }
+.weekly-steps li {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 9px;
+  align-items: start;
+  background: white;
+  padding: 12px;
+  border: 1px solid var(--rim);
+  border-radius: 15px;
+}
+.weekly-steps li::before {
+  counter-increment: steps;
+  content: counter(steps);
+  color: white;
+  background: var(--accent);
+  text-align: center;
+  border-radius: 10px;
+  line-height: 30px;
+  font-weight: 900;
+}
+.rule-poster h3 { color: var(--accent); font-weight: 900; font-size: 20px; line-height: 1.45; }
+.rule-poster h3 small { font-size: 13px; }
+.rule-poster h3 + p, .rule-poster p + p { margin-top: 4px; }
+.rule-poster .rule-note { margin-top: 7px; padding: 6px 8px; color: var(--accent); background: var(--wash); border-radius: 8px; font-size: 15px; }
+.rule-limits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin: 8px 0; }
+.rule-limits div { background: var(--wash); padding: 6px 8px; border-radius: 9px; color: var(--accent); font-size: 15px; }
+.rule-limits strong { font-size: 21px; }
+.rule-limits small { color: var(--ink); display: block; font-size: 13px; }
+.test-poster { --accent: #245d4b; --rim: #b9ddce; --wash: #e8f8ec; }
+.test-rule { padding: 12px; margin-top: 9px; background: white; border: 1px solid var(--rim); border-radius: 15px; }
+.english-test { --accent: #8a3460; --rim: #f2c6db; --wash: #fff0f6; }
+.jump-test { --accent: #744315; --rim: #efcf81; --wash: #fff4d6; }
+.pass-rule { margin: 7px 0 4px; padding: 6px 9px; background: var(--wash); color: var(--accent); border-radius: 8px; font-weight: 900; }

@@ -12,6 +12,7 @@ const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const stage = $("stage");
 const dock = $("advance");
 const figureDialog = $("figure-dialog");
+let correctAnimation;
 let transition;
 let figureLayouts = {};
 
@@ -164,6 +165,17 @@ function renderContext() {
 }
 
 function celebrate() {
+  correctAnimation?.cancel();
+  const frames = reduceMotion.matches
+    ? [{ opacity: 1 }, { opacity: 1 }]
+    : [
+      { opacity: .75, transform: "scale(.55)", offset: 0 },
+      { opacity: 1, transform: "scale(1.07)", offset: .2 },
+      { opacity: 1, transform: "scale(1)", offset: .35 },
+      { opacity: 1, transform: "scale(1)", offset: .72 },
+      { opacity: 0, transform: "scale(1.12)", offset: 1 },
+    ];
+  correctAnimation = $("correct-mark").animate(frames, { duration: 760, easing: "ease-out" });
   if (reduceMotion.matches) return;
   const particles = Array.from({ length: 12 }, (_, index) => {
     const particle = document.createElement("span");
@@ -205,6 +217,7 @@ function showChoice(index, fresh = false) {
 }
 
 function render(focus = false) {
+  correctAnimation?.cancel();
   cancelSlide();
   const set = phaseSet();
   current = set.questions[position];
