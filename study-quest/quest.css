@@ -242,6 +242,8 @@
 .context p, .model p, .lesson p { margin: .3rem 0; white-space: pre-wrap; }
 .context table { margin: .45rem auto; border-collapse: collapse; }
 .context td, .context th { border: 1px solid var(--quest-line); padding: .3rem .5rem; }
+.phone-table { display: none; }
+.figure-preview picture { display: block; }
 .practice-page .figure-preview {
   position: relative;
   display: block;
@@ -298,6 +300,67 @@
 .figure-view { overflow: auto; background: white; }
 .figure-view img { display: block; width: auto; max-width: 100%; height: auto; margin-inline: auto; }
 .figure-view.zoomed img { min-width: max(680px, 180%); max-width: none; margin: 0; }
+@media (max-width: 600px) {
+  .practice-page .figure-preview.wide-figure-only { display: none; }
+  .practice-page .figure-preview.has-phone-image {
+    width: 100%;
+  }
+  .has-phone-image .problem-image {
+    width: 100%;
+    max-height: none;
+  }
+  .context { padding-inline: .2rem; }
+  .context > p, .context > details { margin-inline: .4rem; }
+  .context .material-table {
+    width: 100%;
+    table-layout: fixed;
+    text-align: center;
+    font-size: .9rem;
+  }
+  .context .material-table :is(th, td) {
+    padding: .35rem .2rem;
+    overflow-wrap: anywhere;
+  }
+  .context .material-table th { background: #ffffff0d; }
+  .context table.phone-table { display: table; }
+  .material-flow {
+    display: block;
+    padding: .35rem .45rem;
+  }
+  .material-flow ol {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: .25rem .5rem;
+    padding: 0;
+    margin: .3rem 0;
+    list-style: none;
+  }
+  .material-flow li + li::before {
+    content: "→";
+    margin-inline-end: .5rem;
+    color: var(--quest-muted);
+  }
+  .material-records {
+    display: grid;
+    gap: .55rem;
+    margin-block: .5rem;
+  }
+  .material-records section {
+    padding: .5rem .65rem;
+    border: 1px solid var(--quest-line);
+    border-radius: .55rem;
+  }
+  .material-records dl {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: .1rem .5rem;
+    margin: .25rem 0 0;
+    font-size: .92rem;
+  }
+  .material-records dt { color: var(--quest-muted); }
+  .material-records dd { margin: 0; }
+}
 .answer-instruction { color: var(--quest-muted); line-height: 1.45; margin: .45rem 0; }
 .practice-page details:not(.practice-menu) > summary { min-height: 44px; padding-block: .55rem; cursor: pointer; }
 .paper-note strong { color: var(--quest-gold); }

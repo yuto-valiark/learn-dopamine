@@ -4,6 +4,7 @@ const $ = id => document.getElementById(id);
 const params = new URLSearchParams(location.search);
 const letters = "ABCD";
 const workbookVersion = document.currentScript?.dataset.workbook;
+const figureVersion = document.currentScript?.dataset.figures;
 const attempts = new Map();
 let token, subject, phase, position, current;
 let streak = 0;
@@ -12,6 +13,7 @@ const stage = $("stage");
 const dock = $("advance");
 const figureDialog = $("figure-dialog");
 let transition;
+let figureLayouts = {};
 
 function paragraph(text) {
   const p = document.createElement("p");
@@ -29,11 +31,13 @@ function key(index = position) {
 
 function figureUrl(name) {
   const url = new URL("figures/" + name + ".png", location.href);
-  if (workbookVersion) url.searchParams.set("v", workbookVersion);
+  const version = name.startsWith("mobile/") ? figureVersion : workbookVersion;
+  if (version) url.searchParams.set("v", version);
   return url.href;
 }
 
 function figure(name, alt, kind = "material") {
+  const layout = figureLayouts[name];
   const image = document.createElement("img");
   image.src = figureUrl(name);
   image.alt = alt;
@@ -43,15 +47,87 @@ function figure(name, alt, kind = "material") {
   button.className = "figure-preview " + kind;
   const hint = document.createElement("span");
   hint.textContent = "拡大";
-  button.append(image, hint);
+  if (layout?.image) {
+    const picture = document.createElement("picture");
+    const source = document.createElement("source");
+    source.media = "(max-width: 600px)";
+    source.srcset = figureUrl(layout.image);
+    picture.append(source, image);
+    button.classList.add("has-phone-image");
+    button.append(picture, hint);
+  } else {
+    button.append(image, hint);
+  }
   button.addEventListener("click", () => {
-    $("figure-full").src = image.src;
+    $("figure-full").src = image.currentSrc || image.src;
     $("figure-full").alt = image.alt;
     setFigureZoom(false);
     figureDialog.showModal();
     $("figure-view").scrollTo(0, 0);
   });
-  return button;
+  if (!layout?.table) return button;
+  const container = document.createElement("div");
+  if (!layout.image) button.classList.add("wide-figure-only");
+  container.append(button, materialTable(layout.table, true));
+  return container;
+}
+
+function materialTable(rows, phoneOnly = false) {
+  const [headings, ...entries] = rows;
+  if (phoneOnly && !entries.length) {
+    const flow = document.createElement("section");
+    flow.className = "phone-table material-flow";
+    const title = document.createElement("strong");
+    title.textContent = headings[0];
+    const steps = document.createElement("ol");
+    for (const value of headings.slice(1)) {
+      const step = document.createElement("li");
+      step.textContent = value;
+      steps.append(step);
+    }
+    flow.append(title, steps);
+    return flow;
+  }
+  if (phoneOnly && headings.length > 4) {
+    const records = document.createElement("div");
+    records.className = "phone-table material-records";
+    for (const [first, ...values] of entries) {
+      const record = document.createElement("section");
+      const title = document.createElement("strong");
+      title.textContent = first;
+      const pairs = document.createElement("dl");
+      values.forEach((value, index) => {
+        const label = document.createElement("dt");
+        const data = document.createElement("dd");
+        label.textContent = headings[index + 1];
+        data.textContent = value;
+        pairs.append(label, data);
+      });
+      record.append(title, pairs);
+      records.append(record);
+    }
+    return records;
+  }
+  const table = document.createElement("table");
+  table.className = phoneOnly ? "material-table phone-table" : "material-table";
+  const head = table.createTHead().insertRow();
+  headings.forEach(value => {
+    const cell = document.createElement("th");
+    cell.scope = "col";
+    cell.textContent = value;
+    head.append(cell);
+  });
+  const body = table.createTBody();
+  entries.forEach(row => {
+    const tr = body.insertRow();
+    row.forEach((value, index) => {
+      const cell = document.createElement(index === 0 ? "th" : "td");
+      if (index === 0) cell.scope = "row";
+      cell.textContent = value;
+      tr.append(cell);
+    });
+  });
+  return table;
 }
 
 function setFigureZoom(zoomed) {
@@ -75,16 +151,7 @@ function renderContext() {
     context.append(figure(current.figure, current.figureText || "問題の図・資料"));
   }
   if (current.table) {
-    const table = document.createElement("table");
-    current.table.forEach((row, i) => {
-      const tr = table.insertRow();
-      for (const value of row) {
-        const cell = document.createElement(i === 0 ? "th" : "td");
-        cell.textContent = value;
-        tr.append(cell);
-      }
-    });
-    context.append(table);
+    context.append(materialTable(current.table));
   }
   if (current.prior?.length) {
     const prior = document.createElement("details");
@@ -498,8 +565,14 @@ document.addEventListener("keydown", event => {
 
 async function load() {
   const source = workbookVersion ? "workbook.json?v=" + workbookVersion : "workbook.json";
-  const response = await fetch(source);
+  const [response, layouts] = await Promise.all([
+    fetch(source),
+    figureVersion ? fetch("figure-layout.json?v=" + figureVersion)
+      .then(response => response.ok ? response.json() : {})
+      .catch(() => ({})) : {},
+  ]);
   if (!response.ok) throw new Error("workbook.json");
+  figureLayouts = layouts;
   const workbook = await response.json();
   const choice = params.get("subject");
   token = Object.hasOwn(workbook, choice) ? choice : "math";
