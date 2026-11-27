@@ -151,11 +151,12 @@ function render(focus = false) {
   $("workbook").href = "../materials/" + token + (phase <= 10 ? "-01-10.pdf" : "-11-15.pdf");
   $("progress").max = set.questions.length;
   $("progress").value = position + 1;
-  $("question").textContent = current.sourceTex ? "問題" : current.guessPrompt || current.text;
-  $("question").classList.toggle("visually-hidden", Boolean(current.sourceTex));
+  const printedPrompt = Boolean(current.sourceTex && !current.webPrompt);
+  $("question").textContent = printedPrompt ? "問題" : current.webPrompt || current.guessPrompt || current.text;
+  $("question").classList.toggle("visually-hidden", printedPrompt);
   const promptImage = $("prompt-image");
-  promptImage.hidden = !current.sourceTex;
-  promptImage.replaceChildren(...(current.sourceTex
+  promptImage.hidden = !printedPrompt;
+  promptImage.replaceChildren(...(printedPrompt
     ? [figure(current.figure, current.text, "printed-question")] : []));
   renderContext();
   $("instruction").hidden = !current.instruction || current.instruction === "元の問題に合う答えを一つ選ぼう。";
@@ -256,10 +257,10 @@ function promptForQuestion() {
     current.figure && !current.sourceTex && "図・資料の画像：" + figureUrl(current.figure),
     current.contextFigure && "この問題は、前の小問の図も参照します。",
     current.prior?.length && "前の小問：\n" + current.prior.join("\n"),
-    "問題：" + (current.guessPrompt || current.text),
+    "問題：" + (current.webPrompt || current.guessPrompt || current.text),
     current.instruction && "Webの補足：" + current.instruction,
     current.paper && "紙で実施する問題です。手順が分かるように説明してください。",
-    current.sourceTex && "数式や図を含む原文（LaTeX）：\n" + current.sourceTex,
+    current.sourceTex && !current.webPrompt && "数式や図を含む原文（LaTeX）：\n" + current.sourceTex,
     (current.guessOptions || current.options)?.map((option, i) => letters[i] + ". " + option).join("\n"),
     (state.guess ?? state.selected) !== undefined && "選んだ答え：" + letters[state.guess ?? state.selected],
     current.figure && !current.sourceTex && "図の配置や画像が必要な場合は、画像の添付をお願いしてください。",
