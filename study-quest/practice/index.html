@@ -8,8 +8,8 @@
   <meta property="og:title" content="練習問題｜勉強クエスト">
   <title>練習問題｜勉強クエスト</title>
   <link rel="stylesheet" href="../english/style.css?v=98b39c3844">
-  <link rel="stylesheet" href="../quest.css?v=d1227e7ccb">
-  <script src="practice.js?v=651ffbe9cf" data-workbook="e1fe53b55f" data-figures="3ec567ce1a" defer></script>
+  <link rel="stylesheet" href="../quest.css?v=1f165e2ecd">
+  <script src="practice.js?v=86a017666e" data-workbook="e1fe53b55f" data-figures="3ec567ce1a" defer></script>
 </head>
 <body class="practice-page">
   <main>
@@ -21,13 +21,11 @@
         </div>
         <div id="streak" class="streak"><span aria-hidden="true">🔥</span> <strong id="streak-count">0</strong> 連続</div>
         <details id="menu" class="practice-menu">
-          <summary aria-label="問題を選ぶ・メニュー"><span aria-hidden="true">☰</span></summary>
+          <summary aria-label="メニュー"><span aria-hidden="true">☰</span></summary>
           <div class="menu-panel">
             <div class="phase-controls">
               <label for="phase">フェーズ</label>
               <select id="phase" disabled></select>
-              <label for="jump">問題番号</label>
-              <select id="jump" disabled></select>
             </div>
             <details id="lesson" class="lesson" hidden><summary>フェーズの要点と例題</summary><div id="lesson-body"></div></details>
             <a id="workbook" hidden>問題集PDF</a>
@@ -36,7 +34,10 @@
           </div>
         </details>
       </header>
-      <progress id="progress" class="quest-progress" aria-label="フェーズ内の問題位置" max="1" value="0"></progress>
+      <div class="practice-tools">
+        <progress id="progress" class="quest-progress" aria-label="フェーズ内の問題位置" max="1" value="0"></progress>
+        <button id="open-question-list" class="question-list-trigger" type="button" aria-haspopup="dialog" hidden>問題一覧</button>
+      </div>
       <div id="stage" class="practice-stage">
         <p id="load-status" role="status">問題を読み込み中…</p>
         <section id="quiz" class="quiz-card" hidden aria-labelledby="question">
@@ -78,6 +79,18 @@
           <span id="next-label">次の問題</span><small>スワイプでも進める</small>
         </button>
       </aside>
+      <dialog id="question-list" class="question-list-dialog" aria-labelledby="question-list-title">
+        <header class="question-list-header">
+          <div>
+            <h2 id="question-list-title">問題一覧</h2>
+            <p id="question-list-count"></p>
+          </div>
+          <form method="dialog"><button type="submit">閉じる</button></form>
+        </header>
+        <div class="question-list-scroll">
+          <ol id="question-list-items" class="question-list-items"></ol>
+        </div>
+      </dialog>
       <dialog id="figure-dialog" class="figure-dialog" aria-labelledby="figure-title">
         <header>
           <strong id="figure-title">図・資料</strong>

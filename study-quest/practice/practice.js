@@ -13,6 +13,7 @@ const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const stage = $("stage");
 const dock = $("advance");
 const figureDialog = $("figure-dialog");
+const questionList = $("question-list");
 let correctAnimation;
 let transition;
 let figureLayouts = {};
@@ -262,7 +263,6 @@ function render(focus = false) {
   $("quiz").hidden = false;
   $("position").textContent = (position + 1) + " / " + set.questions.length + " 問" +
     (current.id ? "　" + current.id + "　｜　" + current.group : "");
-  $("jump").value = position;
   $("phase-number").textContent = "フェーズ " + phase;
   $("workbook").href = "../materials/" + token + (phase <= 10 ? "-01-10.pdf" : "-11-15.pdf");
   $("progress").max = set.questions.length;
@@ -352,9 +352,6 @@ function start(number, question = 1, focus = false) {
   position = Number.isInteger(question) && question > 0 && question <= set.questions.length ? question - 1 : 0;
   $("phase").value = number;
   params.set("phase", number);
-  $("jump").replaceChildren(...set.questions.map((item, index) =>
-    new Option(item.id ? item.id + "　" + item.group : "第" + (index + 1) + "問", index)
-  ));
   const lesson = $("lesson-body");
   lesson.replaceChildren(
     ...(set.notes || []).map(paragraph),
@@ -617,10 +614,43 @@ $("phase").addEventListener("change", () => {
   $("menu").open = false;
   resumePhase(Number($("phase").value), undefined, false, true);
 });
-$("jump").addEventListener("change", () => {
+$("open-question-list").addEventListener("click", () => {
   $("menu").open = false;
-  position = Number($("jump").value);
-  render(true);
+  let completed = 0;
+  const questions = phaseSet().questions;
+  const items = questions.map((question, index) => {
+    const attempt = attempts.get(key(index));
+    const done = attempt?.selected !== undefined || Boolean(attempt?.checked);
+    const active = index === position;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = String(index + 1);
+    button.title = [question.id, question.group].filter(Boolean).join("　");
+    button.setAttribute("aria-label", [
+      "第" + (index + 1) + "問", question.group, done ? "解答済み" : "未解答",
+    ].filter(Boolean).join("、"));
+    if (active) button.setAttribute("aria-current", "true");
+    if (done) {
+      completed++;
+      const tick = document.createElement("span");
+      tick.setAttribute("aria-hidden", "true");
+      tick.textContent = "✓";
+      button.append(tick);
+    }
+    button.addEventListener("click", () => {
+      questionList.close();
+      position = index;
+      render(true);
+    });
+    const item = document.createElement("li");
+    item.append(button);
+    return item;
+  });
+  $("question-list-count").textContent =
+    "フェーズ " + phase + "　｜　解答済み " + completed + " / " + questions.length;
+  $("question-list-items").replaceChildren(...items);
+  questionList.showModal();
+  items[position].scrollIntoView({ block: "nearest" });
 });
 document.addEventListener("click", event => {
   if ($("menu").open && !$("menu").contains(event.target)) $("menu").open = false;
@@ -656,7 +686,8 @@ async function load() {
   ));
   $("credits").hidden = token !== "social";
   $("workbook").hidden = false;
-  for (const id of ["phase", "jump"]) $(id).disabled = false;
+  $("phase").disabled = false;
+  $("open-question-list").hidden = false;
   $("load-status").hidden = true;
   const saved = restoreProgress();
   const validPhase = number => Number.isInteger(number) && number >= 1 && number <= subject.phases.length;
