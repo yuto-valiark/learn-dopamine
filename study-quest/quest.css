@@ -30,7 +30,7 @@
   padding: 0;
 }
 .subject-card {
-  --card-accent: #ffdc80;
+  --card-accent: #9acaff;
   height: 100%;
   min-width: 0;
   border: 1px solid var(--quest-line);
@@ -40,7 +40,7 @@
   overflow: hidden;
 }
 .card-science { --card-accent: #85ecc9; }
-.card-social { --card-accent: #9acaff; }
+.card-social { --card-accent: #ffdc80; }
 .card-english { --card-accent: #f5a8e7; }
 .subject-main {
   display: grid;
