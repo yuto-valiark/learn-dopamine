@@ -164,6 +164,26 @@ audio { display: block; width: 100%; height: 46px; }
   line-height: 1.65;
 }
 .story p { margin: 1.05em 0; }
+.bilingual-story { margin-top: 1rem; }
+.bilingual-story > input { margin: 0 .35rem 0 .25rem; accent-color: var(--accent); }
+.bilingual-story > label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--accent);
+  cursor: pointer;
+  font-weight: 750;
+}
+.bilingual-story .story { margin-top: .3rem; }
+.story-pair { padding-block: .8rem; }
+.story-pair + .story-pair { border-top: 1px solid var(--line); }
+.story-pair p { margin: 0; }
+.story-pair .story-translation {
+  margin-top: .15rem;
+  color: var(--muted);
+  font-size: clamp(1rem, 3vw, 1.125rem);
+}
+#show-translation:not(:checked) ~ .story .story-translation { display: none; }
 .workbook-answers {
   margin-block: .75rem;
   padding-inline: .9rem;
