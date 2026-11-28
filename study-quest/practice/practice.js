@@ -6,10 +6,13 @@ const letters = "ABCD";
 const workbookVersion = document.currentScript?.dataset.workbook;
 const progressVersion = document.currentScript?.dataset.progress || workbookVersion || "";
 const figureVersion = document.currentScript?.dataset.figures;
-const attempts = new Map();
+let attempts = new Map();
 const phaseProgress = new Map();
 let token, subject, phase, position, current;
 let streak = 0;
+let shuffle = null;
+let normalRun = null;
+let savedShuffle = null;
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
 const stage = $("stage");
 const dock = $("advance");
@@ -26,11 +29,11 @@ function paragraph(text) {
 }
 
 function phaseSet() {
-  return subject.phases[phase - 1];
+  return shuffle || subject.phases[phase - 1];
 }
 
 function key(index = position) {
-  return [phase, index].join("/");
+  return shuffle ? String(index) : [phase, index].join("/");
 }
 
 function storageKey() {
@@ -54,6 +57,18 @@ function restoreProgress() {
 }
 
 function saveProgress(summary = false) {
+  if (shuffle) {
+    savedShuffle = {
+      version: progressVersion, phases: shuffle.phases, order: shuffle.order,
+      position, summary, attempts: [...attempts], streak,
+    };
+    try {
+      localStorage.setItem(storageKey() + ":shuffle", JSON.stringify(savedShuffle));
+    } catch {
+      // The current run can still be resumed until this page is closed.
+    }
+    return;
+  }
   phaseProgress.set(phase, { question: position + 1, summary });
   try {
     localStorage.setItem(storageKey(), JSON.stringify({
@@ -66,6 +81,66 @@ function saveProgress(summary = false) {
   } catch {
     // Keep progress in memory for this visit when storage is unavailable.
   }
+}
+
+function shuffleOrder(phases) {
+  const order = phases.flatMap(number =>
+    subject.phases[number - 1].questions.map((_, index) => [number, index]));
+  for (let index = order.length - 1; index > 0; index--) {
+    const swap = Math.floor(Math.random() * (index + 1));
+    [order[index], order[swap]] = [order[swap], order[index]];
+  }
+  return order;
+}
+
+function readShuffle() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey() + ":shuffle"));
+    if (saved?.version === progressVersion && Array.isArray(saved.phases) && Array.isArray(saved.attempts) &&
+        Number.isInteger(saved.position) && saved.position >= 0 && saved.position < saved.order.length &&
+        saved.order.every(([number, index]) => subject.phases[number - 1]?.questions[index])) {
+      return saved;
+    }
+  } catch {
+    // Ignore stale or invalid shuffle data.
+  }
+  return null;
+}
+
+function startShuffle(run, focus = true) {
+  normalRun ||= { attempts, streak };
+  shuffle = {
+    phases: run.phases,
+    order: run.order,
+    questions: run.order.map(([number, index]) => subject.phases[number - 1].questions[index]),
+  };
+  attempts = new Map(run.attempts);
+  streak = run.streak || 0;
+  position = run.position ?? 0;
+  params.set("mode", "shuffle");
+  $("normal-phase-controls").hidden = true;
+  $("leave-shuffle").hidden = false;
+  $("lesson").hidden = true;
+  updateStreak();
+  render(focus);
+  if (run.summary) showSummary(shuffle.questions);
+}
+
+function leaveShuffle() {
+  if (!shuffle) return;
+  shuffle = null;
+  ({ attempts, streak } = normalRun);
+  normalRun = null;
+  params.delete("mode");
+  $("menu").open = false;
+  $("normal-phase-controls").hidden = false;
+  $("leave-shuffle").hidden = true;
+  updateStreak();
+  resumePhase(phase, undefined, false, true);
+}
+
+function sourcePhase(index = position) {
+  return shuffle?.order[index][0] ?? phase;
 }
 
 function figureUrl(name) {
@@ -268,10 +343,12 @@ function render(focus = false) {
   const state = attempts.get(key()) || {};
   $("summary").hidden = true;
   $("quiz").hidden = false;
-  $("position").textContent = (position + 1) + " / " + set.questions.length + " 問" +
+  $("position").textContent = (shuffle ? "シャッフル　" : "") + (position + 1) + " / " + set.questions.length + " 問" +
     (current.id ? "　" + current.id + "　｜　" + current.group : "");
-  $("phase-number").textContent = "フェーズ " + phase;
-  $("workbook").href = "../materials/" + token + (phase <= 10 ? "-01-10.pdf" : "-11-15.pdf");
+  const source = sourcePhase();
+  $("phase-number").textContent = "フェーズ " + source;
+  $("workbook").href = "../materials/" + token + (source <= 10 ? "-01-10.pdf" : "-11-15.pdf");
+  $("progress").setAttribute("aria-label", shuffle ? "シャッフル内の問題位置" : "フェーズ内の問題位置");
   $("progress").max = set.questions.length;
   $("progress").value = position + 1;
   const printedPrompt = Boolean(current.sourceTex && !current.webPrompt);
@@ -384,7 +461,8 @@ function promptForQuestion() {
   return [
     "勉強クエストの練習問題です。小学生にも分かる日本語で、考え方を順番に解説してください。",
     "選んだ答えに誤りがあれば、答えと理由のどこを見直すとよいか教えてください。",
-    "教科：" + subject.label + "　フェーズ：" + phase + "　問題番号：" + (current.id || position + 1),
+    "教科：" + subject.label + "　フェーズ：" + sourcePhase() + "　問題番号：" +
+      (current.id || (shuffle?.order[position][1] ?? position) + 1),
     (current.guessContext || current.context) && "場面：" + (current.guessContext || current.context),
     current.table && "資料の表：\n" + current.table.map(row => row.join(" ｜ ")).join("\n"),
     current.figureText && "図・資料の文字情報：\n" + current.figureText,
@@ -506,7 +584,8 @@ function showSummary(questions) {
   const choiceScore = answered ? "選択問題 " + answered + "問中 " + score + "問正解" : "";
   const selfCheckScore = checked ? "答えを確認した問題 " + checked + "問" : "";
   $("score").textContent = [choiceScore, selfCheckScore].filter(Boolean).join(" ｜ ") || "結果";
-  $("continue").hidden = phase === subject.phases.length;
+  $("continue").hidden = !shuffle && phase === subject.phases.length;
+  $("continue").textContent = shuffle ? "通常モードに戻る" : "次のフェーズへ";
   $("score").focus({ preventScroll: true });
 }
 
@@ -634,8 +713,8 @@ function updateBack() {
   const onSummary = !$("summary").hidden;
   const back = $("back");
   if (position === 0 && !onSummary) {
-    back.href = "../";
-    back.textContent = "教科一覧";
+    back.href = shuffle ? "?subject=" + token : "../";
+    back.textContent = shuffle ? "通常モード" : "教科一覧";
     return;
   }
   const previous = new URLSearchParams(params);
@@ -648,13 +727,24 @@ function updateBack() {
 $("back").addEventListener("click", event => {
   if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey || !current) return;
   const onSummary = !$("summary").hidden;
-  if (position === 0 && !onSummary) return;
+  if (position === 0 && !onSummary) {
+    if (shuffle) {
+      event.preventDefault();
+      leaveShuffle();
+    }
+    return;
+  }
   event.preventDefault();
   $("menu").open = false;
   if (!onSummary) position--;
   render(true);
 });
 $("retry").addEventListener("click", () => {
+  if (shuffle) {
+    if (attempts.size && !window.confirm("このシャッフルの解答を消して、もう一度始める？")) return;
+    startShuffle({ phases: shuffle.phases, order: shuffleOrder(shuffle.phases) });
+    return;
+  }
   if (phaseSet().questions.some((_, i) => attempts.has(key(i))) &&
       !window.confirm("このフェーズの解答を消して、1問目からやり直す？")) return;
   phaseSet().questions.forEach((_, i) => attempts.delete(key(i)));
@@ -666,7 +756,11 @@ $("retry-question").addEventListener("click", () => {
   attempts.delete(key());
   render(true);
 });
-$("continue").addEventListener("click", () => resumePhase(phase + 1, undefined, false, true));
+$("continue").addEventListener("click", () => {
+  if (shuffle) leaveShuffle();
+  else resumePhase(phase + 1, undefined, false, true);
+});
+$("leave-shuffle").addEventListener("click", leaveShuffle);
 $("phase").addEventListener("change", () => {
   $("menu").open = false;
   resumePhase(Number($("phase").value), undefined, false, true);
@@ -682,9 +776,10 @@ $("open-question-list").addEventListener("click", () => {
     const button = document.createElement("button");
     button.type = "button";
     button.textContent = String(index + 1);
-    button.title = [question.id, question.group].filter(Boolean).join("　");
+    button.title = ["フェーズ " + sourcePhase(index), question.id, question.group].filter(Boolean).join("　");
     button.setAttribute("aria-label", [
-      "第" + (index + 1) + "問", question.group, done ? "解答済み" : "未解答",
+      "第" + (index + 1) + "問", shuffle && "フェーズ " + sourcePhase(index),
+      question.group, done ? "解答済み" : "未解答",
     ].filter(Boolean).join("、"));
     if (active) button.setAttribute("aria-current", "true");
     if (done) {
@@ -704,10 +799,56 @@ $("open-question-list").addEventListener("click", () => {
     return item;
   });
   $("question-list-count").textContent =
-    "フェーズ " + phase + "　｜　解答済み " + completed + " / " + questions.length;
+    (shuffle ? "シャッフル" : "フェーズ " + phase) + "　｜　解答済み " + completed + " / " + questions.length;
   $("question-list-items").replaceChildren(...items);
   questionList.showModal();
   items[position].scrollIntoView({ block: "nearest" });
+});
+
+const shuffleDialog = $("shuffle-dialog");
+const shuffleForm = $("shuffle-form");
+
+function selectedPhases() {
+  return Array.from(shuffleForm.querySelectorAll("input:checked"), input => Number(input.value));
+}
+
+function updateShuffleCount() {
+  const count = selectedPhases().reduce((total, number) => total + subject.phases[number - 1].questions.length, 0);
+  $("start-shuffle").disabled = !count;
+  $("start-shuffle").textContent = count ? "始める（" + count + "問）" : "フェーズを選ぶ";
+}
+
+$("open-shuffle").addEventListener("click", () => {
+  $("menu").open = false;
+  const selected = shuffle?.phases || savedShuffle?.phases || [phase];
+  $("shuffle-phases").replaceChildren(...subject.phases.map((set, index) => {
+    const number = index + 1;
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.value = String(number);
+    input.checked = selected.includes(number);
+    const label = document.createElement("label");
+    label.append(input, "フェーズ " + number);
+    label.title = set.title;
+    return label;
+  }));
+  $("resume-shuffle").hidden = !savedShuffle || Boolean(shuffle);
+  updateShuffleCount();
+  shuffleDialog.showModal();
+});
+shuffleForm.addEventListener("change", updateShuffleCount);
+shuffleForm.addEventListener("submit", event => {
+  event.preventDefault();
+  const phases = selectedPhases();
+  if (!phases.length) return;
+  if (savedShuffle?.attempts.length &&
+      !window.confirm("新しいシャッフルを始める？ 前のシャッフルの解答は消えます。")) return;
+  shuffleDialog.close();
+  startShuffle({ phases, order: shuffleOrder(phases) });
+});
+$("resume-shuffle").addEventListener("click", () => {
+  shuffleDialog.close();
+  startShuffle(savedShuffle);
 });
 document.addEventListener("click", event => {
   if ($("menu").open && !$("menu").contains(event.target)) $("menu").open = false;
@@ -735,7 +876,6 @@ async function load() {
   subject = workbook[token];
   document.body.dataset.subject = token;
   params.set("subject", token);
-  params.delete("mode");
   $("heading").textContent = subject.label;
   document.title = subject.label + "｜勉強クエスト";
   $("phase").replaceChildren(...subject.phases.map((set, index) =>
@@ -745,11 +885,19 @@ async function load() {
   $("workbook").hidden = false;
   $("phase").disabled = false;
   $("open-question-list").hidden = false;
+  $("open-shuffle").hidden = false;
   $("load-status").hidden = true;
   const saved = restoreProgress();
+  savedShuffle = readShuffle();
   const validPhase = number => Number.isInteger(number) && number >= 1 && number <= subject.phases.length;
   const requested = Number(params.get("phase"));
   const initialPhase = validPhase(requested) ? requested : validPhase(saved) ? saved : 1;
+  if (params.get("mode") === "shuffle" && savedShuffle) {
+    phase = validPhase(saved) ? saved : initialPhase;
+    startShuffle(savedShuffle, false);
+    return;
+  }
+  params.delete("mode");
   const initialQuestion = Number(params.get("question")) || undefined;
   resumePhase(initialPhase, initialQuestion, params.get("result") === "1");
 }

@@ -8,8 +8,8 @@
   <meta property="og:title" content="練習問題｜勉強クエスト">
   <title>練習問題｜勉強クエスト</title>
   <link rel="stylesheet" href="../english/style.css?v=98b39c3844">
-  <link rel="stylesheet" href="../quest.css?v=1f165e2ecd">
-  <script src="practice.js?v=cc620bd35b" data-workbook="a0e8a0477c" data-progress="e1fe53b55f" data-figures="3ec567ce1a" defer></script>
+  <link rel="stylesheet" href="../quest.css?v=08045b5795">
+  <script src="practice.js?v=13e70e7327" data-workbook="a0e8a0477c" data-progress="e1fe53b55f" data-figures="3ec567ce1a" defer></script>
 </head>
 <body class="practice-page">
   <main>
@@ -23,12 +23,13 @@
         <details id="menu" class="practice-menu">
           <summary aria-label="メニュー"><span aria-hidden="true">☰</span></summary>
           <div class="menu-panel">
-            <div class="phase-controls">
+            <div id="normal-phase-controls" class="phase-controls">
               <label for="phase">フェーズ</label>
               <select id="phase" disabled></select>
             </div>
             <details id="lesson" class="lesson" hidden><summary>フェーズの要点と例題</summary><div id="lesson-body"></div></details>
             <a id="workbook" hidden>問題集PDF</a>
+            <button id="leave-shuffle" type="button" hidden>通常モードに戻る</button>
             <a id="credits" href="../materials/sources.html" hidden>写真・地図の出典</a>
             <a href="../">教科一覧</a>
           </div>
@@ -37,6 +38,7 @@
       <div class="practice-tools">
         <progress id="progress" class="quest-progress" aria-label="フェーズ内の問題位置" max="1" value="0"></progress>
         <button id="open-question-list" class="question-list-trigger" type="button" aria-haspopup="dialog" hidden>問題一覧</button>
+        <button id="open-shuffle" class="question-list-trigger" type="button" aria-haspopup="dialog" hidden>シャッフル</button>
       </div>
       <div id="stage" class="practice-stage">
         <p id="load-status" role="status">問題を読み込み中…</p>
@@ -90,6 +92,24 @@
         </header>
         <div class="question-list-scroll">
           <ol id="question-list-items" class="question-list-items"></ol>
+        </div>
+      </dialog>
+      <dialog id="shuffle-dialog" class="question-list-dialog" aria-labelledby="shuffle-title">
+        <header class="question-list-header">
+          <div>
+            <h2 id="shuffle-title">シャッフル</h2>
+            <p>出題するフェーズを選ぼう</p>
+          </div>
+          <form method="dialog"><button type="submit">閉じる</button></form>
+        </header>
+        <div class="question-list-scroll">
+          <form id="shuffle-form">
+            <fieldset id="shuffle-phases" class="shuffle-phases" aria-label="出題するフェーズ"></fieldset>
+            <div class="shuffle-actions">
+              <button id="resume-shuffle" type="button" hidden>続きから</button>
+              <button id="start-shuffle" type="submit" class="primary"></button>
+            </div>
+          </form>
         </div>
       </dialog>
       <dialog id="figure-dialog" class="figure-dialog" aria-labelledby="figure-title">
