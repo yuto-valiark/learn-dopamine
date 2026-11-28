@@ -19,6 +19,8 @@ const dock = $("advance");
 const figureDialog = $("figure-dialog");
 const questionList = $("question-list");
 let correctAnimation;
+const correctFeedbackDuration = 760;
+let autoAdvanceTimer;
 let transition;
 let figureLayouts = {};
 
@@ -288,7 +290,7 @@ function celebrate() {
       { opacity: 1, transform: "scale(1)", offset: .72 },
       { opacity: 0, transform: "scale(1.12)", offset: 1 },
     ];
-  correctAnimation = $("correct-mark").animate(frames, { duration: 760, easing: "ease-out" });
+  correctAnimation = $("correct-mark").animate(frames, { duration: correctFeedbackDuration, easing: "ease-out" });
   if (reduceMotion.matches) return;
   const particles = Array.from({ length: 12 }, (_, index) => {
     const particle = document.createElement("span");
@@ -313,6 +315,17 @@ function correctOption(question) {
   return question.correct ?? question.guessCorrect;
 }
 
+function cancelAutoAdvance() {
+  clearTimeout(autoAdvanceTimer);
+}
+
+function advanceAfterCorrect() {
+  cancelAutoAdvance();
+  autoAdvanceTimer = setTimeout(() => {
+    if (!document.hidden) advance();
+  }, correctFeedbackDuration);
+}
+
 function showChoice(index, fresh = false) {
   if (index === undefined) return;
   const correct = correctOption(current);
@@ -331,10 +344,14 @@ function showChoice(index, fresh = false) {
   $("result").textContent = passed ? "✦ 正解！" + count : "おしい！ 正解は " + letters[correct];
   $("model").hidden = !current.answer;
   $("retry-question").hidden = false;
-  if (fresh && passed) celebrate();
+  if (fresh && passed) {
+    celebrate();
+    advanceAfterCorrect();
+  }
 }
 
 function render(focus = false) {
+  cancelAutoAdvance();
   correctAnimation?.cancel();
   cancelSlide();
   const set = phaseSet();
@@ -525,12 +542,13 @@ function cancelSlide() {
 }
 
 function canMove(step) {
-  return current && !$("menu").open && !stage.inert &&
+  return current && !$("menu").open && !document.querySelector("dialog[open]") && !stage.inert &&
     (step < 0 ? position > 0 || !$("summary").hidden : !$("quiz").hidden);
 }
 
 async function advance(step = 1) {
   if (!canMove(step)) return;
+  cancelAutoAdvance();
   const nextPosition = $("summary").hidden ? position + step : position;
   const direction = -step;
   stage.inert = true;
@@ -590,6 +608,14 @@ function showSummary(questions) {
 }
 
 $("next").addEventListener("click", () => advance());
+
+// An intentional interaction takes over from the automatic move.
+for (const event of ["pointerdown", "click", "keydown", "wheel"]) {
+  document.addEventListener(event, cancelAutoAdvance, { capture: true, passive: true });
+}
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) cancelAutoAdvance();
+});
 
 function verticalDelta(start, end) {
   const vertical = end.clientY - start.clientY;
